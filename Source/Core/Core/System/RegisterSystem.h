@@ -1,0 +1,5 @@
+RegisterSystem(Window)
+RegisterSystem(Graphics)
+RegisterSystem(Input)
+RegisterSystem(Physics)
+RegisterSystem(Messaging)
