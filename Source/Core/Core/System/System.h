@@ -6,7 +6,7 @@ namespace WickedSick
 {
   //predeclarations
   class Engine;
-
+  class Message;
   class System
   {
 
@@ -29,7 +29,7 @@ namespace WickedSick
       virtual bool  Load() = 0;
       virtual bool  Reload() = 0;
       virtual void  Update(double dt) = 0;
-      virtual void  ReceiveMessage() = 0;
+      virtual void  ReceiveMessage(Message* msg) = 0;
 
       
 

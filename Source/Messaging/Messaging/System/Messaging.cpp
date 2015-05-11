@@ -1,7 +1,9 @@
 #include "MessagingPrecompiled.h"
 #include "Messaging.h"
 
-#include "MessageTypes/StartupMessage.h"
+#include "Core/CoreInterface.h"
+
+#include "Message.h"
 
 namespace WickedSick
 {
@@ -17,8 +19,7 @@ namespace WickedSick
 
   MESSAGINGDLL_API void Messaging::Initialize()
   {
-    StartupMessage* startupMessage = new StartupMessage(this);
-    startupMessage->Send();
+    
   }
 
   MESSAGINGDLL_API bool Messaging::Load()
@@ -33,14 +34,34 @@ namespace WickedSick
 
   MESSAGINGDLL_API void Messaging::Update(double dt)
   {
+    //for (auto msg : message_queue_)
+    int i = 0;
+    while (i < message_queue_.size())
+    {
+      if (message_queue_[i]->IsDelayed())
+      {
+        message_queue_[i]->UpdateDelay(dt);
+        ++i;
+      }
+      else
+      {
+        auto& systemList = Engine::GetCore()->GetSystems();
+        for (auto& sys : systemList)
+        {
+          sys->ReceiveMessage(message_queue_[i]);
+        }
+        vector_remove(message_queue_, i);
+      }
+    }
+
   }
 
   MESSAGINGDLL_API void Messaging::QueueMessage(Message* message)
   {
-    __debugbreak();
+    message_queue_.push_back(message);
   }
 
-  MESSAGINGDLL_API void Messaging::ReceiveMessage()
+  MESSAGINGDLL_API void Messaging::ReceiveMessage(Message * msg)
   {
 
   }

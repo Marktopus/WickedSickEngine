@@ -27,12 +27,13 @@ namespace WickedSick
                              int frame_delay = 0,
                              float time_delay = 0.0f);
     MESSAGINGDLL_API virtual ~Message();
-    MESSAGINGDLL_API void Send();
-
 
     //todo
-    void SetDelay(int delay);
-    void SetDelay(float delay);
+
+    MESSAGINGDLL_API bool IsDelayed();
+    MESSAGINGDLL_API void UpdateDelay(double dt);
+    MESSAGINGDLL_API void SetDelay(int delay);
+    MESSAGINGDLL_API void SetDelay(float delay);
 
 
   private:

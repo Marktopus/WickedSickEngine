@@ -15,9 +15,12 @@
 
 namespace WickedSick
 {
+  Engine* Engine::Core = nullptr;
+
   COREDLL_API Engine::Engine() :  frame_controller_(nullptr),
                                   active_(true)
   {
+    Core = this;
     systems_.resize(System::Count, nullptr);
   }
 
@@ -44,6 +47,10 @@ namespace WickedSick
     return systems_[type];
   }
 
+  COREDLL_API std::vector<System*>& Engine::GetSystems()
+  {
+    return systems_;
+  }
 
   COREDLL_API void Engine::Initialize()
   {
@@ -104,4 +111,5 @@ namespace WickedSick
   {
     active_ = false;
   }
+
 }

@@ -25,7 +25,6 @@ namespace WickedSick
         Vector2i delta;
 
         MouseMessage mouse(System::Window, System::Input, delta, MouseMessage::ButtonCount, MouseMessage::Moved);
-        mouse.Send();
 
         //}
         break;
@@ -306,7 +305,7 @@ namespace WickedSick
     message_update();
   }
 
-  WINDOWDLL_API void Window::ReceiveMessage()
+  WINDOWDLL_API void Window::ReceiveMessage(Message * msg)
   {
 
   }

@@ -183,7 +183,7 @@ namespace WickedSick
     RenderFrame();
   }
 
-  GRAPHICSDLL_API void Graphics::ReceiveMessage()
+  GRAPHICSDLL_API void Graphics::ReceiveMessage(Message * msg)
   {
 
   }

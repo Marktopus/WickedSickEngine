@@ -31,7 +31,7 @@ namespace WickedSick
   {
   }
 
-  INPUTDLL_API void Input::ReceiveMessage()
+  INPUTDLL_API void Input::ReceiveMessage(Message * msg)
   {
   }
 

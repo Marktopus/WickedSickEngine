@@ -25,7 +25,7 @@ namespace WickedSick
     GRAPHICSDLL_API bool Load();
     GRAPHICSDLL_API bool Reload();
     GRAPHICSDLL_API void Update(double dt);
-    GRAPHICSDLL_API void ReceiveMessage();
+    GRAPHICSDLL_API void ReceiveMessage(Message * msg);
 
     void BeginScene();
     void EndScene();

@@ -15,7 +15,6 @@
     <ClInclude Include="Messaging\MessageTypes\KeyboardMessage.h" />
     <ClInclude Include="Messaging\MessageTypes\MessageTypes.h" />
     <ClInclude Include="Messaging\MessageTypes\MouseMessage.h" />
-    <ClInclude Include="Messaging\MessageTypes\StartupMessage.h" />
     <ClInclude Include="Messaging\MessagingInterface.h" />
     <ClInclude Include="Messaging\MessagingPrecompiled.h" />
     <ClInclude Include="Messaging\RegisterMessageType.h" />
@@ -24,7 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Messaging\MessageTypes\MouseMessage.cpp" />
-    <ClCompile Include="Messaging\MessageTypes\StartupMessage.cpp" />
     <ClCompile Include="Messaging\MessagingPrecompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

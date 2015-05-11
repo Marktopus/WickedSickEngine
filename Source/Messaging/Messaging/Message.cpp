@@ -29,9 +29,16 @@ namespace WickedSick
     
   }
 
-  MESSAGINGDLL_API void Message::Send()
+
+  MESSAGINGDLL_API bool Message::IsDelayed()
   {
-    messaging_system_->QueueMessage(this);
+    return (frame_delay_ > 0) || (time_delay_ > 0.0f);
+  }
+
+  MESSAGINGDLL_API void Message::UpdateDelay(double dt)
+  {
+    time_delay_ -= dt;
+    --frame_delay_;
   }
 
 }

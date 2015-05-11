@@ -25,6 +25,7 @@ namespace WickedSick
     }
 
     COREDLL_API System* GetSystem(System::Type type);
+    COREDLL_API std::vector<System*>& GetSystems();
 
     COREDLL_API void Initialize();
     COREDLL_API void Load();
@@ -33,6 +34,13 @@ namespace WickedSick
 
     COREDLL_API bool IsActive();
     COREDLL_API void ShutDown();
+
+    COREDLL_API static Engine* GetCore()
+    {
+      return Core;
+    }
+
+    static Engine* Core;
 
   private:
     std::vector<System*>  systems_;

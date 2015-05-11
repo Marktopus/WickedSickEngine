@@ -8,7 +8,7 @@ namespace WickedSick
   struct Device;
   struct SwapChain;
   
-  struct Message;
+  class Message;
   class Messaging : public System
   {
   public:
@@ -19,7 +19,7 @@ namespace WickedSick
     MESSAGINGDLL_API bool Reload();
     MESSAGINGDLL_API void Update(double dt);
     MESSAGINGDLL_API void QueueMessage(Message* message);
-    MESSAGINGDLL_API void ReceiveMessage();
+    MESSAGINGDLL_API void ReceiveMessage(Message * msg);
 
   private:
 

@@ -26,7 +26,7 @@ namespace WickedSick
     WINDOWDLL_API bool Load();
     WINDOWDLL_API bool Reload();
     WINDOWDLL_API void Update(double dt);
-    WINDOWDLL_API void ReceiveMessage();
+    WINDOWDLL_API void ReceiveMessage(Message * msg);
     WINDOWDLL_API HWND& GetWindowHandle();
 
     WINDOWDLL_API Vector2i GetWindowSize();
