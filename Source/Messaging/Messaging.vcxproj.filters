@@ -39,9 +39,6 @@
     <ClInclude Include="Messaging\MessagingInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Messaging\MessageTypes\StartupMessage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Messaging\MessageTypes\MessageTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -56,10 +53,10 @@
     <ClCompile Include="Messaging\Message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Messaging\MessageTypes\StartupMessage.cpp">
+    <ClCompile Include="Messaging\MessageTypes\MouseMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Messaging\MessageTypes\MouseMessage.cpp">
+    <ClCompile Include="Messaging\MessageTypes\KeyboardMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

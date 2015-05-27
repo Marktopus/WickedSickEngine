@@ -14,6 +14,7 @@
     <ClInclude Include="Graphics\Camera\Camera.h" />
     <ClInclude Include="Graphics\General\GraphicsUtility.h" />
     <ClInclude Include="Graphics\Model\Model.h" />
+    <ClInclude Include="Graphics\Model\ModelInstance.h" />
     <ClInclude Include="Graphics\Shader\Shader.h" />
     <ClInclude Include="Graphics\System\Graphics.h" />
     <ClInclude Include="Graphics\Utility\MatrixBuffer.h" />

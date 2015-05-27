@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Key.h"
 
 #include <string>
 #include <vector>
@@ -28,10 +27,10 @@ namespace WickedSick
 
 
 
-      std::vector<Key> get_keys(const std::string& identifier);
+      std::vector<std::string> get_keys(const std::string& identifier);
     private:
       //                  command     key to bind
-      std::unordered_map<std::string, std::vector<Key>> inputs_;
+      std::unordered_map<std::string, std::vector<std::string>> inputs_;
       bool active_;
       SystemType attached_sys_;
   };

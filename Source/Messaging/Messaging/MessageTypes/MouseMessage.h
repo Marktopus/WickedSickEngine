@@ -35,8 +35,8 @@ namespace WickedSick
     MESSAGINGDLL_API MouseMessage(System::Type sender, 
                                   System::Type destination,
                                   const Vector2i& delta, 
-                                  Button button, 
-                                  Type type);
+                                  Type type,
+                                  Button button = ButtonCount);
     MESSAGINGDLL_API ~MouseMessage();
   private:
     Vector2i  mouse_delta_;

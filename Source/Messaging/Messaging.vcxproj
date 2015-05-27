@@ -22,6 +22,7 @@
     <ClInclude Include="Messaging\MessagingDLL.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Messaging\MessageTypes\KeyboardMessage.cpp" />
     <ClCompile Include="Messaging\MessageTypes\MouseMessage.cpp" />
     <ClCompile Include="Messaging\MessagingPrecompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

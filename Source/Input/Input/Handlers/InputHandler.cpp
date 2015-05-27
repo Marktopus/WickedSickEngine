@@ -38,9 +38,9 @@ namespace WickedSick
     //}
   }
 
-  std::vector<Key> InputHandler::get_keys(const std::string& identifier)
+  std::vector<std::string> InputHandler::get_keys(const std::string& identifier)
   {
-    std::vector<Key> keys;
+    std::vector<std::string> keys;
     if(active_)
     {
       auto& iter = inputs_.find(identifier);

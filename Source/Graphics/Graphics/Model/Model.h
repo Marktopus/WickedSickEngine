@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Math/MathInterface.h"
+#include "ModelInstance.h"
 //#include "Graphics/WS_Graphics_DLL.h"
 
 #include <unordered_map>
@@ -55,6 +56,8 @@ namespace WickedSick
 
       std::unordered_map<std::string, loadFunc> loadingFunctions;
 
+
+      std::vector<ModelInstance> instance_list_;
       std::vector<Vector3i> face_list_;
       std::vector<Vertex> vertex_list_;
 

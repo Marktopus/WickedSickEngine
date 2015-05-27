@@ -20,16 +20,30 @@ namespace WickedSick
 	    Shader();
 	    ~Shader();
 
-	    void Initialize(ID3D11Device* device, HWND hwnd);
-	    void Render(ID3D11DeviceContext* context, int, Matrix4, Matrix4, Matrix4);
+	    void Initialize(ID3D11Device* device, 
+                      HWND hwnd);
+	    void Render(ID3D11DeviceContext* context, 
+                  int, 
+                  const Matrix4&, 
+                  const Matrix4&, 
+                  const Matrix4&);
 
     private:
-	    void init_shader(ID3D11Device* device, HWND hwnd, const std::string& pix, const std::string& vert);
-	    void OutputShaderErrorMessage(ID3D10Blob*, HWND, WCHAR*);
+	    void init_shader(ID3D11Device* device, 
+                       HWND hwnd, 
+                       const std::string& pix, 
+                       const std::string& vert);
+	    void OutputShaderErrorMessage(ID3D10Blob*, 
+                                    HWND, 
+                                    WCHAR*);
 
-      void RenderShader(ID3D11DeviceContext*, int);
+      void RenderShader(ID3D11DeviceContext*, 
+                        int);
 
-	    void SetShaderParameters(ID3D11DeviceContext*, Matrix4, Matrix4, Matrix4);
+	    void SetShaderParameters(ID3D11DeviceContext*, 
+                               Matrix4, 
+                               Matrix4, 
+                               Matrix4);
 	     
 
 

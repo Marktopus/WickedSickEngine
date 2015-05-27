@@ -6,8 +6,8 @@ namespace WickedSick
   MESSAGINGDLL_API MouseMessage::MouseMessage(System::Type origin,
                                               System::Type destination,
                                               const Vector2i& delta,
-                                              Button button,
-                                              Type type) :
+                                              Type type,
+                                              Button button) :
                                               mouse_delta_(delta),
                                               mouse_button_(button),
                                               mouse_type_(type),

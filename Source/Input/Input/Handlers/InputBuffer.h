@@ -1,14 +1,14 @@
 #pragma once
-#include "Key.h"
+#include "InputInterface.h"
 
 namespace WickedSick
 {
   struct InputBuffer
   {
     InputBuffer();
-    bool  last_frame_[Key::KeyCount];
-    bool  this_frame_[Key::KeyCount];
-    int   last_released_[Key::KeyCount];
+    bool  last_frame_[MAX_KEYS_TEMP];
+    bool  this_frame_[MAX_KEYS_TEMP];
+    int   last_released_[MAX_KEYS_TEMP];
   };
 }
 

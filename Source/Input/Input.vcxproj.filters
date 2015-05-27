@@ -41,9 +41,6 @@
     <ClInclude Include="Input\Handlers\InputHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Input\Handlers\Key.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Input\InputPrecompiled.h">
       <Filter>Header Files</Filter>
     </ClInclude>

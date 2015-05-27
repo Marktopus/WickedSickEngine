@@ -22,8 +22,11 @@ namespace WickedSick
     init_shader(device, hwnd, "../Graphics/Graphics/Shaders/color.ps", "../Graphics/Graphics/Shaders/color.vs");
   }
 
-  void Shader::Render(ID3D11DeviceContext* deviceContext, int indexCount, Matrix4 worldMatrix,
-                      Matrix4 viewMatrix, Matrix4 projectionMatrix)
+  void Shader::Render(ID3D11DeviceContext* deviceContext, 
+                      int indexCount, 
+                      const Matrix4& worldMatrix,
+                      const Matrix4& viewMatrix, 
+                      const Matrix4& projectionMatrix)
   {
     SetShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix);
     RenderShader(deviceContext, indexCount);

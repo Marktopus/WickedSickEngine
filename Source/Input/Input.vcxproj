@@ -99,7 +99,6 @@
     <ClInclude Include="Input\InputPrecompiled.h" />
     <ClInclude Include="Input\Handlers\InputBuffer.h" />
     <ClInclude Include="Input\Handlers\InputHandler.h" />
-    <ClInclude Include="Input\Handlers\Key.h" />
     <ClInclude Include="Input\System\Input.h" />
     <ClInclude Include="Input\InputDLL.h" />
   </ItemGroup>

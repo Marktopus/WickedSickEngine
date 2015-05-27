@@ -195,14 +195,18 @@ namespace WickedSick
     camera_->Render();
     
     model_->Render(swap_chain_->device->D3DContext);
-    shader_->Render(swap_chain_->device->D3DContext, model_->GetIndexCount(), world_matrix_, camera_->GetViewMatrix(), projection_matrix_);
+    shader_->Render(swap_chain_->device->D3DContext, 
+                    model_->GetIndexCount(), 
+                    world_matrix_, 
+                    camera_->GetViewMatrix(), 
+                    projection_matrix_);
 
     EndScene();
   }
 
   void Graphics::BeginScene()
   {
-    float color[4];
+    Vector4 color;
 
 
 	  // Setup the color to clear the buffer to.
@@ -212,7 +216,7 @@ namespace WickedSick
 	  color[3] = 1.0f;
 
 	  // Clear the back buffer.
-	  swap_chain_->device->D3DContext->ClearRenderTargetView(render_target_view_, color);
+	  swap_chain_->device->D3DContext->ClearRenderTargetView(render_target_view_, &color[0]);
     
 	  // Clear the depth buffer.
 	  swap_chain_->device->D3DContext->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH, 1.0f, 0);
