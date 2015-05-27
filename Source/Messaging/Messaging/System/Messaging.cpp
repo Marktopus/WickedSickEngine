@@ -1,7 +1,7 @@
 #include "MessagingPrecompiled.h"
 #include "Messaging.h"
 
-#include "Core/CoreInterface.h"
+#include "Utility/UtilityInterface.h"
 
 #include "Message.h"
 
@@ -48,7 +48,10 @@ namespace WickedSick
         auto& systemList = Engine::GetCore()->GetSystems();
         for (auto& sys : systemList)
         {
-          sys->ReceiveMessage(message_queue_[i]);
+          if (sys)
+          {
+            sys->ReceiveMessage(message_queue_[i]);
+          }
         }
         vector_remove(message_queue_, i);
       }

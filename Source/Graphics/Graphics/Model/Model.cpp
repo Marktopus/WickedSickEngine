@@ -6,7 +6,8 @@
 
 #include "Math/MathInterface.h"
 
-#include "Core/CoreInterface.h"
+#include "Utility/UtilityInterface.h"
+#include "Debug/DebugInterface.h"
 
 #include <fstream>
 #include <cmath>

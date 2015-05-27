@@ -3,12 +3,13 @@
 
 #include "System/SystemType.h"
 #include "System/System.h"
-#include "General/Utility/GeneralUtility.h"
 #include "General/FrameController.h"
 #include "General/Debug/Asserts.h"
 
 #include <thread>
 
+#include "Utility/UtilityInterface.h"
+#include "Debug/DebugInterface.h"
 #include "Graphics/GraphicsInterface.h"
 #include "Window/WindowInterface.h"
 #include "Graphics/GraphicsInterface.h"
