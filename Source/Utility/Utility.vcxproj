@@ -19,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\ContainerUtility.h" />
+    <ClInclude Include="Utility\HashMap.h" />
     <ClInclude Include="Utility\StringUtility.h" />
     <ClInclude Include="Utility\UtilityDLL.h" />
     <ClInclude Include="Utility\UtilityInterface.h" />
