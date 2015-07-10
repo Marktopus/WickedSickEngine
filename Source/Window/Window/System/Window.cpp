@@ -546,11 +546,11 @@ namespace WickedSick
       msgErr = PeekMessage(&msg_, nullptr, 0, 0, PM_REMOVE);
       if (msgErr != -1)
       {
-        switch (msg_.message)
-        {
-        default:
-          break;
-        }
+        //switch (msg_.message)
+        //{
+        //default:
+        //  break;
+        //}
         TranslateMessage(&msg_);
         DispatchMessage(&msg_);
       }

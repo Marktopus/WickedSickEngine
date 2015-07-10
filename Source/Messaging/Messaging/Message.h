@@ -43,7 +43,7 @@ namespace WickedSick
     int               msg_ID_;
     
     int               frame_delay_;
-    float             time_delay_;
+    double            time_delay_;
 
     static int        id_count_;
 

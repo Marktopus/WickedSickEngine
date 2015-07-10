@@ -1,5 +1,6 @@
 #pragma once
 
+#include "MathPrecompiled.h"
 #include "Math/MathUtility.h"
 #include "Math/Matrix/Matrix2.h"
 #include "Math/Matrix/Matrix3.h"

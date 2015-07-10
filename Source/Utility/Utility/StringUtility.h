@@ -12,4 +12,7 @@
 namespace WickedSick
 {
   UTILITYDLL_API std::string TrimSpaces(std::string toTrim);
+
+  
+
 }

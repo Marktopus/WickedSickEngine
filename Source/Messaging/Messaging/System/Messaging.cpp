@@ -35,7 +35,7 @@ namespace WickedSick
   MESSAGINGDLL_API void Messaging::Update(double dt)
   {
     //for (auto msg : message_queue_)
-    int i = 0;
+    unsigned i = 0;
     while (i < message_queue_.size())
     {
       if (message_queue_[i]->IsDelayed())

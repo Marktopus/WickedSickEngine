@@ -3,7 +3,7 @@
 
 #include "Graphics/DXIncludes.h"
 
-#include "Debug/DebugInterface.h"
+#include "Debugging/DebugInterface.h"
 
 namespace WickedSick
 {

@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Utility\StringUtility.cpp" />
+    <ClCompile Include="Utility\SuperFastHash.cpp" />
     <ClCompile Include="Utility\UtilityPrecompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -19,8 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\ContainerUtility.h" />
+    <ClInclude Include="Utility\Factory\Archetype.h" />
+    <ClInclude Include="Utility\Factory\Factory.h" />
     <ClInclude Include="Utility\HashMap.h" />
+    <ClInclude Include="Utility\MemoryManager\MemoryManager.h" />
     <ClInclude Include="Utility\StringUtility.h" />
+    <ClInclude Include="Utility\SuperFastHash.h" />
     <ClInclude Include="Utility\UtilityDLL.h" />
     <ClInclude Include="Utility\UtilityInterface.h" />
     <ClInclude Include="Utility\UtilityPrecompiled.h" />

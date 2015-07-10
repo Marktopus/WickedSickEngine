@@ -51,12 +51,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Input;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Core;$(SolutionDir)/Messaging;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Testing;$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Input;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Core;$(SolutionDir)/Messaging;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;Messaging.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Debug.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;Messaging.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>..\Output\Libraries\$(TargetName).lib</ImportLibrary>
@@ -70,7 +70,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Input;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Core;$(SolutionDir)/Messaging;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Testing;$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Input;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Core;$(SolutionDir)/Messaging;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_RELEASE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -80,12 +80,13 @@
       <AdditionalLibraryDirectories>../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>..\Output\Libraries\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;Messaging.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Debug.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;Messaging.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TestDriver.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -9,7 +9,7 @@
 #include <thread>
 
 #include "Utility/UtilityInterface.h"
-#include "Debug/DebugInterface.h"
+#include "Debugging/DebugInterface.h"
 #include "Graphics/GraphicsInterface.h"
 #include "Window/WindowInterface.h"
 #include "Graphics/GraphicsInterface.h"

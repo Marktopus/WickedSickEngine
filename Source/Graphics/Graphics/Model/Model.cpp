@@ -7,10 +7,10 @@
 #include "Math/MathInterface.h"
 
 #include "Utility/UtilityInterface.h"
-#include "Debug/DebugInterface.h"
+#include "Debugging/DebugInterface.h"
 
 #include <fstream>
-#include <cmath>
+
 
 namespace WickedSick
 {

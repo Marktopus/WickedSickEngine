@@ -21,8 +21,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Engine\Engine.h" />
-    <ClInclude Include="Core\Factory\Archetype.h" />
-    <ClInclude Include="Core\Factory\Factory.h" />
     <ClInclude Include="Core\General\Debug\Asserts.h" />
     <ClInclude Include="Core\General\FrameController.h" />
     <ClInclude Include="Core\System\RegisterSystem.h" />
@@ -78,14 +76,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Utility;$(SolutionDir)/Debug;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Math;$(SolutionDir)/Core;Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Utility;$(SolutionDir)/Debugging;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Math;$(SolutionDir)/Core;Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>CorePrecompiled.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;COREDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Debug.lib;Utility.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Debugging.lib;Utility.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
@@ -104,7 +102,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Utility;$(SolutionDir)/Debug;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Math;$(SolutionDir)/Core;Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Utility;$(SolutionDir)/Debugging;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Math;$(SolutionDir)/Core;Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>CorePrecompiled.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>WIN32;_RELEASE;_WINDOWS;_USRDLL;COREDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -113,7 +111,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Debug.lib;Utility.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Debugging.lib;Utility.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
