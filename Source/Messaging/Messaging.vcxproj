@@ -78,14 +78,14 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;MESSAGINGDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>MessagingPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Utility;$(SolutionDir)/Core;$(SolutionDir)/Messaging;Messaging;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Core;$(SolutionDir)/Messaging;Messaging;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalDependencies>Utility.lib;Math.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Utility.lib;Debugging.lib;Math.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
@@ -101,7 +101,7 @@
       <PreprocessorDefinitions>WIN32;_RELEASE;_WINDOWS;_USRDLL;MESSAGINGDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>MessagingPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Utility;$(SolutionDir)/Core;$(SolutionDir)/Messaging;Messaging;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Core;$(SolutionDir)/Messaging;Messaging;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -110,7 +110,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalDependencies>Utility.lib;Math.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Utility.lib;Debugging.lib;Math.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>

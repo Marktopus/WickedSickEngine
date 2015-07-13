@@ -5,7 +5,7 @@
 
 #ifdef _DEBUG
 
-#define PADSIZE 4
+#define PADSIZE 0
 #else
 #define PADSIZE 0
 #endif
@@ -85,7 +85,7 @@ namespace WickedSick
 
       void Deallocate(Type* toDelete)
       {
-        Object* object = ((char*)toDelete) - (PADSIZE + sizeof(Object::MemState));
+        Object* object = (Object*)(((char*)toDelete) - (PADSIZE + sizeof(Object::MemState)));
         
         switch (object->state)
         {
@@ -143,7 +143,7 @@ namespace WickedSick
     }
 
     template<typename ...Types>
-    Type* New(const Types&... herp)
+    Type* New(const Types&... args)
     {
       
       Type* newObject = nullptr;
@@ -152,6 +152,7 @@ namespace WickedSick
         newObject = it->Allocate();
         if (newObject)
         {
+          new (newObject) Type(args...);
           return newObject;
         }
       }
@@ -160,7 +161,7 @@ namespace WickedSick
       ++pages_allocated_;
       ++pages_active_;
       newObject = page_pool_.back()->Allocate();
-      new (newObject) Type(herp...);
+      new (newObject) Type(args...);
       return newObject;
     }
 
@@ -184,21 +185,23 @@ namespace WickedSick
 
     void Delete(Type* type)
     {
-      //call destructor
-      type->~Type();
-
-      char* basicPtr = (char*)type;
-      char* pagePtr;
-      for (auto& it : page_pool_)
+      if (type)
       {
-        pagePtr = (char*)it->GetObjectPool();
-        if ((basicPtr > pagePtr) &&
-            (basicPtr < (pagePtr + sizeof(Page))))
+        type->~Type();
+
+        char* basicPtr = (char*)type;
+        char* pagePtr;
+        for (auto& it : page_pool_)
         {
-          it->Deallocate(type);
-          ++total_deletions_;
-          --currently_allocated_;
-          return;
+          pagePtr = (char*)it->GetObjectPool();
+          if ((basicPtr > pagePtr) &&
+              (basicPtr < (pagePtr + sizeof(Page))))
+          {
+            it->Deallocate(type);
+            ++total_deletions_;
+            --currently_allocated_;
+            return;
+          }
         }
       }
       __debugbreak();

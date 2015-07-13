@@ -4,5 +4,4 @@
 #include "Core/System/System.h"
 #include "Core/System/SystemType.h"
 #include "Core/Engine/Engine.h"
-#include "Core/General/Debug/Asserts.h"
 

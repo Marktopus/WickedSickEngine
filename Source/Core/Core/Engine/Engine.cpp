@@ -4,7 +4,6 @@
 #include "System/SystemType.h"
 #include "System/System.h"
 #include "General/FrameController.h"
-#include "General/Debug/Asserts.h"
 
 #include <thread>
 

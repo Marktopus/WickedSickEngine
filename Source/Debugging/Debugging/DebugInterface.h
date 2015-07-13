@@ -3,4 +3,5 @@
 #include "Debugging/DebugPrecompiled.h"
 #include "Debugging/DebugPrint.h"
 #include "Debugging/DebugDLL.h"
+#include "Debugging/Asserts.h"
 

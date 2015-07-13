@@ -78,7 +78,7 @@
       <PreprocessorDefinitions>WIN32;OBJECTFACTORYDLL_EXPORTS;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>ObjectFactoryPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Utility;$(SolutionDir)/Messaging;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/ObjectFactory;ObjectFactory;$(SolutionDir)/Math;$(SolutionDir)/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Messaging;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/ObjectFactory;ObjectFactory;$(SolutionDir)/Math;$(SolutionDir)/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -88,7 +88,7 @@
       <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Utility.lib;Messaging.lib;Core.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Debugging.lib;Utility.lib;Messaging.lib;Core.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -101,7 +101,7 @@
       <PreprocessorDefinitions>WIN32;OBJECTFACTORYDLL_EXPORTS;_RELEASE;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>ObjectFactoryPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Utility;$(SolutionDir)/Messaging;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/ObjectFactory;ObjectFactory;$(SolutionDir)/Math;$(SolutionDir)/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Messaging;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/ObjectFactory;ObjectFactory;$(SolutionDir)/Math;$(SolutionDir)/Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -113,7 +113,7 @@
       <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Utility.lib;Messaging.lib;Core.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Debugging.lib;Utility.lib;Messaging.lib;Core.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

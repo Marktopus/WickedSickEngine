@@ -10,40 +10,19 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Utility\StringUtility.cpp" />
-    <ClCompile Include="Utility\SuperFastHash.cpp" />
-    <ClCompile Include="Utility\UtilityPrecompiled.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Utility\ContainerUtility.h" />
-    <ClInclude Include="Utility\Factory\Archetype.h" />
-    <ClInclude Include="Utility\Factory\Factory.h" />
-    <ClInclude Include="Utility\HashMap.h" />
-    <ClInclude Include="Utility\MemoryManager\MemoryManager.h" />
-    <ClInclude Include="Utility\StringUtility.h" />
-    <ClInclude Include="Utility\SuperFastHash.h" />
-    <ClInclude Include="Utility\UtilityDLL.h" />
-    <ClInclude Include="Utility\UtilityInterface.h" />
-    <ClInclude Include="Utility\UtilityPrecompiled.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E7A074C0-D09A-40C8-82FF-3AE4BC3E1FD8}</ProjectGuid>
-    <RootNamespace>WhatEvenIsGraphics</RootNamespace>
-    <ProjectName>Utility</ProjectName>
+    <ProjectGuid>{B7BDE1BA-0CB7-48A2-8D27-81BE91159A1A}</ProjectGuid>
+    <RootNamespace>Logic</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -59,15 +38,11 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <TargetExt>.dll</TargetExt>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\Output\$(Configuration)\Binaries\</OutDir>
     <IntDir>..\Intermediates\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <TargetExt>.dll</TargetExt>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\Output\$(Configuration)\Binaries\</OutDir>
     <IntDir>..\Intermediates\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -76,24 +51,17 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Debugging;$(SolutionDir)/Utility;Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>UtilityPrecompiled.h</PrecompiledHeaderFile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;UTILITYDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Testing;$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Input;$(SolutionDir)/TestSuite;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Core;$(SolutionDir)/Messaging;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Debugging.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
-      <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
-      <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;Messaging.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
+      <ImportLibrary>..\Output\Libraries\$(TargetName).lib</ImportLibrary>
+      <SubSystem>Console</SubSystem>
     </Link>
-    <PostBuildEvent />
-    <PostBuildEvent>
-      <Command>
-      </Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -102,24 +70,23 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Debugging;$(SolutionDir)/Utility;Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>UtilityPrecompiled.h</PrecompiledHeaderFile>
-      <PreprocessorDefinitions>WIN32;_RELEASE;_WINDOWS;_USRDLL;UTILITYDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Testing;$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Input;$(SolutionDir)/TestSuite;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Core;$(SolutionDir)/Messaging;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_RELEASE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Debugging.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
-      <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
+      <ImportLibrary>..\Output\Libraries\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;Messaging.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
-    <PostBuildEvent />
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="TestDriver.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

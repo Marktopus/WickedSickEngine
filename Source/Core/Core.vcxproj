@@ -21,7 +21,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Engine\Engine.h" />
-    <ClInclude Include="Core\General\Debug\Asserts.h" />
     <ClInclude Include="Core\General\FrameController.h" />
     <ClInclude Include="Core\System\RegisterSystem.h" />
     <ClInclude Include="Core\System\System.h" />

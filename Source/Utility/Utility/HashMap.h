@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include "Utility/SuperFastHash.h"
 #include "Utility/MemoryManager/MemoryManager.h"
+#include "Debugging/DebugInterface.h"
 namespace WickedSick
 {
 
@@ -37,10 +38,22 @@ namespace WickedSick
       return type.c_str();
     }
 
+    template<typename T> 
+    static uint32_t HashType(T val)
+    {
+      const char* str = ToCharStar(val);
+      return SuperFastHash(str, strlen(str));
+    }
 
     class Entry
     {
     public:
+      Entry() : key(*new Key()),
+                type(*new Type())
+      {
+        WSError("Something in the HashMap broke. I sure hope you don't plan on commenting this out....");
+      }
+
       Entry(Key& myKey, 
             Type& myType)
             : key(myKey),
@@ -69,25 +82,25 @@ namespace WickedSick
       {
       }
 
-      Slot( Key key, 
-            Type type)
+      Slot( const Key& key, 
+            const Type& type)
             : key_(key),
               type_(type),
               index_(-1),
               next_(nullptr),
               prev_(nullptr)
       {
-        hash_ = SuperFastHash(ToCharStar(key_), sizeof(key_));
+        hash_ = HashMap<Key, Type>::HashType(key_);
       }
 
-      Slot(Entry entry)
+      Slot(const Entry& entry)
             : key_(entry.key),
               type_(entry.type),
               index_(-1),
               next_(nullptr),
               prev_(nullptr)
       {
-        hash_ = SuperFastHash(ToCharStar(key_), sizeof(key_));
+        hash_ = HashMap<Key, Type>::HashType(key_);
       }
 
       Slot(const Slot& slot)
@@ -131,6 +144,7 @@ namespace WickedSick
       Iterator& operator=(const Iterator& rhs)
       {
         type_ = rhs.type_;
+        return *this;
       }
 
       bool operator==(const Iterator& rhs) const
@@ -145,108 +159,47 @@ namespace WickedSick
 
       Iterator& operator++()
       {
-        if (type_)
-        {
-          if (type_->next_)
-          {
-            type_ = type_->next_;
-          }
-          else
-          {
-            ConsolePrint("Incrementing End Iterator!", ConsoleRed);
-            __debugbreak();
-          }
-        }
-        else
-        {
-          ConsolePrint("Incrementing Invalid Iterator!", ConsoleRed);
-        }
+        WSAssert(type_, "Incrementing Invalid Iterator!");
+        WSAssert(type_->next_, "Incrementing End Iterator!");
+        type_ = type_->next_;
         return *this;
       }
 
 
       Iterator operator++(int)
       {
-        if (type_)
-        {
-          Iterator toReturn(type_);
-          
-          if (type_->next_)
-          {
-            type_ = type_->next_;
-          }
-          else
-          {
-            ConsolePrint("Incrementing End Iterator!", ConsoleRed);
-            __debugbreak();
-          }
-          return toReturn;
-        }
-        else
-        {
-          ConsolePrint("Incrementing Invalid Iterator!", ConsoleRed);
-          __debugbreak();
-        }
-        return Iterator();
+        WSAssert(type_, "Incrementing Invalid Iterator!");
+        WSAssert(type_->next_, "Incrementing End Iterator!");
+        Iterator toReturn(type_);
+        type_ = type_->next_;
+        return toReturn;
       }
 
       Iterator& operator--()
       {
-        if (type_)
-        {
-          if (type_->prev_)
-          {
-            type_ = type_->prev_;
-          }
-          else
-          {
-            ConsolePrint("Incrementing End Iterator!", ConsoleRed);
-            __debugbreak();
-          }
-        }
-        else
-        {
-          ConsolePrint("Incrementing Invalid Iterator!", ConsoleRed);
-          __debugbreak();
-        }
+        WSAssert(type_, "Decrementing Invalid Iterator!");
+        WSAssert(type_->next_, "Decrementing Begin Iterator!");
+        type_ = type_->prev_;
         return *this;
       }
 
       Iterator operator--(int)
       {
-        if (type_)
-        {
-          Iterator toReturn(type_);
-          
-          if (type_->prev_)
-          {
-            type_ = type_->prev_;
-          }
-          else
-          {
-            ConsolePrint("Incrementing End Iterator!", ConsoleRed);
-            __debugbreak();
-          }
-          return toReturn;
-        }
-        else
-        {
-          ConsolePrint("Incrementing Invalid Iterator!", ConsoleRed);
-          __debugbreak();
-        }
-        return Iterator();
+        WSAssert(type_, "Decrementing Invalid Iterator!");
+        WSAssert(type_->next_, "Decrementing Begin Iterator!");
+        Iterator toReturn(type_);
+        type_ = type_->prev_;
+        return toReturn;
       }
 
 
-      Entry operator*()
+      Entry operator*() const
       {
-        if (type_)
-        { 
-          return Entry(type_->key_, type_->type_);
-        }
+        WSAssert(type_, "Content of Invalid Iterator!");
+        return Entry(type_->key_, type_->type_);
       }
 
-      bool is_valid()
+      bool is_valid() const
       {
         return type_;
       }
@@ -261,6 +214,99 @@ namespace WickedSick
       Slot* type_;
     };
 
+    class ConstIterator
+    {
+    public:
+      ConstIterator() : type_(nullptr)
+      {
+        
+      }
+
+      ConstIterator(Slot* slot ) 
+                    : type_(slot)
+      {
+
+      }
+
+      ConstIterator(const ConstIterator& rhs) : type_(rhs.type_)
+      {
+        
+      }
+
+      ConstIterator& operator=(const ConstIterator& rhs)
+      {
+        type_ = rhs.type_;
+        return *this;
+      }
+
+      bool operator==(const ConstIterator& rhs) const
+      {
+        return type_ == rhs.type_;
+      }
+
+      bool operator!=(const ConstIterator& rhs) const
+      {
+        return type_ != rhs.type_;
+      }
+
+      ConstIterator& operator++()
+      {
+        WSAssert(type_, "Incrementing Invalid Iterator!");
+        WSAssert(type_->next_, "Incrementing End Iterator!");
+        type_ = type_->next_;
+        return *this;
+      }
+
+
+      ConstIterator operator++(int)
+      {
+        WSAssert(type_, "Incrementing Invalid Iterator!");
+        WSAssert(type_->next_, "Incrementing End Iterator!");
+        ConstIterator toReturn(type_);
+        type_ = type_->next_;
+        return toReturn;
+      }
+
+      ConstIterator& operator--()
+      {
+        WSAssert(type_, "Decrementing Invalid Iterator!");
+        WSAssert(type_->prev_, "Decrementing Begin Iterator!");
+        type_ = type_->prev_;
+        return *this;
+      }
+
+      ConstIterator operator--(int)
+      {
+        WSAssert(type_, "Decrementing Invalid Iterator!");
+        WSAssert(type_->prev_, "Decrementing Begin Iterator!");
+        ConstIterator toReturn(type_);
+        type_ = type_->prev_;
+        return toReturn;
+      }
+
+
+      const Entry operator*() const
+      {
+        WSAssert(type_, "Taking content of invalid iterator");
+        return Entry(type_->key_, type_->type_);
+      }
+
+      bool is_valid() const
+      {
+        return type_;
+      }
+
+      void _set(Slot* newSlot)
+      {
+        type_ = newSlot;
+      }
+    private:
+
+
+      Slot* type_;
+    };
+
+
     HashMap() : load_factor_(0.0f),
                 max_load_factor_(0.85f),
                 map_(nullptr),
@@ -272,6 +318,7 @@ namespace WickedSick
       end_._set(reinterpret_cast<Slot*>(end_slot_));
       reinterpret_cast<Slot*>(end_slot_)->prev_ = nullptr;
       reinterpret_cast<Slot*>(end_slot_)->next_ = nullptr;
+      reinterpret_cast<Slot*>(end_slot_)->index_ = -1;
     }
 
     HashMap(const HashMap<Key, Type>& rhs) : max_load_factor_(rhs.max_load_factor_)                 
@@ -291,6 +338,19 @@ namespace WickedSick
       {
         insert(it);
       }
+    }
+
+    ~HashMap()
+    {
+      for (size_t i = 0; i < capacity_; ++i)
+      {
+        if (map_[i])
+        {
+          manager_.Delete(map_[i]);
+        }
+        
+      }
+      delete[] map_;
     }
 
     //size related
@@ -342,45 +402,53 @@ namespace WickedSick
       
       Slot** oldMap = map_;
       map_ = new Slot*[capacity_];
+      memset(map_, 0, capacity_ * sizeof(Slot*));
 
+      size_ = 0;
+      last_ = first_ = invalid_index_;
       for (unsigned i = 0; i < oldSize; ++i)
       {
-        insert(oldMap[i]);
+        if (oldMap[i])
+        {
+          insert(oldMap[i]);
+        }
+        
       }
       delete[] oldMap;
     }
 
-    Iterator insert(Entry& elem)
+    Iterator insert(const Key& key, const Type& type)
     {
-      ++size_;
       recalc_load_factor();
       if (load_factor_ >= max_load_factor_)
       {
-        resize(static_cast<size_t>(capacity_ * max_load_factor_));
+        resize(static_cast<size_t>(std::max(8.0f, capacity_ * (1.0f + max_load_factor_))));
       }
-      int index = SuperFastHash(ToCharStar(elem.key), sizeof(elem.key)) % capacity_;
+      ++size_;
+      int index = HashType(key) % capacity_;
       if (map_[index])
       {
-        if (map_[index]->key_ == elem.key)
+        if (map_[index]->key_ == key)
         {
-          ConsolePrint("TWO ELEMENTS WITH THE SAME KEY!! PANIC!!", ConsoleRed);
-          --size_;
-          return begin();
+          return Iterator(map_[index]);
         }
-
-        for (int i = index + 1; i != index; index = (index + 1) % capacity_)
+        else
         {
-          if (!map_[i])
+          for (int i = index + 1; i != index; i = (i + 1) % capacity_)
           {
-            map_[i] = manager_.New(elem);
-            map_[i]->index_ = i;
-            return Iterator(map_[i]);
+            if (!map_[i])
+            {
+              map_[i] = manager_.New(key, type);
+              map_[i]->index_ = i;
+              index = i;
+              break;
+            }
           }
         }
       }
       else
       {
-        map_[index] = manager_.New(elem);
+        map_[index] = manager_.New(key, type);
         map_[index]->index_ = index;
       }
 
@@ -388,21 +456,27 @@ namespace WickedSick
       {
         first_ = index;
         last_ = first_;
-        map_[first_]->next_ = reinterpret_cast<Slot*>(end_slot_);
+        map_[last_]->next_ = reinterpret_cast<Slot*>(end_slot_);
         map_[first_]->prev_ = nullptr;
+        reinterpret_cast<Slot*>(end_slot_)->prev_ = map_[last_];
       }
       else
       {
         map_[index]->prev_ = map_[last_];
-        map_[index]->next_ = nullptr;
         map_[last_]->next_ = map_[index];
         last_ = index;
+        map_[last_]->next_ = reinterpret_cast<Slot*>(end_slot_);
       }
       
       return Iterator(map_[index]);
     }
 
-    Iterator insert(Iterator source)
+    Iterator insert(const Entry& elem)
+    {
+      return insert(elem.key, elem.type);
+    }
+
+    Iterator insert(const Iterator& source)
     {
       return insert(*source);
     }
@@ -412,53 +486,32 @@ namespace WickedSick
       return insert(Entry(source.key_, source.type_));
     }
 
-    Iterator erase(Iterator what)
+    Iterator erase(const Iterator& what)
     {
       return erase((*what).key_);
     }
 
-    Iterator erase(Key what)
+    Iterator erase(const Key& what)
     {
-      int index = SuperFastHash(what) % capacity_;
+      int index = HashType(what) % capacity_;
       
-      Iterator toReturn;
-      if (map_[index])
+      
+      if (map_[index] && map_[index]->key_ == what)
       {
-
-        if (map_[index]->next_ && map_[index]->prev_)
-        {
-          toReturn = Iterator(map_[index]->prev_);
-          map_[index]->next_->prev_ = map_[index]->prev_;
-          map_[index]->prev_->next_ = map_[index]->next_;
-          
-        }
-        else if (!map_[index]->next_ && map_[index]->prev_)
-        {
-          toReturn = Iterator(map_[index]->prev_);
-          toReturn = map_[index]->prev_->index_;
-          last_ = map_[index]->prev_->index_;
-          map_[index]->prev_->next_ = map_[index]->next_;
-        }
-        else if (map_[index]->next_ && !map_[index]->prev_)
-        {
-          
-          first_ = map_[index]->next_->index_;
-          map_[index]->next_->prev_ = map_[index]->prev_;
-          toReturn = begin();
-        }
-        else
-        {
-          toReturn = begin();
-          last_ = first_ = invalid_index_;
-        }
-
-        manager_.Delete(map_[index]);
-        
-        
-        --size_;
-        recalc_load_factor();
-        return toReturn;
+        return erase_element(index);
       }
+      else
+      {
+        for (int i = index + 1; i != index; i = (i + 1) % capacity_)
+        {
+          if (map_[i] && map_[i]->key_ == what)
+          {
+            return erase_element(i);
+          }
+        }
+      }
+      
+      //todo: get rid of this print
       ConsolePrint("Element with this key could not be found.", ConsoleRed);
       return end();
     }
@@ -483,34 +536,32 @@ namespace WickedSick
       return end_;
     }
 
-    //iterator at(Hash key);
-
-    Type& operator[](Key key)
+    Type& at(const Key& key)
     {
-      size_t index = SuperFastHash(key, sizeof(Key)) % capacity_;
-      if (map_[index])
-      {
-        return map_[index]->type_;
-      }
-      else
-      {
-        ConsolePrint("Invalid key in Hash Map", ConsoleRed);
-        __debugbreak();
-      }
+      size_t index = HashType(key) % capacity_;
+      WSAssert(map_[index], "No element found with this key");
+      return map_[index]->type_;
     }
 
-    Iterator find(Key key)
+
+    Type& operator[](const Key& key)
     {
-      size_t index = SuperFastHash(key, sizeof(Key)) % capacity_;
+      size_t index = HashType(key) % capacity_;
+      if (!map_[index])
+      {
+        map_[index] = manager_.New(key, Type());
+      }
+      return map_[index]->type_;
+    }
+
+    Iterator find(const Key& key)
+    {
+      size_t index = HashType(key) % capacity_;
       if (map_[index])
       {
         return Iterator(map_[index]);
       }
-      else
-      {
-        ConsolePrint("Invalid key in Hash Map", ConsoleRed);
-        return end();
-      }
+      return end();
     }
 
     bool operator==(const HashMap<Key, Type>& rhs)
@@ -535,12 +586,58 @@ namespace WickedSick
       return load_factor_;
     }
 
-
   private:
+
+    Iterator erase_element(unsigned index)
+    {
+      Iterator toReturn;
+      if (map_[index]->next_ && map_[index]->prev_)
+      {
+        toReturn = Iterator(map_[index]->prev_);
+        map_[index]->next_->prev_ = map_[index]->prev_;
+        map_[index]->prev_->next_ = map_[index]->next_;
+          
+      }
+      else if (!map_[index]->next_ && map_[index]->prev_)
+      {
+        toReturn = Iterator(map_[index]->prev_);
+        last_ = map_[index]->prev_->index_;
+        map_[index]->prev_->next_ = map_[index]->next_;
+      }
+      else if (map_[index]->next_ && !map_[index]->prev_)
+      {
+        first_ = map_[index]->next_->index_;
+        map_[index]->next_->prev_ = map_[index]->prev_;
+        toReturn = begin();
+        if (map_[index]->next_ == reinterpret_cast<Slot*>(end_slot_))
+        {
+          last_ = invalid_index_;
+        }
+      }
+      else
+      {
+        toReturn = begin();
+        last_ = first_ = invalid_index_;
+      }
+
+      manager_.Delete(map_[index]);
+      map_[index] = nullptr;
+        
+      --size_;
+      recalc_load_factor();
+      return toReturn;
+    }
 
     void recalc_load_factor()
     {
-      load_factor_ = (float)size_ / (float)capacity_;
+      if (!capacity_)
+      {
+        load_factor_ = 1.0f;
+      }
+      else
+      {
+        load_factor_ = (float)size_ / (float)capacity_;
+      }
     }
 
     const int invalid_index_ = -1;
@@ -554,11 +651,16 @@ namespace WickedSick
     Iterator end_;
     char end_slot_[sizeof(Slot)];
 
-    MemoryManager<Slot> manager_;
+    static MemoryManager<Slot> manager_;
     int     first_;
     int     last_;
     Slot**  map_;
   };
+
+#define MAPSLOT HashMap<Key, Type>::Slot
+
+  template<typename Key, typename Type>
+  MemoryManager<typename HashMap<Key, Type>::Slot> HashMap<Key, Type>::manager_;
 }
 
 
