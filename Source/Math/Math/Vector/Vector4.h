@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Math/MathDLL.h"
+#include "MathDLL.h"
 namespace WickedSick
 {
   struct Vector2;
@@ -65,6 +65,7 @@ namespace WickedSick
     MATHDLL_API Vector4 Max(const Vector4& rhs);
 
     MATHDLL_API Vector4i to_i();
+    MATHDLL_API std::string to_string();
 
     MATHDLL_API float & operator[](int index);
     MATHDLL_API float   operator[](int index) const;

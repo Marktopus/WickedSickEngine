@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Math/MathDLL.h"
+#include "MathDLL.h"
 
 namespace WickedSick
 {

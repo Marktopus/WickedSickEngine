@@ -7,169 +7,91 @@
 #include "Core/CoreInterface.h"
 #include "Window/WindowInterface.h"
 
-#include "Graphics/DXIncludes.h"
+#include "API/DirectX.h"
 
-#include "d3d11.h"
+#include "Camera/Camera.h"
 
-#include "Graphics/Camera/Camera.h"
+#include "Model/Model.h"
+#include "Shader/Shader.h"
+#include "Model/Loaders/ObjLoader.h"
 
-#include "Graphics/Model/Model.h"
-#include "Graphics/Shader/Shader.h"
+#include "Components/ModelComponent.h"
 
+#include "Utility/UtilityInterface.h"
 
 #include <thread>
 #include <mutex>
 
 namespace WickedSick
 {
-  GRAPHICSDLL_API Graphics::Graphics() : System(System::Graphics)
+  GraphicsAPI*  Graphics::graphicsAPI  = nullptr;
+  Factory<ModelComponent> Graphics::model_comp_factory_;
+  GRAPHICSDLL_API Graphics::Graphics()  : camera_(nullptr),
+                                          options_(nullptr),
+                                          mat_stack_(nullptr),
+                                          System(ST_Graphics)
   {
   }
 
   GRAPHICSDLL_API Graphics::~Graphics()
   {
-    delete swap_chain_;
-
-    //BAAAD
-    back_buffer_->Release();
   }
 
   GRAPHICSDLL_API void Graphics::Initialize()
   {
+    loaders_.insert(".obj", new ObjLoader());
 
-    swap_chain_ = new SwapChain();
+    mat_stack_ = new MatrixStack();
+    
     camera_ = new Camera();
-    model_ = new Model();//temp as fuck
-    shader_ = new Shader(); //still temp
-    
-    WickedSick::Window* window = (WickedSick::Window*)core_->GetSystem(System::Window);
-    while (!window->GetCore() || !window->GetWindowHandle())
+    options_ = new GraphicsOptions();
+    switch (options_->Api)
     {
-      Sleep(1);
+    case OpenGLAPI:
+      //shit aint happening right now
+      WSError("Yeah no OpenGL support yet sorry");
+      break;
+    case DirectXAPI:
+      graphicsAPI = new DirectX();
+      break;
+    default:
+      WSError("What are you even what dude what. Whatever that is, we don't support it.");
+      break;
     }
-
-    core_->GetSystem<WickedSick::Window>(System::Window);
-    std::lock_guard<std::mutex> lk(window->GetWindowHandleMutex());
-    swap_chain_->Initialize(window->GetWindowHandle(), window->GetWindowSize());
-
-
-    ID3D11Texture2D* backBufferPtr;
-    // Get the pointer to the back buffer.
-	  swap_chain_->D3DSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
-
-	  // Create the render target view with the back buffer pointer.
-	  swap_chain_->device->D3DDevice->CreateRenderTargetView(backBufferPtr, NULL, &render_target_view_);
-	  
-	  // Release pointer to the back buffer as we no longer need it.
-	  backBufferPtr->Release();
-	  backBufferPtr = 0;
-
     
-    D3D11_TEXTURE2D_DESC depthBufferDesc;
-    ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
-    depthBufferDesc.Width = window->GetWindowSize().x;
-	  depthBufferDesc.Height = window->GetWindowSize().y;
-	  depthBufferDesc.MipLevels = 1;
-	  depthBufferDesc.ArraySize = 1;
-	  depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	  depthBufferDesc.SampleDesc.Count = 1;
-	  depthBufferDesc.SampleDesc.Quality = 0;
-	  depthBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	  depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	  depthBufferDesc.CPUAccessFlags = 0;
-	  depthBufferDesc.MiscFlags = 0;
+    WickedSick::Window* window = core_->GetSystem<WickedSick::Window>(ST_Window);
+    std::lock_guard<std::mutex> lk(window->GetWindowHandleMutex());
 
-    D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
-
-    // Set up the description of the stencil state.
-	  depthStencilDesc.DepthEnable = true;
-	  depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	  depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
-
-	  depthStencilDesc.StencilEnable = true;
-	  depthStencilDesc.StencilReadMask = 0xFF;
-	  depthStencilDesc.StencilWriteMask = 0xFF;
-
-	  // Stencil operations if pixel is front-facing.
-	  depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-	  depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
-	  depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-	  depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-
-	  // Stencil operations if pixel is back-facing.
-	  depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-	  depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
-	  depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-	  depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-
-    // Create the depth stencil state.
-    swap_chain_->device->D3DDevice->CreateDepthStencilState(&depthStencilDesc, &depth_stencil_state_);
-    swap_chain_->device->D3DContext->OMSetDepthStencilState(depth_stencil_state_, 1);
-  
-    D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
-    ZeroMemory(&depthStencilViewDesc, sizeof(depthStencilViewDesc));
-
-	  // Set up the depth stencil view description.
-	  depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	  depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	  depthStencilViewDesc.Texture2D.MipSlice = 0;
-
-	  // Create the depth stencil view.
-    swap_chain_->device->D3DDevice->CreateTexture2D(&depthBufferDesc, NULL, &depth_stencil_buffer_);
-
-	  swap_chain_->device->D3DDevice->CreateDepthStencilView(depth_stencil_buffer_, &depthStencilViewDesc, &depth_stencil_view_);
-    swap_chain_->device->D3DContext->OMSetRenderTargets(1, &render_target_view_, depth_stencil_view_);
-
-
-    D3D11_RASTERIZER_DESC rasterDesc;
-    rasterDesc.AntialiasedLineEnable = false;
-	  rasterDesc.CullMode = D3D11_CULL_BACK;
-	  rasterDesc.DepthBias = 0;
-	  rasterDesc.DepthBiasClamp = 0.0f;
-	  rasterDesc.DepthClipEnable = true;
-	  rasterDesc.FillMode = D3D11_FILL_SOLID;
-	  rasterDesc.FrontCounterClockwise = false;
-	  rasterDesc.MultisampleEnable = false;
-	  rasterDesc.ScissorEnable = false;
-	  rasterDesc.SlopeScaledDepthBias = 0.0f;
-
-	  // Create the rasterizer state from the description we just filled out.
-	  swap_chain_->device->D3DDevice->CreateRasterizerState(&rasterDesc, &rasterizer_state_);
-	  
-    swap_chain_->device->D3DContext->RSSetState(rasterizer_state_);
-
-    D3D11_VIEWPORT viewport;
-    viewport.Width = (float)window->GetWindowSize().x;
-	  viewport.Height = (float)window->GetWindowSize().y;
-	  viewport.MinDepth = 0.0f;
-	  viewport.MaxDepth = 1.0f;
-	  viewport.TopLeftX = 0.0f;
-	  viewport.TopLeftY = 0.0f;
-
-	  // Create the viewport.
-	  swap_chain_->device->D3DContext->RSSetViewports(1, &viewport);
+    graphicsAPI->Initialize(options_, window);
 
     // Setup the projection matrix.
-	  float fieldOfView = (float)PI / 4.0f;//90 degrees
+	  float fieldOfView = (float)PI / 2.0f;//90 degrees
 	  float screenAspect = (float)window->GetWindowSize().x / (float)window->GetWindowSize().y;
 
 	  // Create the projection matrix for 3D rendering.
-    projection_matrix_.DoPerspective(fieldOfView, 0.1f, 1000.0f, screenAspect);
+    projection_matrix_.DoPerspective(fieldOfView, 0.1f, 100000.0f, screenAspect);
+    orthographic_matrix_.DoOrthographic(window->GetWindowSize().x, window->GetWindowSize().y, 0.1f, 100000.0f);
+    camera_->SetPosition(0.0f, 0.0f, 0.0f);
 
-    world_matrix_.Identity();
-
-    orthographic_matrix_.DoOrthographic(window->GetWindowSize().x, window->GetWindowSize().y, 0.1f, 1000.0f);
-
-
-
-    model_->Initialize(swap_chain_->device->D3DDevice);
-    shader_->Initialize(swap_chain_->device->D3DDevice, window->GetWindowHandle());
-    camera_->SetPosition(0.0f, 0.0f, -0.5f);
-
+    mat_stack_->Push(projection_matrix_);
   }
 
   GRAPHICSDLL_API bool Graphics::Load()
   {
+    //temporary init
+    //Model* cube = LoadModel("../Content/Models/box.obj");
+    Model* bunny = LoadModel("../Content/Models/bunny.obj");
+    //cube->Initialize();
+    bunny->Initialize();
+
+    Shader* shader = graphicsAPI->MakeShader();
+
+    shader->SetShaders("../Content/Shaders/Color/color.vs",
+                       "../Content/Shaders/Color/color.ps");
+    shader->Initialize();
+    shaders_.insert("Color", shader);
+    
+
     return true;
   }
 
@@ -180,64 +102,105 @@ namespace WickedSick
 
   GRAPHICSDLL_API void Graphics::Update(double dt)
   {
-    RenderFrame();
+    RecompileShaders();
+    camera_->Orient();
+    Render();
   }
 
-  GRAPHICSDLL_API void Graphics::ReceiveMessage(Message * msg)
+  GRAPHICSDLL_API void Graphics::ReceiveMessage(Event * msg)
   {
 
+  }
+
+
+  GRAPHICSDLL_API Model* Graphics::LoadModel(const std::string& modelName)
+  {
+    Model* newModel = nullptr;
+    int dotIndex = modelName.find_last_of('.');
+    std::string extension = modelName.substr(dotIndex, (modelName.size()) - dotIndex);
+    auto& modelLoader = loaders_.find(extension);
+
+    int startOfName = modelName.find_last_of('/') + 1;
+    if (startOfName == std::string::npos)
+    {
+      startOfName = modelName.find_last_of('\\') + 1;
+      if (startOfName == std::string::npos)
+      {
+        startOfName = 0;
+      }
+    }
+                                                              /*  size of name + extension        size of the extension*/
+    std::string friendlyName = modelName.substr(startOfName, (modelName.size() - startOfName) - (modelName.size() - dotIndex));
+    
+
+    if (modelLoader != loaders_.end())
+    {
+      newModel = (*modelLoader).type->Load(modelName);
+      if (newModel)
+      {
+        models_.insert(friendlyName, newModel);
+      }
+    }
+    else
+    {
+      ConsolePrint("Can't load file extension " + extension + " as model.");
+    }
+    return newModel;
+  }
+
+  GRAPHICSDLL_API void Graphics::RecompileShaders()
+  {
+    for (auto & it : shaders_)
+    {
+      it.type->Compile();
+    }
   }
   
-  void Graphics::RenderFrame()
+  GRAPHICSDLL_API void Graphics::Render()
   {
-    BeginScene();
+    mat_stack_->Push(camera_->GetViewMatrix());
 
-    camera_->Render();
+    Matrix4 world;
+    graphicsAPI->BeginScene();
+    for (auto& shader : shaders_)
+    {
+      for (auto& model : models_)
+      {
+        model.type->Render();
+        for (auto& inst : model.type->GetInstances())
+        {
+          Transform* tr = (Transform*)inst->GetSibling(CT_Transform);
+
+          world.Identity();
+
+
+
+
+          world.Scale(tr->GetScale());
+          world.RotateXYZ(tr->GetRotation());
+          world.Translate(tr->GetPosition());
+
+
+          //mat_stack_->Push(world);
+          
+          shader.type->Render(model.type->GetNumIndices(),
+                              world,
+                              mat_stack_->Top(),
+                              camera_->GetPosition());
+
+          //mat_stack_->Pop();
+        }
+      }
+    }
     
-    model_->Render(swap_chain_->device->D3DContext);
-    shader_->Render(swap_chain_->device->D3DContext, 
-                    model_->GetIndexCount(), 
-                    world_matrix_, 
-                    camera_->GetViewMatrix(), 
-                    projection_matrix_);
-
-    EndScene();
+    graphicsAPI->RenderScene();
+    graphicsAPI->EndScene();
+    mat_stack_->Pop();
   }
 
-  void Graphics::BeginScene()
+  GRAPHICSDLL_API Model* Graphics::GetModel(const std::string& name)
   {
-    Vector4 color;
-
-
-	  // Setup the color to clear the buffer to.
-	  color[0] = 0.1f;
-	  color[1] = 0.1f;
-	  color[2] = 0.1f;
-	  color[3] = 1.0f;
-
-	  // Clear the back buffer.
-	  swap_chain_->device->D3DContext->ClearRenderTargetView(render_target_view_, &color[0]);
-    
-	  // Clear the depth buffer.
-	  swap_chain_->device->D3DContext->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
-	  return;
+    auto& modelIt = models_.find(name);
+    return (modelIt != models_.end()) ? (*modelIt).type : nullptr;
   }
-
-  void Graphics::EndScene()
-  {
-    // Present the back buffer to the screen since rendering is complete.
-	  if(false)//vsync
-	  {
-		  // Lock to screen refresh rate.
-		  swap_chain_->D3DSwapChain->Present(1, 0);
-	  }
-	  else
-	  {
-		  // Present as fast as possible.
-		  swap_chain_->D3DSwapChain->Present(0, 0);
-	  }
-  }
-
-
 }

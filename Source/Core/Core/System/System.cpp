@@ -3,7 +3,7 @@
 
 namespace WickedSick
 {
-  COREDLL_API System::System(System::Type type) : type_(type),
+  COREDLL_API System::System(SystemType type) : type_(type),
                                                 core_(nullptr)
   {
 
@@ -24,7 +24,7 @@ namespace WickedSick
     return core_;
   }
 
-  COREDLL_API System::Type System::GetType()
+  COREDLL_API SystemType System::GetType()
   {
     return type_;
   }

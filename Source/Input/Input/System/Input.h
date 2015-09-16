@@ -16,7 +16,7 @@ namespace WickedSick
     INPUTDLL_API bool Load();
     INPUTDLL_API bool Reload();
     INPUTDLL_API void Update(double dt);
-    INPUTDLL_API void Input::ReceiveMessage(Message * msg);
+    INPUTDLL_API void Input::ReceiveMessage(Event * msg);
   private:
 
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Math/MathDLL.h"
+#include "MathDLL.h"
 
 namespace WickedSick
 {
@@ -55,9 +55,9 @@ namespace WickedSick
     void Inverse();
 
     //rotation
-    void RotateX(float x);
-    void RotateY(float y);
-    void RotateZ(float z);
+    void MakeRotateX(float x);
+    void MakeRotateY(float y);
+    void MakeRotateZ(float z);
 
     // Settors
     void Zero(void);

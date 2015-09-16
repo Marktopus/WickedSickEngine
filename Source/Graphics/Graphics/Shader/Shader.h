@@ -1,17 +1,13 @@
 #pragma once
 
 #include "Math/MathInterface.h"
+#include "Utility\UtilityInterface.h"
 
-struct ID3D11VertexShader;
-struct ID3D11PixelShader;
-struct ID3D11InputLayout;
-struct ID3D11DeviceContext;
-struct ID3D11Device;
-struct ID3D11Buffer;
-struct ID3D10Blob;
 
 namespace WickedSick
 {
+
+  class Buffer;
 
   class Shader
   {
@@ -20,43 +16,37 @@ namespace WickedSick
 	    Shader();
 	    ~Shader();
 
-	    void Initialize(ID3D11Device* device, 
-                      HWND hwnd);
-	    void Render(ID3D11DeviceContext* context, 
-                  int, 
-                  const Matrix4&, 
-                  const Matrix4&, 
-                  const Matrix4&);
+	    virtual void Initialize() = 0;
+      virtual bool Compile(bool forceCompile = false) = 0;
 
-    private:
-	    void init_shader(ID3D11Device* device, 
-                       HWND hwnd, 
-                       const std::string& pix, 
-                       const std::string& vert);
-	    void OutputShaderErrorMessage(ID3D10Blob*, 
-                                    HWND, 
-                                    WCHAR*);
+      virtual void Render(int indexCount, 
+                          const Matrix4& world,
+                          const Matrix4& clip,
+                          const Vector3& cameraPos) = 0;
 
-      void RenderShader(ID3D11DeviceContext*, 
-                        int);
+      void SetShaders(const std::string& vert = "",
+                      const std::string& pix = "",
+                      const std::string& compute = "",
+                      const std::string& geo = "");
 
-	    void SetShaderParameters(ID3D11DeviceContext*, 
-                               Matrix4, 
-                               Matrix4, 
-                               Matrix4);
-	     
+      virtual void SetShaderDir(const std::string& dir) = 0;
 
 
-      struct MatrixBuffer
-	    {
-		    Matrix4 world;
-		    Matrix4 view;
-		    Matrix4 projection;
-	    };
+    protected:
+	    //void OutputShaderErrorMessage(ID3D10Blob*, 
+      //                              HWND, 
+      //                              WCHAR*);
 
-	    ID3D11VertexShader* vertex_shader_;
-	    ID3D11PixelShader* pixel_shader_;
-	    ID3D11InputLayout* layout_;
-	    ID3D11Buffer* matrix_buffer_;
+      virtual void RenderShader(int) = 0;
+	    virtual void SetParameters( const Matrix4& world,
+                                  const Matrix4& clip,
+                                  const Vector3& cameraPos) = 0;
+	    
+      FilePath    vertex_file_;
+      FilePath    pixel_file_;
+      FilePath    compute_file_;
+      FilePath    geometry_file_;
+
+      Buffer*     matrix_buffer_;
   };
 }

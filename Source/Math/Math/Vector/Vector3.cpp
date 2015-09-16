@@ -17,23 +17,23 @@
 #include "Math/MathUtility.h"
 namespace WickedSick
 {
-MATHDLL_API   Vector3::Vector3(void) : 
+  MATHDLL_API Vector3::Vector3(void) : 
     x(0.0f), y(0.0f), z(0.0f)
   {
   }
 
-MATHDLL_API   Vector3::Vector3(const Vector2& rhs, float zz) : 
+  MATHDLL_API Vector3::Vector3(const Vector2& rhs, float zz) : 
     x(rhs.x), y(rhs.y), z(zz)
   {
   }
 
-MATHDLL_API   Vector3::Vector3(const Vector3& rhs) : 
+  MATHDLL_API Vector3::Vector3(const Vector3& rhs) : 
     x(rhs.x), y(rhs.y), z(rhs.z)
   {
     
   }
 
-MATHDLL_API   Vector3::Vector3(float xx, float yy, float zz) : 
+  MATHDLL_API Vector3::Vector3(float xx, float yy, float zz) : 
     x(xx), y(yy), z(zz)
   {
   }
@@ -207,7 +207,7 @@ MATHDLL_API   Vector3::Vector3(float xx, float yy, float zz) :
 
   MATHDLL_API void Vector3::Print(void) const
   {
-    //ConsolePrint(std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z));
+    ConsolePrint(std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z));
   }
 
   MATHDLL_API Vector3 Vector3::Min(const Vector3 & rhs)
@@ -224,6 +224,11 @@ MATHDLL_API   Vector3::Vector3(float xx, float yy, float zz) :
   MATHDLL_API Vector3i Vector3::to_i()
   {
     return Vector3i(static_cast<int>(x), static_cast<int>(y), static_cast<int>(z));
+  }
+
+  MATHDLL_API std::string Vector3::to_string()
+  {
+    return std::to_string(x) + std::to_string(y) + std::to_string(z);
   }
 
   MATHDLL_API float  & Vector3::operator [](int index)

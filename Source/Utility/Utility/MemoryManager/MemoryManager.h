@@ -47,12 +47,14 @@ namespace WickedSick
 
       Page() : allocated_objects_(0)
       {
-        for (auto& it : object_pool_)
+        free_list_.resize(ElementsPerPage, nullptr);
+        for (int i = 0; i < ElementsPerPage; ++i)
         {
-          it.state = Object::Unallocated;
+          object_pool_[i].state = Object::Unallocated;
           #ifdef _DEBUG
-            memset(it.object, Object::Unallocated, sizeof(it.object));
+          memset(object_pool_[i].object, Object::Unallocated, sizeof(object_pool_[i].object));
           #endif
+          free_list_[i] = &object_pool_[i];
         }
       }
 
@@ -68,15 +70,18 @@ namespace WickedSick
         Type* toReturn = nullptr;
         if (HasSpace())
         {
-          int i = 0;
-          while (object_pool_[i].state == Object::Allocated)
-          {
-            ++i;
-          }
+          Object* toAllocate = nullptr;//object_pool_[0];
+          //while (toAllocate->state == Object::Allocated)
+          //{
+          //  ++toAllocate;
+          //}
 
-          toReturn = (Type*)&(object_pool_[i].object);//first get our pointer
+          toAllocate = free_list_.back();
+          free_list_.pop_back();
 
-          object_pool_[i].state = Object::Allocated;//set the state to allocated
+          toReturn = (Type*)&(toAllocate->object);//first get our pointer
+
+          toAllocate->state = Object::Allocated;//set the state to allocated
 
           ++allocated_objects_;
         }
@@ -96,6 +101,7 @@ namespace WickedSick
           __debugbreak();//how did you even get this pointer what
           break;
         case Object::Allocated:
+          free_list_.push_back(object);
           object->state = Object::Deleted;
           memset(object->object, Object::Deleted, sizeof(Type));
           --allocated_objects_;
@@ -114,6 +120,7 @@ namespace WickedSick
 
     private:
       Object object_pool_[ElementsPerPage];
+      std::vector<Object*> free_list_;
       int allocated_objects_;
 
     };
@@ -122,7 +129,11 @@ namespace WickedSick
 
 
 
-    MemoryManager()
+    MemoryManager() : currently_allocated_(0),
+                      total_allocations_(0),
+                      total_deletions_(0),
+                      pages_allocated_(0),
+                      pages_active_(0)
     {
       page_pool_.push_back(new Page());
     }
@@ -165,6 +176,42 @@ namespace WickedSick
       return newObject;
     }
 
+    template<typename ...Types>
+    Type* New(Types&&... args)
+    {
+
+      Type* newObject = nullptr;
+      for (auto it : page_pool_)
+      {
+        newObject = it->Allocate();
+        if (newObject)
+        {
+          new (newObject) Type(std::forward<Types>(args)...);
+          return newObject;
+        }
+      }
+
+      page_pool_.push_back(new Page());
+      ++pages_allocated_;
+      ++pages_active_;
+      newObject = page_pool_.back()->Allocate();
+      new (newObject) Type(std::forward<Types>(args)...);
+      return newObject;
+    }
+
+
+    void Preallocate(size_t total)
+    {
+      size_t pagesToMake = total / ElementsPerPage;
+
+      while (page_pool_.size() < pagesToMake)
+      {
+        page_pool_.push_back(new Page());
+        ++pages_allocated_;
+      }
+
+
+    }
 
     //Type* New()
     //{

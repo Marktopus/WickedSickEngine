@@ -1,9 +1,4 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Zhuhuii
-//Date:        09/2/2014
-//Description: 
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
+
 #include "MathPrecompiled.h"
 #include "Vector3i.h"
 
@@ -154,7 +149,7 @@ namespace WickedSick
 
   void MATHDLL_API Vector3i::Print(void) const
   {
-    //ConsolePrint(std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z));
+    ConsolePrint(std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z));
   }
 
   Vector3i MATHDLL_API Vector3i::Min(const Vector3i & rhs)
@@ -170,6 +165,11 @@ namespace WickedSick
   Vector3 MATHDLL_API Vector3i::to_f()
   {
     return Vector3(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
+  }
+
+  MATHDLL_API std::string Vector3i::to_string()
+  {
+    return std::to_string(x) + std::to_string(y) + std::to_string(z);
   }
 
   int MATHDLL_API & Vector3i::operator[](int index)

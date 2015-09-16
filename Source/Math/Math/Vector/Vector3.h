@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/MathDLL.h"
+#include "MathDLL.h"
 
 #include <fstream>
 
@@ -60,6 +60,7 @@ namespace WickedSick
     MATHDLL_API Vector3 Max(const Vector3& rhs);
 
     MATHDLL_API Vector3i to_i();
+    MATHDLL_API std::string to_string();
 
     MATHDLL_API float & operator[](int index);
     MATHDLL_API float   operator[](int index) const;

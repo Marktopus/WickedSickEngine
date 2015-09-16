@@ -1,17 +1,8 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark
-//Date:        4/4/2014
-//Description: Matrix3 implementation
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
 #include "MathPrecompiled.h"
 #include "Matrix3.h"
-#include "Math/Vector/Vector3.h"
+#include "Vector/Vector3.h"
 
-#include "Math/MathUtility.h"
-
-#include <utility>
-
+#include "MathUtility.h"
 namespace WickedSick
 {
   Matrix3::Matrix3(void) : m00(0.0f), m01(0.0f), m02(0.0f),

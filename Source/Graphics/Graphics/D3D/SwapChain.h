@@ -1,5 +1,5 @@
 #pragma once
-#include "Graphics/DXIncludes.h"//I want to get rid of this but not sure how
+#include "D3D/DXIncludes.h"//I want to get rid of this but not sure how
 
 
 

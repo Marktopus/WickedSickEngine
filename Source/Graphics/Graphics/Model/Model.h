@@ -2,69 +2,51 @@
 
 #include "Math/MathInterface.h"
 #include "ModelInstance.h"
+
+#include "Utility/UtilityInterface.h"
+#include "Face.h"
+#include "API/APIType.h"
+
 //#include "Graphics/WS_Graphics_DLL.h"
+
 
 #include <unordered_map>
 
-struct ID3D11Device;
-struct ID3D11DeviceContext;
-struct ID3D11Buffer;
-
 namespace WickedSick
 {
-  
 
-  struct Vertex
-  {
-    Vector3 position;
-    Vector4 color;
-    
-  };
-
-  struct Face
-  {
-    std::vector<Vertex> verts;
-    Vector3 normal;
-  };
-
+  class Buffer;
+  class ModelComponent;
   class Model
   {
     public:
       Model();
-      ~Model();
+      virtual ~Model();
 
-      bool Load(const std::string& modelName);
+      virtual void Initialize() = 0;
+      virtual void Render() = 0;
 
-      void Initialize(ID3D11Device* device);
-      void Render(ID3D11DeviceContext* context);
-      int GetIndexCount();
+      void Set( const std::vector<Vertex>&    faceList,
+                const std::vector<Face>&  vertexList);      
 
-    private:
+      int GetNumIndices();
+      int GetNumFaces();
+      int GetNumVerts();
 
-      bool load_obj(const std::string& modelName);
-      bool load_fbx(const std::string& modelName);
+      void AddInstance(ModelComponent* inst);
+      void RemoveInstance(ModelComponent* inst);
 
-      void extract_vertex(std::string target);
-      void extract_face(std::string target);
+      std::vector<ModelComponent*>& GetInstances();
 
-      void init_buffers(ID3D11Device* device);
-      void render_buffers(ID3D11DeviceContext* context);
+    protected:
+      Buffer* vertex_buffer_;
+      Buffer* index_buffer_;
 
+      friend class DirectX;
 
-
-      typedef bool(Model::*loadFunc)(const std::string&);
-
-      std::unordered_map<std::string, loadFunc> loadingFunctions;
-
-
-      std::vector<ModelInstance> instance_list_;
-      std::vector<Vector3i> face_list_;
+      std::vector<ModelComponent*> instance_list_;
+      std::vector<Face> face_list_;
       std::vector<Vertex> vertex_list_;
-
-      ID3D11Buffer* vertex_buffer_;
-      ID3D11Buffer* index_buffer_;
-      int vertex_count_;
-      int index_count_;
 
   };
 }

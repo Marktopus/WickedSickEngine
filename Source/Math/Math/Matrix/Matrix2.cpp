@@ -1,19 +1,9 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark
-//Date:        4/4/2014
-//Description: matrix 2 implementation
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
 #include "MathPrecompiled.h"
 #include "Matrix2.h"
 
-#include "Math/Vector/Vector2.h"
+#include "Vector/Vector2.h"
 
-#include "Math/MathUtility.h"
-
-
-
-#include <utility>
+#include "MathUtility.h"
 
 namespace WickedSick
 {

@@ -13,12 +13,12 @@ namespace WickedSick
 
   }
 
-  GRAPHICSDLL_API Vector4 Camera::GetPosition()
+  GRAPHICSDLL_API Vector3 Camera::GetPosition()
   {
     return pos_;
   }
 
-  GRAPHICSDLL_API void Camera::SetPosition(const Vector4& pos)
+  GRAPHICSDLL_API void Camera::SetPosition(const Vector3& pos)
   {
     pos_ = pos;
   }
@@ -43,11 +43,12 @@ namespace WickedSick
     rot_ = Vector3(x, y, z);
   }
 
-  GRAPHICSDLL_API void Camera::Render()
+  GRAPHICSDLL_API void Camera::Orient()
   {
     //for now
     look_at_.Zero();
-    look_at_.z = 1.0f;
+    look_at_.z = -3.0f;
+    look_at_.w = 1.0f;
 
     Vector3 rotation = rot_;
     rot_ *= 0.0174532925f;
@@ -60,18 +61,21 @@ namespace WickedSick
 
     look_at_ = rotationMat * look_at_;
 
-    Vector4 curUp = rotationMat * up_;
+    Vector4 curUp = (rotationMat * up_).GetNormalized();
 
     look_at_ += pos_;
 
-    Vector4 zaxis = look_at_ - pos_;
-    Vector4 xaxis = up_.Cross(zaxis);
-    Vector4 yaxis = zaxis.Cross(xaxis);
+    Vector4 zaxis = (Vector4(pos_, 1) - look_at_).GetNormalized();
+    Vector4 xaxis = curUp.Cross(zaxis).GetNormalized();
+    Vector4 yaxis = zaxis.Cross(xaxis).GetNormalized();
+    view_.Identity();
 
-    view_.m[0][0] =   xaxis.x;          view_.m[0][1] =   yaxis.x;          view_.m[0][2] =   zaxis.x;          view_.m[0][3] = 0.0f;
-    view_.m[1][0] =   xaxis.y;          view_.m[1][1] =   yaxis.y;          view_.m[1][2] =   zaxis.y;          view_.m[1][3] = 0.0f;
-    view_.m[2][0] =   xaxis.z;          view_.m[2][1] =   yaxis.z;          view_.m[2][2] =   zaxis.z;          view_.m[2][3] = 0.0f;
-    view_.m[3][0] =  -xaxis.Dot(pos_);  view_.m[3][1] =  -yaxis.Dot(pos_);  view_.m[3][2] =  -zaxis.Dot(pos_);  view_.m[3][3] = 1.0f;
+
+    view_.m[0][0] = xaxis.x;  view_.m[0][1] = xaxis.y;  view_.m[0][2] = xaxis.z;  view_.m[0][3] = -xaxis.Dot(pos_);
+    view_.m[1][0] = yaxis.x;  view_.m[1][1] = yaxis.y;  view_.m[1][2] = yaxis.z;  view_.m[1][3] = -yaxis.Dot(pos_);
+    view_.m[2][0] = zaxis.x;  view_.m[2][1] = zaxis.y;  view_.m[2][2] = zaxis.z;  view_.m[2][3] = -zaxis.Dot(pos_);
+    view_.m[3][0] = 0.0f;     view_.m[3][1] = 0.0f;     view_.m[3][2] = 0.0f;     view_.m[3][3] = 1.0f;
+    //view_.Translate(Vector3(-pos_.x, -pos_.y, -pos_.z));
 
   }
 

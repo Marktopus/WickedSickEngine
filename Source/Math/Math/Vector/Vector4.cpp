@@ -7,12 +7,12 @@
 #include "MathPrecompiled.h"
 #include "Vector4.h"
 
-#include "Math/Vector/Vector4i.h"
-#include "Math/Vector/Vector3.h"
-#include "Math/Vector/Vector2.h"
+#include "Vector/Vector4i.h"
+#include "Vector/Vector3.h"
+#include "Vector/Vector2.h"
 
-#include "Math/Matrix/Matrix4.h"
-#include "Math/MathUtility.h"
+#include "Matrix/Matrix4.h"
+#include "MathUtility.h"
 
 namespace WickedSick
 {
@@ -247,7 +247,7 @@ namespace WickedSick
 
   MATHDLL_API void Vector4::Print(void) const
   {
-    //ConsolePrint(std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ", " + std::to_string(w));
+    ConsolePrint(std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ", " + std::to_string(w));
   }
 
   MATHDLL_API Vector4 Vector4::Min(const Vector4& rhs)
@@ -263,6 +263,11 @@ namespace WickedSick
   MATHDLL_API Vector4i Vector4::to_i()
   {
     return Vector4i(static_cast<int>(x), static_cast<int>(y), static_cast<int>(z), static_cast<int>(w));
+  }
+
+  MATHDLL_API std::string Vector4::to_string()
+  {
+    return std::to_string(x) + std::to_string(y) + std::to_string(z) + std::to_string(w);
   }
 
   MATHDLL_API float & Vector4::operator [](int index)

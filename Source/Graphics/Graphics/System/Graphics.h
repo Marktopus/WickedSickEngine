@@ -1,16 +1,26 @@
 #pragma once
 
 #include "GraphicsDLL.h"
-#include "DXIncludes.h"
+
+#include "API/GraphicsAPI.h"
+#include "General/GraphicsOptions.h"
+#include "Model/Model.h"
+
+
 #include "Core/CoreInterface.h"
-
 #include "Math/MathInterface.h"
+#include "Components/ModelComponent.h"
 
-struct ID3D11RenderTargetView;
+
+#include "Utility/UtilityInterface.h"
+
 namespace WickedSick
 {
+  class ModelComponent;
+  class MatrixStack;
   class Shader;
   class Model;
+  class ModelLoader;
   class Camera;
   struct Device;
   struct SwapChain;
@@ -25,30 +35,35 @@ namespace WickedSick
     GRAPHICSDLL_API bool Load();
     GRAPHICSDLL_API bool Reload();
     GRAPHICSDLL_API void Update(double dt);
-    GRAPHICSDLL_API void ReceiveMessage(Message * msg);
+    GRAPHICSDLL_API void ReceiveMessage(Event * msg);
+    GRAPHICSDLL_API void Render();
 
-    void BeginScene();
-    void EndScene();
-    //v bad.0
-    void RenderFrame();
+    GRAPHICSDLL_API Model* GetModel(const std::string& name);
+    GRAPHICSDLL_API Model* LoadModel(const std::string& model);
 
+    GRAPHICSDLL_API void RecompileShaders();
+
+    
+    static GraphicsAPI*            graphicsAPI;
   private:
-    SwapChain* swap_chain_;
 
-    ID3D11RenderTargetView* back_buffer_;
-    ID3D11DepthStencilState* depth_stencil_state_;
-    ID3D11Texture2D* depth_stencil_buffer_;
-    ID3D11DepthStencilView* depth_stencil_view_;
-    ID3D11RenderTargetView* render_target_view_;
-    ID3D11RasterizerState* rasterizer_state_;
 
-    Camera* camera_;
-    Model* model_;//temp as fuck
-    Shader* shader_; //still temp
+    static Factory<ModelComponent> model_comp_factory_;
+    
+    HashMap<int, ModelComponent*> model_components_; 
+    HashMap<std::string, ModelLoader*> loaders_;
+    HashMap<std::string, Model*> models_;
+    HashMap<std::string, Shader*> shaders_;
 
     Matrix4 projection_matrix_;
-	  Matrix4 world_matrix_;
 	  Matrix4 orthographic_matrix_;
+
+    
+    MatrixStack*      mat_stack_;
+
+    Camera*           camera_;
+
+    GraphicsOptions*  options_;
 
   };
 }

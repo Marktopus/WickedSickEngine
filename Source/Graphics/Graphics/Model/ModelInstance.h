@@ -4,14 +4,11 @@
 
 namespace WickedSick
 {
+  class Model;
   struct ModelInstance
   {
-    Vector3 position;
-    Vector3 rotation;
-    Vector3 scale;
-    Vector4 color;
-    
-    
-  
+    ModelInstance();
+    void Destroy();
+    Model* parent;
   };
 }

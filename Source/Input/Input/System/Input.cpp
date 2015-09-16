@@ -4,7 +4,7 @@
 namespace WickedSick
 {
 
-  INPUTDLL_API Input::Input() : System(System::Input)
+  INPUTDLL_API Input::Input() : System(ST_Input)
   {
   }
 
@@ -31,7 +31,7 @@ namespace WickedSick
   {
   }
 
-  INPUTDLL_API void Input::ReceiveMessage(Message * msg)
+  INPUTDLL_API void Input::ReceiveMessage(Event * msg)
   {
   }
 

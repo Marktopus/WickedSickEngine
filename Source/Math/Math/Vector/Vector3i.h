@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/MathDLL.h"
+#include "MathDLL.h"
 
 namespace WickedSick
 {
@@ -14,46 +14,47 @@ namespace WickedSick
     MATHDLL_API Vector3i(int xx, int yy, int zz);
 
     // Assignment operator, does not need to handle self assignment
-    Vector3i MATHDLL_API & operator=(const Vector3i& rhs);
+    MATHDLL_API Vector3i & operator=(const Vector3i& rhs);
 
     // Unary negation operator, negates all components and returns a copy
-    Vector3i  MATHDLL_API operator-(void) const;  
+    MATHDLL_API Vector3i  operator-(void) const;
 
     // Math Operators
-    Vector3i  MATHDLL_API operator+(const Vector3i& rhs) const;
-    Vector3i  MATHDLL_API operator-(const Vector3i& rhs) const;
-    Vector3i  MATHDLL_API operator*(const int rhs) const;
-    Vector3i  MATHDLL_API operator/(const int rhs) const;
-    Vector3i MATHDLL_API & operator+=(const Vector3i& rhs);
-    Vector3i MATHDLL_API & operator-=(const Vector3i& rhs);
-    Vector3i MATHDLL_API & operator*=(const int rhs);
-    Vector3i MATHDLL_API & operator/=(const int rhs);
+    MATHDLL_API Vector3i operator+(const Vector3i& rhs) const;
+    MATHDLL_API Vector3i operator-(const Vector3i& rhs) const;
+    MATHDLL_API Vector3i operator*(const int rhs) const;
+    MATHDLL_API Vector3i operator/(const int rhs) const;
+    MATHDLL_API Vector3i & operator+=(const Vector3i& rhs);
+    MATHDLL_API Vector3i & operator-=(const Vector3i& rhs);
+    MATHDLL_API Vector3i & operator*=(const int rhs);
+    MATHDLL_API Vector3i & operator/=(const int rhs);
 
     // Comparison operators
-    bool MATHDLL_API operator==(const Vector3i& rhs) const;
-    bool MATHDLL_API operator!=(const Vector3i& rhs) const;
+    MATHDLL_API bool operator==(const Vector3i& rhs) const;
+    MATHDLL_API bool operator!=(const Vector3i& rhs) const;
          
     // Linear Algebra
-    float     MATHDLL_API Length(void) const;
-    int       MATHDLL_API LengthSq(void) const;
-    void      MATHDLL_API Negate(void);
-    Vector3   MATHDLL_API GetNormalized(void); //returns a normalized version of the vector
-    int       MATHDLL_API Dot(const Vector3i& rhs) const;
-    Vector3i  MATHDLL_API Cross(const Vector3i& rhs) const;
+    MATHDLL_API float     Length(void) const;
+    MATHDLL_API int       LengthSq(void) const;
+    MATHDLL_API void      Negate(void);
+    MATHDLL_API Vector3   GetNormalized(void); //returns a normalized version of the vector
+    MATHDLL_API int       Dot(const Vector3i& rhs) const;
+    MATHDLL_API Vector3i  Cross(const Vector3i& rhs) const;
 
     // Settors
-    void MATHDLL_API Zero(void);
-    void MATHDLL_API Set(int xx=0, int yy=0, int zz=0);
+    MATHDLL_API void Zero(void);
+    MATHDLL_API void Set(int xx=0, int yy=0, int zz=0);
 
     // Helpers
-    void      MATHDLL_API Print(void) const;
-    Vector3i  MATHDLL_API Min(const Vector3i& rhs);
-    Vector3i  MATHDLL_API Max(const Vector3i& rhs);
+    MATHDLL_API void      Print(void) const;
+    MATHDLL_API Vector3i  Min(const Vector3i& rhs);
+    MATHDLL_API Vector3i  Max(const Vector3i& rhs);
 
-    Vector3   MATHDLL_API to_f();
+    MATHDLL_API Vector3   to_f();
+    MATHDLL_API std::string   to_string();
 
-    int MATHDLL_API &  operator[](int index);
-    int   MATHDLL_API operator[](int index) const;
+    MATHDLL_API int &  operator[](int index);
+    MATHDLL_API int operator[](int index) const;
 
     int x;
     int y;

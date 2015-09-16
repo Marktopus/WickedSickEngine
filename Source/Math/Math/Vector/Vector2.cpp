@@ -7,9 +7,9 @@
 #include "MathPrecompiled.h"
 #include "Vector2.h"
 
-#include "Math/Vector/Vector2i.h"
+#include "Vector/Vector2i.h"
 
-#include "Math/MathUtility.h"
+#include "MathUtility.h"
 
 namespace WickedSick
 {
@@ -162,7 +162,7 @@ namespace WickedSick
   
   MATHDLL_API void Vector2::Print(void) const
   {
-    //ConsolePrint(std::to_string(x) + ", " + std::to_string(y) + "\n");
+    ConsolePrint(std::to_string(x) + ", " + std::to_string(y) + "\n");
   }
 
   MATHDLL_API Vector2 Vector2::Min(const Vector2& rhs)
@@ -179,6 +179,11 @@ namespace WickedSick
   MATHDLL_API Vector2i Vector2::to_i()
   {
     return Vector2i(static_cast<int>(x), static_cast<int>(y));
+  }
+
+  MATHDLL_API std::string Vector2::to_string()
+  {
+    return std::to_string(x) + std::to_string(y);
   }
 
   MATHDLL_API float & Vector2::operator [](int index)

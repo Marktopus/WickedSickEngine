@@ -55,22 +55,29 @@ namespace WickedSick
     MATHDLL_API bool operator!=(const Matrix4& rhs) const;
 
     // Linear Algebra
+    MATHDLL_API Matrix4 GetTranspose() const;
     MATHDLL_API void Transpose();
     MATHDLL_API void Inverse();
 
     // Settors
-    MATHDLL_API void Zero(void);
-    MATHDLL_API void Identity(void);
+    MATHDLL_API Matrix4& Zero(void);
+    MATHDLL_API Matrix4& Identity(void);
   
-    MATHDLL_API void RotateX(float x);
-    MATHDLL_API void RotateY(float y);
-    MATHDLL_API void RotateZ(float z);
-    MATHDLL_API Matrix4 Matrix4::GetRotatedX(float x);
-    MATHDLL_API Matrix4 Matrix4::GetRotatedY(float y);
-    MATHDLL_API Matrix4 Matrix4::GetRotatedZ(float z);
+    MATHDLL_API Matrix4& Scale(const Vector3& scale);
+    MATHDLL_API Matrix4 GetScaled(const Vector3& scale) const;
 
-    MATHDLL_API void Translate(const Vector3& dist);
-    MATHDLL_API Matrix4 GetTranslated(const Vector3& dist);
+    MATHDLL_API Matrix4& RotateX(float x);
+    MATHDLL_API Matrix4& RotateY(float y);
+    MATHDLL_API Matrix4& RotateZ(float z);
+    MATHDLL_API Matrix4 GetRotatedX(float x) const;
+    MATHDLL_API Matrix4 GetRotatedY(float y) const;
+    MATHDLL_API Matrix4 GetRotatedZ(float z) const;
+
+    MATHDLL_API Matrix4& RotateXYZ(const Vector3& rot);
+    MATHDLL_API Matrix4 GetRotatedXYZ(const Vector3& rot) const;
+
+    MATHDLL_API Matrix4& Translate(const Vector3& dist);
+    MATHDLL_API Matrix4 GetTranslated(const Vector3& dist) const;
 
     // Other
     MATHDLL_API void Print(void) const;

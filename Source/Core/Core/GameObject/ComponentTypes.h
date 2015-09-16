@@ -1,0 +1,2 @@
+RegisterComponentType(Transform)
+RegisterComponentType(ModelComponent)

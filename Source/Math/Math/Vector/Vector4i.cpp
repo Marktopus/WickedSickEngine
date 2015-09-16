@@ -11,7 +11,7 @@
 
 #include "Vector4.h"
 
-#include "Math/MathUtility.h"
+#include "MathUtility.h"
 
 namespace WickedSick
 {
@@ -204,7 +204,7 @@ namespace WickedSick
 
   void MATHDLL_API Vector4i::Print(void) const
   {
-    //ConsolePrint(std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ", " + std::to_string(w));
+    ConsolePrint(std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ", " + std::to_string(w));
   }
 
   Vector4i MATHDLL_API Vector4i::Min(const Vector4i& rhs)
@@ -220,6 +220,11 @@ namespace WickedSick
   Vector4 MATHDLL_API Vector4i::to_f()
   {
     return Vector4(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z), static_cast<float>(w));
+  }
+
+  MATHDLL_API std::string Vector4i::to_string()
+  {
+    return std::to_string(x) + std::to_string(y) + std::to_string(z) + std::to_string(w);
   }
 
   int MATHDLL_API &  Vector4i::operator[](int index)

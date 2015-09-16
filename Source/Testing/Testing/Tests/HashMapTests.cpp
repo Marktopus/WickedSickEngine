@@ -49,7 +49,7 @@ namespace WickedSick
     }
     HashMap_print(map);
 
-    return true;
+    return map.empty();
   }
 
   TESTINGDLL_API bool HashMap_erase2()

@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Meta\AnyType.cpp" />
+    <ClCompile Include="Meta\Constructor\Constructor.cpp" />
+    <ClCompile Include="Meta\Constructor\ConstructorTemplate.cpp" />
+    <ClCompile Include="Meta\Function\Function.cpp" />
+    <ClCompile Include="Meta\Function\FunctionTemplate.cpp" />
+    <ClCompile Include="Meta\MetaPrecompiled.cpp" />
+    <ClCompile Include="Meta\Utility\IndirectionCount.cpp" />
+    <ClCompile Include="Meta\Lua\Lua.cpp" />
+    <ClCompile Include="Meta\Lua\LuaChangeList.cpp" />
+    <ClCompile Include="Meta\Lua\LuaUserdata.cpp" />
+    <ClCompile Include="Meta\Type\Metadata.cpp" />
+    <ClCompile Include="Meta\Type\MetaManager.cpp" />
+    <ClCompile Include="Meta\Utility\MetaUtility.cpp" />
+    <ClCompile Include="Meta\Definitions\Primitives.cpp" />
+    <ClCompile Include="Meta\Lua\Script.cpp" />
+    <ClCompile Include="Meta\Lua\ScriptManager.cpp" />
+    <ClCompile Include="Meta\Variant\Variant.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Meta\AnyType.h" />
+    <ClInclude Include="Meta\AnyTypeTemplate.h" />
+    <ClInclude Include="Meta\BINDVECTOR.h" />
+    <ClInclude Include="Meta\Constructor\Constructor.h" />
+    <ClInclude Include="Meta\Definitions\ExternalTypes.h" />
+    <ClInclude Include="Meta\Function\Function.h" />
+    <ClInclude Include="Meta\Function\FunctionPointer.h" />
+    <ClInclude Include="Meta\MathDLL.h" />
+    <ClInclude Include="Meta\MetaPrecompiled.h" />
+    <ClInclude Include="Meta\Utility\IndexSequence.h" />
+    <ClInclude Include="Meta\Utility\IndirectionCount.h" />
+    <ClInclude Include="Meta\Lua\Lua.h" />
+    <ClInclude Include="Meta\Lua\LuaChangeList.h" />
+    <ClInclude Include="Meta\Lua\LuaIncludes.h" />
+    <ClInclude Include="Meta\Lua\LuaUserdata.h" />
+    <ClInclude Include="Meta\Type\Member.h" />
+    <ClInclude Include="Meta\Type\Metadata.h" />
+    <ClInclude Include="Meta\Utility\MetaMacros.h" />
+    <ClInclude Include="Meta\Type\MetaManager.h" />
+    <ClInclude Include="Meta\Type\MetaSingleton.h" />
+    <ClInclude Include="Meta\Utility\MetaUtility.h" />
+    <ClInclude Include="Meta\Definitions\Primitives.h" />
+    <ClInclude Include="Meta\MetaInterface.h" />
+    <ClInclude Include="Meta\Lua\Script.h" />
+    <ClInclude Include="Meta\Lua\ScriptManager.h" />
+    <ClInclude Include="Meta\Utility\SimplifyType.h" />
+    <ClInclude Include="Meta\Variant\Variant.h" />
+    <ClInclude Include="Meta\Variant\VariantTemplate.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{914A45BA-E118-4C09-9208-60F244571066}</ProjectGuid>
+    <RootNamespace>Meta</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>MetaPrecompiled.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>MetaPrecompiled.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <Profile>true</Profile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <Profile>true</Profile>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

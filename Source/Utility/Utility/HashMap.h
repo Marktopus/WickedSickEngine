@@ -2,6 +2,7 @@
 #include <string>
 #include "stdint.h"
 #include <unordered_map>
+#include <algorithm>
 #include "Utility/SuperFastHash.h"
 #include "Utility/MemoryManager/MemoryManager.h"
 #include "Debugging/DebugInterface.h"
@@ -18,7 +19,7 @@ namespace WickedSick
     template<typename T> 
     static const char* ToCharStar(const T& type)
     {
-      return const_cast<const char*>(reinterpret_cast<char*>(&type));
+      return const_cast<const char*>(reinterpret_cast<char*>(const_cast<T*>(&type)));
     }
 
     template<typename T> 
@@ -37,13 +38,48 @@ namespace WickedSick
     {
       return type.c_str();
     }
+    static uint64_t FNV1a(const char* bytes, size_t size)
+    {
+      uint64_t hash = 14695981039346656037u;
+      while (size)
+      {
+        hash ^= bytes[size];
+        hash *= 1099511628211u;
+        --size;
+      }
+      return hash;
+    }
+    
 
     template<typename T> 
-    static uint32_t HashType(T val)
+    static uint64_t HashType(T val)
     {
-      const char* str = ToCharStar(val);
-      return SuperFastHash(str, strlen(str));
+      return FNV1a(ToCharStar(val), sizeof(T));
     }
+
+    template<>
+    static uint64_t HashType(std::string val)
+    {
+      return FNV1a(val.c_str(), val.size());
+    }
+
+    //template<>
+    //static uint32_t HashType(std::string val)
+    //{
+    //  return hasher_(val);
+    //}
+    //
+    //template<>
+    //static uint32_t HashType(char* val)
+    //{
+    //  return hasher_(std::string(val));
+    //}
+    //
+    //template<>
+    //static uint32_t HashType(const char* val)
+    //{
+    //  return hasher_(std::string(val));
+    //}
 
     class Entry
     {
@@ -93,6 +129,17 @@ namespace WickedSick
         hash_ = HashMap<Key, Type>::HashType(key_);
       }
 
+      Slot( Key&& key,
+            Type&& type)
+            : key_(std::forward<Key>(key)),
+              type_(std::forward<Type>(type)),
+              index_(-1),
+              next_(nullptr),
+              prev_(nullptr)
+      {
+        hash_ = HashMap<Key, Type>::HashType(key_);
+      }
+
       Slot(const Entry& entry)
             : key_(entry.key),
               type_(entry.type),
@@ -116,7 +163,7 @@ namespace WickedSick
 
       Key key_;
       Type type_;
-      uint32_t hash_;
+      uint64_t hash_;
       int   index_;
       Slot* next_;
       Slot* prev_;
@@ -208,10 +255,14 @@ namespace WickedSick
       {
         type_ = newSlot;
       }
+      Slot* _get()
+      {
+        return type_;
+      }
     private:
-
-
       Slot* type_;
+
+
     };
 
     class ConstIterator
@@ -307,18 +358,23 @@ namespace WickedSick
     };
 
 
-    HashMap() : load_factor_(0.0f),
-                max_load_factor_(0.85f),
-                map_(nullptr),
-                capacity_(0),
-                size_(0),
-                first_(-1),
-                last_(-1)
+    HashMap(int prealloc = 0) : load_factor_(0.0f),
+                                max_load_factor_(0.81f),
+                                map_(nullptr),
+                                capacity_(0),
+                                size_(0),
+                                first_(-1),
+                                last_(-1)
     {
       end_._set(reinterpret_cast<Slot*>(end_slot_));
       reinterpret_cast<Slot*>(end_slot_)->prev_ = nullptr;
       reinterpret_cast<Slot*>(end_slot_)->next_ = nullptr;
       reinterpret_cast<Slot*>(end_slot_)->index_ = -1;
+      if (prealloc)
+      {
+        resize(prealloc);
+        manager_.Preallocate(prealloc);
+      }
     }
 
     HashMap(const HashMap<Key, Type>& rhs) : max_load_factor_(rhs.max_load_factor_)                 
@@ -401,12 +457,12 @@ namespace WickedSick
       recalc_load_factor();
       
       Slot** oldMap = map_;
-      map_ = new Slot*[capacity_];
-      memset(map_, 0, capacity_ * sizeof(Slot*));
+      map_ = new Slot*[capacity_ * collision_buf_];
+      memset(map_, 0, capacity_ * collision_buf_ * sizeof(Slot*));
 
       size_ = 0;
       last_ = first_ = invalid_index_;
-      for (unsigned i = 0; i < oldSize; ++i)
+      for (unsigned i = 0; i < (oldSize * collision_buf_); ++i)
       {
         if (oldMap[i])
         {
@@ -426,31 +482,19 @@ namespace WickedSick
       }
       ++size_;
       int index = HashType(key) % capacity_;
-      if (map_[index])
+      index *= collision_buf_;
+
+      for (int i = index; i < (index + collision_buf_); ++i)
       {
-        if (map_[index]->key_ == key)
+        if (!map_[i])
         {
-          return Iterator(map_[index]);
-        }
-        else
-        {
-          for (int i = index + 1; i != index; i = (i + 1) % capacity_)
-          {
-            if (!map_[i])
-            {
-              map_[i] = manager_.New(key, type);
-              map_[i]->index_ = i;
-              index = i;
-              break;
-            }
-          }
+          map_[i] = manager_.New(key, type);
+          map_[i]->index_ = i;
+          index = i;
+          break;
         }
       }
-      else
-      {
-        map_[index] = manager_.New(key, type);
-        map_[index]->index_ = index;
-      }
+
 
       if (first_ == invalid_index_)
       {
@@ -468,6 +512,46 @@ namespace WickedSick
         map_[last_]->next_ = reinterpret_cast<Slot*>(end_slot_);
       }
       
+      return Iterator(map_[index]);
+    }
+
+    Iterator insert(Key&& key, Type&& type)
+    {
+      recalc_load_factor();
+      if (load_factor_ >= max_load_factor_)
+      {
+        resize(static_cast<size_t>(std::max(8.0f, capacity_ * (1.0f + max_load_factor_))));
+      }
+      ++size_;
+      int index = HashType(key) % capacity_;
+      index *= collision_buf_;
+      for (int i = index; i < (index + collision_buf_); ++i)
+      {
+        if (!map_[i])
+        {
+          map_[i] = manager_.New(std::forward<Key>(key), std::forward<Type>(type));
+          map_[i]->index_ = i;
+          index = i;
+          break;
+        }
+      }
+
+      if (first_ == invalid_index_)
+      {
+        first_ = index;
+        last_ = first_;
+        map_[last_]->next_ = reinterpret_cast<Slot*>(end_slot_);
+        map_[first_]->prev_ = nullptr;
+        reinterpret_cast<Slot*>(end_slot_)->prev_ = map_[last_];
+      }
+      else
+      {
+        map_[index]->prev_ = map_[last_];
+        map_[last_]->next_ = map_[index];
+        last_ = index;
+        map_[last_]->next_ = reinterpret_cast<Slot*>(end_slot_);
+      }
+
       return Iterator(map_[index]);
     }
 
@@ -493,24 +577,13 @@ namespace WickedSick
 
     Iterator erase(const Key& what)
     {
-      int index = HashType(what) % capacity_;
+      auto& it = find(what);
       
       
-      if (map_[index] && map_[index]->key_ == what)
+      if (it != end())
       {
-        return erase_element(index);
+        return erase_element(it._get()->index_);
       }
-      else
-      {
-        for (int i = index + 1; i != index; i = (i + 1) % capacity_)
-        {
-          if (map_[i] && map_[i]->key_ == what)
-          {
-            return erase_element(i);
-          }
-        }
-      }
-      
       //todo: get rid of this print
       ConsolePrint("Element with this key could not be found.", ConsoleRed);
       return end();
@@ -546,20 +619,27 @@ namespace WickedSick
 
     Type& operator[](const Key& key)
     {
-      size_t index = HashType(key) % capacity_;
-      if (!map_[index])
+      auto& it = find(key);
+      if (it == end())
       {
-        map_[index] = manager_.New(key, Type());
+        it = insert(key, Type());
       }
-      return map_[index]->type_;
+      return (*it).type;
     }
 
     Iterator find(const Key& key)
     {
-      size_t index = HashType(key) % capacity_;
-      if (map_[index])
+      if (!empty())
       {
-        return Iterator(map_[index]);
+        size_t index = HashType(key) % capacity_;
+        index *= collision_buf_;
+        for (int i = index; i < (index + collision_buf_); ++i)
+        {
+          if (map_[i] && map_[i]->key_ == key)
+          {
+            return Iterator(map_[i]);
+          }
+        }
       }
       return end();
     }
@@ -641,6 +721,7 @@ namespace WickedSick
     }
 
     const int invalid_index_ = -1;
+    static const int collision_buf_ = 5;
 
     float   load_factor_;
     float   max_load_factor_;
@@ -651,16 +732,23 @@ namespace WickedSick
     Iterator end_;
     char end_slot_[sizeof(Slot)];
 
-    static MemoryManager<Slot> manager_;
+    static MemoryManager<Slot, 10000 / sizeof(HashMap<Key, Type>::Slot)> manager_;
     int     first_;
     int     last_;
     Slot**  map_;
+
+    static std::hash<std::string> hasher_;
   };
 
 #define MAPSLOT HashMap<Key, Type>::Slot
 
   template<typename Key, typename Type>
-  MemoryManager<typename HashMap<Key, Type>::Slot> HashMap<Key, Type>::manager_;
+  MemoryManager<typename HashMap<Key, Type>::Slot, 10000 / sizeof(HashMap<Key, Type>::Slot)> HashMap<Key, Type>::manager_;
+
+
+  template<typename Key, typename Type>
+  std::hash<std::string> HashMap<Key, Type>::hasher_;
+
 }
 
 

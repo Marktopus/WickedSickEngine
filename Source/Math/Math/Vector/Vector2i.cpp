@@ -152,7 +152,7 @@ namespace WickedSick
   
   MATHDLL_API void Vector2i::Print(void) const
   {
-    //ConsolePrint(std::to_string(x) + ", " + std::to_string(y));
+    ConsolePrint(std::to_string(x) + ", " + std::to_string(y));
   }
 
   MATHDLL_API Vector2i Vector2i::Min(const Vector2i& rhs)
@@ -168,6 +168,11 @@ namespace WickedSick
   MATHDLL_API Vector2 Vector2i::to_f() const
   {
     return Vector2(static_cast<float>(x), static_cast<float>(y));
+  }
+
+  MATHDLL_API std::string Vector2i::to_string() const
+  {
+    return std::to_string(x) + std::to_string(y);
   }
 
   MATHDLL_API int& Vector2i::operator[](int index)

@@ -9,10 +9,6 @@
 
 #include "Utility/UtilityInterface.h"
 #include "Debugging/DebugInterface.h"
-#include "Graphics/GraphicsInterface.h"
-#include "Window/WindowInterface.h"
-#include "Graphics/GraphicsInterface.h"
-
 namespace WickedSick
 {
   Engine* Engine::Core = nullptr;
@@ -21,7 +17,7 @@ namespace WickedSick
                                   active_(true)
   {
     Core = this;
-    systems_.resize(System::Count, nullptr);
+    systems_.resize(ST_Count, nullptr);
   }
 
   COREDLL_API Engine::~Engine()
@@ -41,9 +37,9 @@ namespace WickedSick
     sys->SetCore(this);
   }
 
-  COREDLL_API System* Engine::GetSystem(System::Type type)
+  COREDLL_API System* Engine::GetSystem(SystemType type)
   {
-    WSAssert((type < System::Count) && (type > 0), "Unknown system type!");
+    WSAssert((type < ST_Count) && (type > 0), "Unknown system type!");
     return systems_[type];
   }
 
@@ -94,7 +90,7 @@ namespace WickedSick
   {
     for (auto& it : systems_)
     {
-      if (it && (it->GetType() != System::Physics))
+      if (it && (it->GetType() != ST_Physics))
       {
         it->Update(frame_controller_->GetFrameTime());
         Sleep(1);//temporary

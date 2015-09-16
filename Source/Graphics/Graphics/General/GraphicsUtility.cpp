@@ -1,7 +1,7 @@
 #include "GraphicsPrecompiled.h"
 #include "GraphicsUtility.h"
 
-#include "Graphics/DXIncludes.h"
+#include "D3D/DXIncludes.h"
 
 #include "Debugging/DebugInterface.h"
 
@@ -12,6 +12,9 @@ namespace WickedSick
 
       switch (retVal)
       {
+      case ERROR_SHARING_VIOLATION:
+        __debugbreak();
+        break;
       case DXGI_ERROR_DEVICE_HUNG:
         __debugbreak();
         break;
@@ -40,7 +43,7 @@ namespace WickedSick
         __debugbreak();
         break;
       case E_FAIL:
-        __debugbreak();
+        //handled//__debugbreak();
         break;
       case E_INVALIDARG:
         __debugbreak();
@@ -55,6 +58,7 @@ namespace WickedSick
         __debugbreak();
         break;
       case S_OK:
+        return;
         break;
       default:
         __debugbreak();
@@ -62,7 +66,7 @@ namespace WickedSick
         
       }
       auto errorCode = GetLastError();
-      ConsolePrint("DirectX function call failed with error" + std::to_string(errorCode));
+      ConsolePrint("DirectX function call failed with error " + std::to_string(errorCode));
 
   }
 }

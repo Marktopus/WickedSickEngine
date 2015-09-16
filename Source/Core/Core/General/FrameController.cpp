@@ -45,7 +45,7 @@ namespace WickedSick
       fps_ = frame_count_;
       frame_count_ = 0;
     }
-    accumulator_ = min(accumulator_, max_accumulator_);
+    accumulator_ = std::min(accumulator_, max_accumulator_);
 
     last_time_ = currentTime;
   }

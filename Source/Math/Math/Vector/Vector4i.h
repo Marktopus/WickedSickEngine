@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/MathDLL.h"
+#include "MathDLL.h"
 namespace WickedSick
 {
   struct Vector2i;
@@ -16,47 +16,49 @@ namespace WickedSick
     MATHDLL_API Vector4i(int xx, int yy, int zz, int ww);
 
     // Assignment operator, does not need to handle self assignment
-    Vector4i MATHDLL_API &  operator=(const Vector4i& rhs);
+    MATHDLL_API Vector4i &  operator=(const Vector4i& rhs);
 
     // Unary negation operator, negates all components and returns a copy
-    Vector4i  MATHDLL_API operator-(void) const;  
+    MATHDLL_API Vector4i operator-(void) const;
 
     // Math Operators
-    Vector4i  MATHDLL_API operator+(const Vector4i& rhs) const;
-    Vector4i  MATHDLL_API operator-(const Vector4i& rhs) const;
-    Vector4i  MATHDLL_API operator*(const Vector4i& rhs) const;
-    Vector4i  MATHDLL_API operator*(const int rhs) const;
-    Vector4i  MATHDLL_API operator/(const int rhs) const;
-    Vector4i MATHDLL_API & operator+=(const Vector4i& rhs);
-    Vector4i MATHDLL_API & operator-=(const Vector4i& rhs);
-    Vector4i MATHDLL_API & operator*=(const int rhs);
-    Vector4i MATHDLL_API & operator/=(const int rhs);
+    MATHDLL_API Vector4i operator+(const Vector4i& rhs) const;
+    MATHDLL_API Vector4i operator-(const Vector4i& rhs) const;
+    MATHDLL_API Vector4i operator*(const Vector4i& rhs) const;
+    MATHDLL_API Vector4i operator*(const int rhs) const;
+    MATHDLL_API Vector4i operator/(const int rhs) const;
+    MATHDLL_API Vector4i & operator+=(const Vector4i& rhs);
+    MATHDLL_API Vector4i & operator-=(const Vector4i& rhs);
+    MATHDLL_API Vector4i & operator*=(const int rhs);
+    MATHDLL_API Vector4i & operator/=(const int rhs);
 
     // Comparison operators
-    bool MATHDLL_API operator==(const Vector4i& rhs) const;
-    bool MATHDLL_API operator!=(const Vector4i& rhs) const;
+    MATHDLL_API bool operator==(const Vector4i& rhs) const;
+    MATHDLL_API bool operator!=(const Vector4i& rhs) const;
          
     // Linear Algebra
-    float     MATHDLL_API Length(void) const;
-    int       MATHDLL_API LengthSq(void) const;
-    void      MATHDLL_API Negate(void);
-    Vector4   MATHDLL_API GetNormalized(void); //returns a normalized version of the vector
-    int       MATHDLL_API Dot(const Vector4i& rhs) const;
-    Vector4i  MATHDLL_API Cross(const Vector4i& rhs) const;
+    MATHDLL_API float     Length(void) const;
+    MATHDLL_API int       LengthSq(void) const;
+    MATHDLL_API void      Negate(void);
+    MATHDLL_API Vector4   GetNormalized(void); //returns a normalized version of the vector
+    MATHDLL_API int       Dot(const Vector4i& rhs) const;
+    MATHDLL_API Vector4i  Cross(const Vector4i& rhs) const;
 
     //Settor
-    void MATHDLL_API Zero(void);
-    void MATHDLL_API Set(int xx=0.0f, int yy=0.0f, int zz=0.0f, int ww=1.0f);
+    MATHDLL_API void Zero(void);
+    MATHDLL_API void Set(int xx=0.0f, int yy=0.0f, int zz=0.0f, int ww=1.0f);
 
     //Helpers
-    void      MATHDLL_API Print(void) const;
-    Vector4i  MATHDLL_API Min(const Vector4i& rhs);
-    Vector4i  MATHDLL_API Max(const Vector4i& rhs);
+    MATHDLL_API void      Print(void) const;
+    MATHDLL_API Vector4i  Min(const Vector4i& rhs);
+    MATHDLL_API Vector4i  Max(const Vector4i& rhs);
 
-    Vector4   MATHDLL_API to_f();
+    MATHDLL_API Vector4   to_f();
+    MATHDLL_API std::string   to_string();
 
-    int MATHDLL_API & operator[](int index);
-    int MATHDLL_API operator[](int index) const;
+
+    MATHDLL_API int & operator[](int index);
+    MATHDLL_API int operator[](int index) const;
 
     int x;
     int y;

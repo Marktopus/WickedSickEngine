@@ -19,12 +19,12 @@ namespace WickedSick
     COREDLL_API void AddSystem(System* sys);
     
     template <typename T>
-    T* GetSystem(System::Type type)
+    T* GetSystem(SystemType type)
     {
       return reinterpret_cast<T*>(systems_[type]);
     }
 
-    COREDLL_API System* GetSystem(System::Type type);
+    COREDLL_API System* GetSystem(SystemType type);
     COREDLL_API std::vector<System*>& GetSystems();
 
     COREDLL_API void Initialize();

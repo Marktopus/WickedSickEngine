@@ -1,7 +1,7 @@
 #include "GraphicsPrecompiled.h"
 #include "Device.h"
 
-#include "Graphics/DXIncludes.h"
+#include "D3D/DXIncludes.h"
 
 namespace WickedSick
 {

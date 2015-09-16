@@ -60,6 +60,13 @@ namespace WickedSick
     return *this;
   }
 
+  MATHDLL_API Matrix4 Matrix4::GetTranspose() const
+  {
+    Matrix4 toReturn(*this);
+    toReturn.Transpose();
+    return toReturn;
+  }
+
   MATHDLL_API void Matrix4::Transpose()
   {
     std::swap(m10, m01); std::swap(m20, m02); std::swap(m30, m03);
@@ -277,99 +284,141 @@ namespace WickedSick
            (m30 - rhs.m30 >= EPSILON || m30 - rhs.m30 <= -EPSILON) || (m31 - rhs.m31 >= EPSILON || m31 - rhs.m31 <= -EPSILON) || (m32 - rhs.m32 >= EPSILON || m32 - rhs.m32 <= -EPSILON) || (m33 - rhs.m33 >= EPSILON || m33 - rhs.m33 <= -EPSILON);
   }
 
-  MATHDLL_API void Matrix4::Zero(void)
+  MATHDLL_API Matrix4& Matrix4::Zero(void)
   {
     m00 = m01 = m02 = m03 = 
     m10 = m11 = m12 = m13 =
     m20 = m21 = m22 = m23 =
     m30 = m31 = m32 = m33 = 0.0f;
+    return *this;
   }
 
-  MATHDLL_API void Matrix4::Identity(void)
+  MATHDLL_API Matrix4& Matrix4::Identity(void)
   {
-          m01 = m02 = m03 = 
-          m10 =       m12 = m13 =
-          m20 = m21 =       m23 =
-          m30 = m31 = m32 =       0.0f;
+    m01 = m02 = m03 = 
+    m10 =       m12 = m13 =
+    m20 = m21 =       m23 =
+    m30 = m31 = m32 =       0.0f;
 
-          m00 = m11 = m22 = m33 = 1.0f;
+    m00 = m11 = m22 = m33 = 1.0f;
+    return *this;
   }
 
 
-  MATHDLL_API void Matrix4::RotateX(float x)
+  MATHDLL_API Matrix4& Matrix4::Scale(const Vector3& scale)
   {
-    Matrix4 rotation;
-    rotation.Identity();
-    rotation.m11 = cos(x); rotation.m12 = -sin(x);
-    rotation.m21 = sin(x); rotation.m22 = cos(x);
-
-    *this *= rotation;
+    m[0][0] *= scale.x;
+    m[1][1] *= scale.y;
+    m[2][2] *= scale.z;
+    return *this;
   }
 
-  MATHDLL_API void Matrix4::RotateY(float y)
+  MATHDLL_API Matrix4 Matrix4::GetScaled(const Vector3& scale) const
   {
-    Matrix4 rotation;
-    rotation.Identity();
-    rotation.m00 = cos(y);  rotation.m02 = sin(y);
-    rotation.m20 = -sin(y); rotation.m22 = cos(y);
-
-    *this *= rotation;
+    return Matrix4( m00 * scale.x, m01, m02, m03,
+                    m10, m11 * scale.y, m12, m13,
+                    m20, m21, m22 * scale.z, m23,
+                    m30, m31, m32, m33);
   }
 
-  MATHDLL_API void Matrix4::RotateZ(float z)
-  {
-    Matrix4 rotation;
-    rotation.Identity();
-    rotation.m00 = cos(z); rotation.m01 =  -sin(z);
-    rotation.m10 = sin(z); rotation.m11 =   cos(z);
 
-    *this *= rotation;
-  }
-
-  MATHDLL_API Matrix4 Matrix4::GetRotatedX(float x)
+  MATHDLL_API Matrix4& Matrix4::RotateX(float x)
   {
     Matrix4 rotation;
     rotation.Identity();
     rotation.m11 = cos(x); rotation.m12 = -sin(x);
     rotation.m21 = sin(x); rotation.m22 = cos(x);
 
-    return *this * rotation;
+    *this = rotation * *this;
+    //*this *= rotation;
+    return *this;
   }
 
-  MATHDLL_API Matrix4 Matrix4::GetRotatedY(float y)
+  MATHDLL_API Matrix4& Matrix4::RotateY(float y)
   {
     Matrix4 rotation;
     rotation.Identity();
     rotation.m00 = cos(y);  rotation.m02 = sin(y);
     rotation.m20 = -sin(y); rotation.m22 = cos(y);
 
-    return *this * rotation;
+    *this = rotation * *this;
+    return *this;
   }
 
-  MATHDLL_API Matrix4 Matrix4::GetRotatedZ(float z)
+  MATHDLL_API Matrix4& Matrix4::RotateZ(float z)
   {
     Matrix4 rotation;
     rotation.Identity();
     rotation.m00 = cos(z); rotation.m01 =  -sin(z);
     rotation.m10 = sin(z); rotation.m11 =   cos(z);
 
-    return *this * rotation;
+    *this = rotation * *this;
+    return *this;
   }
 
-  MATHDLL_API void Matrix4::Translate(const Vector3& dist)
+  MATHDLL_API Matrix4 Matrix4::GetRotatedX(float x) const
+  {
+    Matrix4 rotation;
+    rotation.Identity();
+    rotation.m11 = cos(x); rotation.m12 = -sin(x);
+    rotation.m21 = sin(x); rotation.m22 = cos(x);
+
+    return rotation * *this;
+  }
+
+  MATHDLL_API Matrix4 Matrix4::GetRotatedY(float y) const
+  {
+    Matrix4 rotation;
+    rotation.Identity();
+    rotation.m00 = cos(y);  rotation.m02 = sin(y);
+    rotation.m20 = -sin(y); rotation.m22 = cos(y);
+
+    return rotation * *this;
+  }
+
+  MATHDLL_API Matrix4 Matrix4::GetRotatedZ(float z) const
+  {
+    Matrix4 rotation;
+    rotation.Identity();
+    rotation.m00 = cos(z); rotation.m01 =  -sin(z);
+    rotation.m10 = sin(z); rotation.m11 =   cos(z);
+
+    return rotation * *this;
+  }
+
+  MATHDLL_API Matrix4& Matrix4::RotateXYZ(const Vector3& rot)
+  {
+    //RotateX(rot.x);
+    RotateY(rot.y);
+    //RotateZ(rot.z);
+    return *this;
+  }
+
+  MATHDLL_API Matrix4 Matrix4::GetRotatedXYZ(const Vector3& rot) const
+  {
+
+    Matrix4 rotation;
+    rotation.Identity();
+    rotation.RotateX(rot.x);
+    rotation.RotateY(rot.y);
+    rotation.RotateZ(rot.z);
+    return rotation * *this;
+  }
+
+  MATHDLL_API Matrix4& Matrix4::Translate(const Vector3& dist)
   {
     m03 += dist.x;
     m13 += dist.y;
     m23 += dist.z;
+    return *this;
   }
 
-  MATHDLL_API Matrix4 Matrix4::GetTranslated(const Vector3& dist)
+  MATHDLL_API Matrix4 Matrix4::GetTranslated(const Vector3& dist) const
   {
-    Matrix4 toReturn(*this);
-    toReturn.m03 += dist.x;
-    toReturn.m13 += dist.y;
-    toReturn.m23 += dist.z;
-    return toReturn;
+    return Matrix4(m00, m01, m02, m03 + dist.x,
+                   m10, m11, m12, m13 + dist.y,
+                   m20, m21, m22, m23 + dist.z,
+                   m30, m31, m32, m33);
   }
 
   MATHDLL_API void Matrix4::Print(void) const
@@ -386,10 +435,17 @@ namespace WickedSick
   MATHDLL_API Matrix4& Matrix4::DoPerspective(float fovW, float znear, float zfar, float aspectRatio)
   {
     Zero();
-    m[0][0] = (cos(fovW)/sin(fovW))/2.0f;
-                                          m[1][1] = m[0][0] * aspectRatio;
-                                                                            m[2][2] = zfar / (zfar - znear);            m[2][3] = 1.0f;                                                                                                  
-                                                                            m[3][2] = (-znear * zfar) / (zfar - znear);
+    fovW *= 0.5f;
+    float yScale = 1.0f/tan(fovW);
+    m[0][0] = yScale / aspectRatio;
+                                    m[1][1] = yScale;
+                                                      m[2][2] = zfar / (znear - zfar);            m[2][3] = (znear * zfar) / (znear - zfar);
+                                                      m[3][2] = -1.0f;
+
+    //m[0][0] = yScale / aspectRatio;
+    //                                m[1][1] = yScale;
+    //                                                  m[2][2] = -(zfar + znear) / (zfar - znear);            m[2][3] = (-2 * znear * zfar) / (zfar - znear);
+    //                                                  m[3][2] = -1.0f;
     return *this;
   }
 

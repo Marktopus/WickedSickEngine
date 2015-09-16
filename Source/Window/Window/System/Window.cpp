@@ -1,8 +1,8 @@
 #include "WindowPrecompiled.h"
 #include "Window.h"
 
-#include "Messaging/MessagingInterface.h"
-#include "Core/System/System.h"
+#include "EventSystem/EventSystemInterface.h"
+#include "Core/CoreInterface.h"
 
 namespace WickedSick
 {
@@ -215,7 +215,7 @@ namespace WickedSick
                               WPARAM wParam,
                               LPARAM lParam)
   {
-    Messaging* msgSystem = Engine::GetCore()->GetSystem<Messaging>(System::Messaging);
+    EventSystem* msgSystem = Engine::GetCore()->GetSystem<EventSystem>(ST_Messaging);
     // sort through and find what code to run for the message given
     switch(message)
     {
@@ -229,8 +229,8 @@ namespace WickedSick
         //{
         Vector2i delta;
 
-        MouseMessage* mouse = new MouseMessage(System::Window, System::Input, delta, MouseMessage::Moved, MouseMessage::ButtonCount);
-        msgSystem->QueueMessage(mouse);
+        //MouseEvent* mouse = new MouseEvent(ST_Window, ST_Input, delta, MouseEvent::Moved, MouseEvent::ButtonCount);
+        //msgSystem->QueueEvent(mouse);
         //}
         break;
       }
@@ -244,44 +244,45 @@ namespace WickedSick
       }
       case WM_LBUTTONUP:
       {
-        //Message mouse(System::Window, System::Input, Message::Mouse);
-        //mouse.mouse_info_.button = MouseMessage::Left;
+        //Event mouse(System::Window, System::Input, Event::Mouse);
+        //mouse.mouse_info_.button = MouseEvent::Left;
         break;
       }
       case WM_RBUTTONUP:
       {
-        //Message mouse(System::Window, System::Input, Message::Mouse);
-        //mouse.mouse_info_.button = MouseMessage::Right;
+        //Event mouse(System::Window, System::Input, Event::Mouse);
+        //mouse.mouse_info_.button = MouseEvent::Right;
         break;
       }
       case WM_MBUTTONUP:
       {
-        //Message mouse(System::Window, System::Input, Message::Mouse);
-        //mouse.mouse_info_.button = MouseMessage::Middle;
+        //Event mouse(System::Window, System::Input, Event::Mouse);
+        //mouse.mouse_info_.button = MouseEvent::Middle;
         break;
       }
       case WM_LBUTTONDOWN:
       {
-        //Message mouse(System::Window, System::Input, Message::Mouse);
-        //mouse.mouse_info_.button = MouseMessage::Left;
+        //Event mouse(System::Window, System::Input, Event::Mouse);
+        //mouse.mouse_info_.button = MouseEvent::Left;
         break;
       }
       case WM_RBUTTONDOWN:
       {
-        //Message mouse(System::Window, System::Input, Message::Mouse);
-        //mouse.mouse_info_.button = MouseMessage::Right;
+        //Event mouse(System::Window, System::Input, Event::Mouse);
+        //mouse.mouse_info_.button = MouseEvent::Right;
         break;
       }
       case WM_MBUTTONDOWN:
       {
-        //Message mouse(System::Window, System::Input, Message::Mouse);
-        //mouse.mouse_info_.button = MouseMessage::Middle;
+        //Event mouse(System::Window, System::Input, Event::Mouse);
+        //mouse.mouse_info_.button = MouseEvent::Middle;
         break;
       }
       case WM_MOUSELEAVE: //this doesn't seem to do anything
       {
-        MouseMessage* mouse = new MouseMessage(System::Window, System::Input, Vector2i(), MouseMessage::Exited);
-        msgSystem->QueueMessage(mouse);
+        //noperino
+        //MouseEvent* mouse = new MouseEvent(ST_Window, ST_Input, Vector2i(), MouseEvent::Exited);
+        //msgSystem->QueueEvent(mouse);
         break;
       }
 
@@ -325,11 +326,11 @@ namespace WickedSick
       {
 
         
-        KeyboardMessage* msg = new KeyboardMessage(System::Window, System::Input, VKKeyToString(wParam));
-        msgSystem->QueueMessage(msg);
+        //KeyboardMessage* msg = new KeyboardMessage(ST_Window, ST_Input, VKKeyToString(wParam));
+        //msgSystem->QueueEvent(msg);
         //if(window_active_)
         //{
-          //Message keyboard(System::Window, System::Input, Message::Keyboard);      
+          //Event keyboard(System::Window, System::Input, Event::Keyboard);      
           //keyboard.keyboard_info_.key = wParam;
         //}
 
@@ -339,7 +340,7 @@ namespace WickedSick
       {
         //if(data.m_window_active)
         //{
-          //Message keyboard(System::Window, System::Input, Message::Keyboard);      
+          //Event keyboard(System::Window, System::Input, Event::Keyboard);      
           //keyboard.keyboard_info_.key = wParam;
         //}
         break;
@@ -395,8 +396,8 @@ namespace WickedSick
       case WM_CLOSE:
       case WM_QUIT:
       {
-        Message* quit = new Message(System::Window, GlobalID, WickedSick::Message::Quit);
-        msgSystem->QueueMessage(quit);
+        //Event* quit = new Event(ST_Window, GlobalID, WickedSick::Event::Quit);
+        //msgSystem->QueueEvent(quit);
         return 0;
       }
       case WM_SYSKEYDOWN:
@@ -405,13 +406,13 @@ namespace WickedSick
         {
           case VK_F4:
           {
-            Message* quit = new Message(System::Window, GlobalID, WickedSick::Message::Quit);
-            msgSystem->QueueMessage(quit);
+            //Event* quit = new Event(ST_Window, GlobalID, WickedSick::Event::Quit);
+            //msgSystem->QueueEvent(quit);
             return 0;         
           }
           case VK_RETURN:
           {
-            //Message quit(System::Window, GlobalID, WickedSick::Message::Quit);
+            //Event quit(System::Window, GlobalID, WickedSick::Event::Quit);
             break;
           }
           case VK_TAB:
@@ -433,7 +434,7 @@ namespace WickedSick
     return DefWindowProc (hWnd, message, wParam, lParam);
   }
 
-  WINDOWDLL_API Window::Window() : System(System::Window)
+  WINDOWDLL_API Window::Window() : System(ST_Window)
   {
     window_instance_ = GetModuleHandle(nullptr);;
   }
@@ -516,7 +517,7 @@ namespace WickedSick
     message_update();
   }
 
-  WINDOWDLL_API void Window::ReceiveMessage(Message * msg)
+  WINDOWDLL_API void Window::ReceiveMessage(Event * msg)
   {
 
   }

@@ -1,5 +1,5 @@
 #pragma once
-#include "Math/Vector/Vector2i.h"
+#include "Math/MathInterface.h"
 
 namespace WickedSick
 {
