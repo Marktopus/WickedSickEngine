@@ -1,14 +1,9 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark
-//Date:        3/4/2014
-//Description: ui list implementation
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
-#include "Precompiled.h"
+
+#include "MetaPrecompiled.h"
 #include "ScriptManager.h"
 #include "Script.h"
 
-namespace WickedSick
+namespace Reflection
 {
   ScriptManager::ScriptManager()
   {
@@ -25,7 +20,8 @@ namespace WickedSick
 
   void ScriptManager::LoadScripts()
   {
-    std::vector<std::string> files = FilesByExtensionRecursive("Scripts", "lua");
+    //need to implement that...
+    std::vector<std::string> files;// = FilesByExtensionRecursive("Scripts", "lua");
     for(auto& it : files)
     {
       MakeScript(it);

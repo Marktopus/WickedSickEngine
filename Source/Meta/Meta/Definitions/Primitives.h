@@ -1,29 +1,9 @@
 #pragma once
 
 #include "MetaPrecompiled.h"
+#include "Type/MetaSingleton.h"
 
-DEFINE_PRIMITIVE(bool)
 
-DEFINE_PRIMITIVE(uint16_t)
-
-DEFINE_PRIMITIVE(short)
-
-DEFINE_PRIMITIVE(int)
-
-DEFINE_PRIMITIVE(long)
-
-DEFINE_PRIMITIVE(float)
-
-DEFINE_PRIMITIVE(double)
-
-DEFINE_PRIMITIVE(unsigned)
-
-DEFINE_PRIMITIVE(char)
-
-//void
-Metadata MetaSingleton<void>::metadata_("void", 0, ByValue, true);
-MetaSingleton<void> voidMetaSingleton; 
-template <> void MetaSingleton<void>::RegisterTypeData(void){}
 
 /*
 

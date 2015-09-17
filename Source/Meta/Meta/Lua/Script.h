@@ -1,18 +1,11 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark
-//Date:        1/21/2014
-//Description: window implementation file
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
-#ifndef SCRIPT_H
-#define SCRIPTH
-#include "Engine.h"
-#include "Lua.h"
+#pragma once
+
+#include "LuaManager.h"
 
 #include "LuaChangeList.h"
 
 struct lua_State;
-namespace WickedSick
+namespace Reflection
 {
   
   class Script
@@ -103,10 +96,10 @@ namespace WickedSick
       void ClearScriptArgs();
       bool Load();
       void Unload();
-      bool Run(lua_State* L = Engine::ENGINE->GetSystem<Lua>()->GetLua());
+      //bool Run(lua_State* L = Engine::ENGINE->GetSystem<LuaManager>()->GetLua());
       std::vector<Var*>& GetScriptArgs(){return script_args_;}
       std::string& GetFilename(){return filename_;}
-      void PushArgs(lua_State* L = Engine::ENGINE->GetSystem<Lua>()->GetLua());
+      //void PushArgs(lua_State* L = Engine::ENGINE->GetSystem<LuaManager>()->GetLua());
 
       std::unordered_map<LuaUserdata*, LuaChangeList>& GetChanges(){return ref_changes_;}
 
@@ -119,5 +112,3 @@ namespace WickedSick
       std::unordered_map<LuaUserdata*, LuaChangeList> ref_changes_;
   };
 }
-
-#endif

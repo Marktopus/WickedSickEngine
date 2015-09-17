@@ -1,15 +1,12 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark
-//Date:        1/21/2014
-//Description: window implementation file
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
-#include "Precompiled.h"
+#include "MetaPrecompiled.h"
 #include "Script.h"
-#include "Lua.h"
+
+#include "LuaManager.h"
+#include "Variant/Variant.h"
+#include "Type/Metadata.h"
 #include <string>
-#include "Super_FastHash.h"
-namespace WickedSick
+
+namespace Reflection
 {
   Script::Script(const std::string& file) : filename_(file)
   {
@@ -35,18 +32,18 @@ namespace WickedSick
       script_args_.clear();
     }
   }
-
+  /*
   bool Script::Run(lua_State* L)
   {
     unsigned originalSize = script_args_.size();
-    GET_SYSTEM(Lua)->set_current_script(this);
+    GET_SYSTEM(LuaManager)->set_current_script(this);
 
     if(file_.size())
     {
       if(luaL_dostring(L, (file_).c_str()))
       {
         Print("%s : %s\n", filename_.c_str(), lua_tostring(L, -1));
-        GET_SYSTEM(Lua)->end_script();
+        GET_SYSTEM(LuaManager)->end_script();
         return false;
       }
 
@@ -59,14 +56,14 @@ namespace WickedSick
         }
         script_args_.pop_back();
       }
-      GET_SYSTEM(Lua)->end_script();
+      GET_SYSTEM(LuaManager)->end_script();
       return true;
     }
     
-    GET_SYSTEM(Lua)->end_script();
+    GET_SYSTEM(LuaManager)->end_script();
     return false;
   }
-  
+  */
   bool Script::Load()
   {
     std::ifstream in(filename_.c_str());
@@ -76,12 +73,14 @@ namespace WickedSick
       file_.assign(stdstring.c_str());
       if(!file_.size())
       {
-        Warn("Lua Warning!\nLoaded empty script: %s", filename_.c_str());
+        __debugbreak();
+        //WSError("Lua Warning!\nLoaded empty script: %s" + filename_);
       }
       
       return true;
     }
-    Warn("Lua Warning!\nProblem loading script: %s", filename_.c_str());
+    __debugbreak();
+    //WSError("Lua Warning!\nProblem loading script: %s" + filename_);
     return false;
   }
 
@@ -89,7 +88,7 @@ namespace WickedSick
   {
     file_.clear();
   }
-
+  /*
   void Script::PushArgs(lua_State* L)
   {
     Metadata* meta;
@@ -146,8 +145,8 @@ namespace WickedSick
       }
     }
 
-    script_args_.push_back(GET_SYSTEM(Lua)->GetEngineRef());
+    script_args_.push_back(GET_SYSTEM(LuaManager)->GetEngineRef());
   }
-  
+  */
 
 }

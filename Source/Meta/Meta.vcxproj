@@ -19,14 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Meta\AnyType.cpp" />
+    <ClCompile Include="Meta\Definitions\ExternalTypes.cpp" />
     <ClCompile Include="Meta\Constructor\Constructor.cpp" />
-    <ClCompile Include="Meta\Constructor\ConstructorTemplate.cpp" />
+    <ClInclude Include="Meta\Function\ReturnType.cpp" />
+    <ClInclude Include="Meta\Constructor\ConstructorTemplate.cpp" />
     <ClCompile Include="Meta\Function\Function.cpp" />
-    <ClCompile Include="Meta\Function\FunctionTemplate.cpp" />
-    <ClCompile Include="Meta\MetaPrecompiled.cpp" />
+    <ClInclude Include="Meta\Function\FunctionTemplate.cpp" />
+    <ClCompile Include="Meta\MetaPrecompiled.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Meta\Type\Member.cpp" />
     <ClCompile Include="Meta\Utility\IndirectionCount.cpp" />
-    <ClCompile Include="Meta\Lua\Lua.cpp" />
+    <ClCompile Include="Meta\Lua\LuaManager.cpp" />
     <ClCompile Include="Meta\Lua\LuaChangeList.cpp" />
     <ClCompile Include="Meta\Lua\LuaUserdata.cpp" />
     <ClCompile Include="Meta\Type\Metadata.cpp" />
@@ -36,20 +41,18 @@
     <ClCompile Include="Meta\Lua\Script.cpp" />
     <ClCompile Include="Meta\Lua\ScriptManager.cpp" />
     <ClCompile Include="Meta\Variant\Variant.cpp" />
+    <ClInclude Include="Meta\Function\ReturnType.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Meta\AnyType.h" />
-    <ClInclude Include="Meta\AnyTypeTemplate.h" />
-    <ClInclude Include="Meta\BINDVECTOR.h" />
     <ClInclude Include="Meta\Constructor\Constructor.h" />
     <ClInclude Include="Meta\Definitions\ExternalTypes.h" />
     <ClInclude Include="Meta\Function\Function.h" />
     <ClInclude Include="Meta\Function\FunctionPointer.h" />
-    <ClInclude Include="Meta\MathDLL.h" />
+    <ClInclude Include="Meta\MetaDLL.h" />
     <ClInclude Include="Meta\MetaPrecompiled.h" />
     <ClInclude Include="Meta\Utility\IndexSequence.h" />
     <ClInclude Include="Meta\Utility\IndirectionCount.h" />
-    <ClInclude Include="Meta\Lua\Lua.h" />
+    <ClInclude Include="Meta\Lua\LuaManager.h" />
     <ClInclude Include="Meta\Lua\LuaChangeList.h" />
     <ClInclude Include="Meta\Lua\LuaIncludes.h" />
     <ClInclude Include="Meta\Lua\LuaUserdata.h" />
@@ -74,17 +77,17 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -117,7 +120,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\Output\$(Configuration)\Binaries\</OutDir>
+    <IntDir>..\Intermediates\$(ProjectName)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\Output\$(Configuration)\Binaries\</OutDir>
+    <IntDir>..\Intermediates\$(ProjectName)\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -125,9 +137,16 @@
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>MetaPrecompiled.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Math;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Meta;Meta;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_WINDLL;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;$(SolutionDir)Externals\Lua\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Debugging.lib;Utility.lib;Math.lib;lua53_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
+      <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -149,12 +168,18 @@
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>MetaPrecompiled.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Math;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Meta;Meta;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_WINDLL;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <Profile>true</Profile>
+      <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;$(SolutionDir)Externals\Lua\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Debugging.lib;Utility.lib;Math.lib;lua53.lib%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

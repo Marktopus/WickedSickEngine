@@ -1,14 +1,18 @@
-#include "Precompiled.h"
-
-Function::Function()
+#include "MetaPrecompiled.h"
+#include "Function.h"
+namespace Reflection
 {
-}
 
-Function::~Function()
-{
-}
+  Function::Function()
+  {
+  }
 
-void Function::operator()(Var* object, Var* returnValue, std::vector<Var*> args)
-{
-  caller(function_, object, returnValue, args);
+  Function::~Function()
+  {
+  }
+
+  void Function::operator()(Var* object, Var* returnValue, std::vector<Var*> args)
+  {
+    caller(function_, object, returnValue, args);
+  }
 }

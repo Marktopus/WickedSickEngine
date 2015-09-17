@@ -65,10 +65,10 @@ namespace WickedSick
     graphicsAPI->Initialize(options_, window);
 
     // Setup the projection matrix.
-	  float fieldOfView = (float)PI / 2.0f;//90 degrees
-	  float screenAspect = (float)window->GetWindowSize().x / (float)window->GetWindowSize().y;
+    float fieldOfView = (float)PI / 2.0f;//90 degrees
+    float screenAspect = (float)window->GetWindowSize().x / (float)window->GetWindowSize().y;
 
-	  // Create the projection matrix for 3D rendering.
+    // Create the projection matrix for 3D rendering.
     projection_matrix_.DoPerspective(fieldOfView, 0.1f, 100000.0f, screenAspect);
     orthographic_matrix_.DoOrthographic(window->GetWindowSize().x, window->GetWindowSize().y, 0.1f, 100000.0f);
     camera_->SetPosition(0.0f, 0.0f, 0.0f);
@@ -79,10 +79,10 @@ namespace WickedSick
   GRAPHICSDLL_API bool Graphics::Load()
   {
     //temporary init
-    //Model* cube = LoadModel("../Content/Models/box.obj");
-    Model* bunny = LoadModel("../Content/Models/bunny.obj");
-    //cube->Initialize();
-    bunny->Initialize();
+    Model* cube = LoadModel("../Content/Models/box.obj");
+    //Model* bunny = LoadModel("../Content/Models/bunny.obj");
+    cube->Initialize();
+    //bunny->Initialize();
 
     Shader* shader = graphicsAPI->MakeShader();
 

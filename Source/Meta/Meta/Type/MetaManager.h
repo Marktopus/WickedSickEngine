@@ -1,12 +1,15 @@
 #pragma once
 
-#include "Precompiled.h"
-#include "SimplifyType.h"
+#include "MetaPrecompiled.h"
+#include "Utility/SimplifyType.h"
 #include "MetaSingleton.h"
 
-class Metadata;
-class MetaManager
-{ 
+namespace Reflection
+{
+
+  class Metadata;
+  class MetaManager
+  {
   public:
     static void RegisterMeta(Metadata* meta);
 
@@ -14,7 +17,7 @@ class MetaManager
     {
       MetaMap& metas = getMetas();
       auto meta = metas.find(name);
-      if(meta == metas.end())
+      if (meta == metas.end())
       {
         return nullptr;
       }
@@ -33,4 +36,5 @@ class MetaManager
       static MetaMap metas;
       return metas;
     }
-};
+  };
+}

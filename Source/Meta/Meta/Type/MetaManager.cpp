@@ -4,14 +4,15 @@
 //Description: holds function to register metadata
 //All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
 ///////////////////////////////////////////////////////////////////////////
-#include "Precompiled.h"
+#include "MetaPrecompiled.h"
 #include "MetaManager.h"
 #include "Metadata.h"
-#include "Lua.h"
 
-
-void MetaManager::RegisterMeta(Metadata* meta)
+namespace Reflection
 {
-  getMetas()[meta->GetName()] = meta;
+  void MetaManager::RegisterMeta(Metadata* meta)
+  {
+    getMetas()[meta->GetName()] = meta;
+  }
 }
 

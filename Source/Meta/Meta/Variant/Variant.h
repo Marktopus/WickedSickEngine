@@ -1,79 +1,83 @@
-
-class Metadata;
-
-
-class LuaUserdata;
-
-
-class Var
+#pragma once
+namespace Reflection
 {
-  public:
 
-    static void RegisterTypeData();
-    Metadata* GetMetatype();
+  class Metadata;
 
-    Var(void);
-    Var(Metadata* type, 
-        void* data);
-    Var(const Var& other);
-    Var(LuaUserdata* data);
+
+  class LuaUserdata;
+
+
+  class Var
+  {
+    public:
+
+      static void RegisterTypeData();
+      Metadata* GetMetatype();
+
+      Var(void);
+      Var(Metadata* type, 
+          void* data);
+      Var(const Var& other);
+      Var(LuaUserdata* data);
     
-    ~Var();
+      ~Var();
 
-    template<typename T>
-    Var(T& data);
-    template<typename T>
-    Var(T&& data);
-    template<typename T>
-    Var(const T& data);
-    template<>
-    Var(LuaUserdata * const& tocopy);
+      template<typename T>
+      Var(T& data);
+      template<typename T>
+      Var(T&& data);
+      template<typename T>
+      Var(const T& data);
+      template<>
+      Var(LuaUserdata * const& tocopy);
 
-    template<>
-    Var(void * const& tocopy);
-
-
+      template<>
+      Var(void * const& tocopy);
 
 
-    template<typename T>
-    T& GetValue(void);
 
-    template<typename T>
-    void SetValue(const T& value);
-    template<typename T>
-    void SetValue(T& value);
-    template<>
-    void SetValue(const char*&value);
-    template<>
-    void SetValue(void*& value);
-    template<>
-    void SetValue(std::string& value);
 
-    void SetValueIndirection(void* value, int indirection);
+      template<typename T>
+      T& GetValue(void);
 
-    void SetOwns(bool owns);
-    void SetType(Metadata* type);
-    void SetData(void* data);
+      template<typename T>
+      void SetValue(const T& value);
+      template<typename T>
+      void SetValue(T& value);
+      template<>
+      void SetValue(const char*&value);
+      template<>
+      void SetValue(void*& value);
+      template<>
+      void SetValue(std::string& value);
 
-    template <typename Type>
-    void Copy(const Type& type);
+      void SetValueIndirection(void* value, int indirection);
 
-    void Invalidate();
-    void Validate();
+      void SetOwns(bool owns);
+      void SetType(Metadata* type);
+      void SetData(void* data);
 
-    bool IsValid();
-    void* GetData();
-    Metadata* GetMetadata();
-    unsigned short GetIndirection();
+      template <typename Type>
+      void Copy(const Type& type);
 
-    void SetLevelsOfIndirection(unsigned short indirection);
+      void Invalidate();
+      void Validate();
 
-  private:
-    bool owns_;
-    void* data_;
-    Metadata* type_;
-    //Language origin;
-    bool is_valid_;
-    unsigned short levels_of_indirection_;
-};
+      bool IsValid();
+      void* GetData();
+      Metadata* GetMetadata();
+      unsigned short GetIndirection();
 
+      void SetLevelsOfIndirection(unsigned short indirection);
+
+    private:
+      bool owns_;
+      void* data_;
+      Metadata* type_;
+      //Language origin;
+      bool is_valid_;
+      unsigned short levels_of_indirection_;
+  };
+
+}

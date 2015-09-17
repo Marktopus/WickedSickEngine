@@ -3,60 +3,62 @@
 #include "MetaPrecompiled.h"
 
 
-#include "IndexSequence.h"
-
-class Var;
-class Metadata;
-
-class Constructor
+#include "Utility/IndexSequence.h"
+namespace Reflection
 {
-public:
-  typedef void (*CtorPtr)(Var* returnValue, std::vector<Var*> args);
+  class Var;
+  class Metadata;
 
-  Constructor();
-  ~Constructor();
-
-  std::vector<Metadata*>& GetArgs();
-  
-  void operator()(Var* returnValue, std::vector<Var*> args);
-
-  template<typename ClassType, typename ...ArgType>
-  Constructor(const ClassType&, const ArgType&...);
-
-  template<typename ClassType>
-  Constructor(const ClassType&);
-
-
-  template <typename ClassType, typename ...ArgType>
-  class FunctionData
+  class Constructor
   {
   public:
+    typedef void(*CtorPtr)(Var* returnValue, std::vector<Var*> args);
 
-    static void Call(Var* returnValue, std::vector<Var*> args);
+    Constructor();
+    ~Constructor();
 
-    template<std::size_t ...Is>
-    static void CallFinal(Var* returnValue,
-                          std::vector<Var*> args,
-                          index_sequence<Is...>);
+    std::vector<Metadata*>& GetArgs();
 
-    template<typename ...ArgTypes>
-    static void CallActualFinal(Var* returnValue,
-                                ArgTypes*... args);
+    void operator()(Var* returnValue, std::vector<Var*> args);
+
+    template<typename ClassType, typename ...ArgType>
+    Constructor(const ClassType&, const ArgType&...);
+
+    template<typename ClassType>
+    Constructor(const ClassType&);
+
+
+    template <typename ClassType, typename ...ArgType>
+    class FunctionData
+    {
+    public:
+
+      static void Call(Var* returnValue, std::vector<Var*> args);
+
+      template<std::size_t ...Is>
+      static void CallFinal(Var* returnValue,
+                            std::vector<Var*> args,
+                            index_sequence<Is...>);
+
+      template<typename ...ArgTypes>
+      static void CallActualFinal(Var* returnValue,
+                                  ArgTypes*... args);
+    };
+
+    template <typename ClassType>
+    class FunctionData<ClassType>
+    {
+    public:
+
+      static void Call(Var* returnValue, std::vector<Var*> args);
+    };
+
+
+    CtorPtr caller;
+    std::vector<Metadata*> args_;
   };
 
-  template <typename ClassType>
-  class FunctionData<ClassType>
-  {
-  public:
-
-    static void Call(Var* returnValue, std::vector<Var*> args);
-  };
 
 
-  CtorPtr caller;
-  std::vector<Metadata*> args_;
-};
-
-#include "Constructor_Template.cpp"
-
-
+}
+#include "ConstructorTemplate.cpp"

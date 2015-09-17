@@ -1,10 +1,14 @@
-#include "Precompiled.h"
-
-void * blind_dereference(void * ptr, int derefs)
+#include "MetaPrecompiled.h"
+#include "IndirectionCount.h"
+namespace Reflection
 {
-  if (derefs)
+
+  void * blind_dereference(void * ptr, int derefs)
   {
-    return blind_dereference(*reinterpret_cast<void**>(ptr), derefs - 1);
+    if (derefs)
+    {
+      return blind_dereference(*reinterpret_cast<void**>(ptr), derefs - 1);
+    }
+    return ptr;
   }
-  return ptr;
 }

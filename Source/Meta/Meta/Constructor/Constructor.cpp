@@ -2,23 +2,25 @@
 
 #include "Constructor.h"
 
-#include "MetaUtility.h"
-#include "SimplifyType.h"
-
-Constructor::Constructor()
+#include "Utility/MetaUtility.h"
+#include "Utility/SimplifyType.h"
+namespace Reflection
 {
-}
+  Constructor::Constructor()
+  {
+  }
 
-Constructor::~Constructor()
-{
-}
+  Constructor::~Constructor()
+  {
+  }
 
-std::vector<Metadata*>& Constructor::GetArgs()
-{
-  return args_;
-}
+  std::vector<Metadata*>& Constructor::GetArgs()
+  {
+    return args_;
+  }
 
-void Constructor::operator()(Var* returnValue, std::vector<Var*> args)
-{
-  caller(returnValue, args);
+  void Constructor::operator()(Var* returnValue, std::vector<Var*> args)
+  {
+    caller(returnValue, args);
+  }
 }

@@ -1,11 +1,34 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark
-//Date:        3/4/2014
-//Description: ui list implementation
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
-#include "Precompiled.h"
-#include "Primitives.h"
+
+#include "MetaPrecompiled.h"
+#include "Utility/MetaMacros.h"
+#include "Type/MetaSingleton.h"
+#include "Type/MetaManager.h"
+#include "Type/Metadata.h"
+#include "Definitions/Primitives.h"
+#include "ExternalTypes.h"
+
+DEFINE_PRIMITIVE(bool)
+
+DEFINE_PRIMITIVE(uint16_t)
+
+DEFINE_PRIMITIVE(short)
+
+DEFINE_PRIMITIVE(int)
+
+DEFINE_PRIMITIVE(long)
+
+DEFINE_PRIMITIVE(float)
+
+DEFINE_PRIMITIVE(double)
+
+DEFINE_PRIMITIVE(unsigned)
+
+DEFINE_PRIMITIVE(char)
+
+//void
+Reflection::Metadata Reflection::MetaSingleton<void>::metadata_("void", 0, ByValue, true);
+Reflection::MetaSingleton<void> voidMetaSingleton;
+template <> void Reflection::MetaSingleton<void>::RegisterTypeData(void) {}
 
 DEFINE_CONVERSIONS
 {

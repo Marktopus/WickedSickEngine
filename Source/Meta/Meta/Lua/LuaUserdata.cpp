@@ -1,16 +1,14 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark
-//Date:        3/4/2014
-//Description: ui list implementation
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
-#include "Precompiled.h"
-#include "LuaUserdata.h"
 
-namespace WickedSick
+#include "MetaPrecompiled.h"
+#include "LuaUserdata.h"
+#include "Type/Metadata.h"
+#include "Type/Member.h"
+
+#define DATA_LOC ((char*)this + sizeof(Reflection::LuaUserdata))
+
+namespace Reflection
 {
 
-#define DATA_LOC ((char*)this + sizeof(LuaUserdata))
 
   void LuaUserdata::SetMember(std::string name, void* value)
   {
@@ -47,41 +45,4 @@ namespace WickedSick
   }
 
 }
-/*
-RegisterType(Marktopus, LuaString)
-  RegisterMember(value);
-}
-
-RegisterType(Marktopus, LuaInt)
-  RegisterMember(value);
-}
-
-RegisterType(Marktopus, LuaDouble)
-  RegisterMember(value);
-}
-
-RegisterType(Marktopus, LuaBool)
-  RegisterMember(value);
-}
-
-RegisterType(Marktopus, LuaFloat)
-  RegisterMember(value);
-}
-
-RegisterType(Marktopus, LuaChar)
-  RegisterMember(value);
-}
-
-RegisterType(Marktopus, LuaUnsigned)
-  RegisterMember(value);
-}
-
-RegisterType(Marktopus, LuaLong)
-  RegisterMember(value);
-}
-
-RegisterType(Marktopus, LuaShort)
-  RegisterMember(value);
-}
-*/
 

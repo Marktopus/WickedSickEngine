@@ -1,26 +1,18 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark
-//Date:        1/21/2014
-//Description: lua implementation
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
-#include "Precompiled.h"
-#include "Lua.h"
-#include "Primitives.h"
-#include "Debug.h"
-#include "Factory.h"
-#include "Engine.h"
-#include "Camera.h"
+
+#include "MetaPrecompiled.h"
+#include "LuaManager.h"
+
 #include "Script.h"
 #include "ScriptManager.h"
 #include "LuaUserdata.h"
-#include "Super_FastHash.h"
-#include "Component.h"
-#include "UIWindow.h"
+#include "Type/Metadata.h"
+#include "Type/MetaManager.h"
+#include "Utility/IndirectionCount.h"
+#include "Function/Function.h"
 
-#include "InputHandler.h"
+#include "Definitions/Primitives.h"
 
-namespace WickedSick
+namespace Reflection
 {
   static int l_my_print(lua_State* L) 
   {
@@ -32,7 +24,8 @@ namespace WickedSick
       {
         /* Pop the next arg using lua_tostring(L, i) and do your print */
         std::string str = lua_tostring(L, i);
-        LuaPrints(str);
+        std::cout << str << std::endl;
+        //ConsolePrint(str);
       }
       else if(lua_isuserdata(L, i))
       {
@@ -41,7 +34,8 @@ namespace WickedSick
         if(arg->GetType() == FindType(std::string))
         {
           std::string str = *(std::string*)arg->GetData();
-          LuaPrints(str);
+          std::cout << str << std::endl;
+          //ConsolePrint(str);
         }
         else if(arg->GetType() == FindType(char) && arg->GetIndirection() == 1)
         {
@@ -66,8 +60,6 @@ namespace WickedSick
     lua_pop(L, 1);
   }*/
 
-  template<typename T> class foo;
-
   int Lua::GetMember(lua_State* L)
   {
 
@@ -76,11 +68,11 @@ namespace WickedSick
 
   int Lua::GetArgs(lua_State* L)
   {
-    GET_SYSTEM(Lua)->GetCurrentScript()->PushArgs(L);
-    return GET_SYSTEM(Lua)->GetCurrentScript()->GetScriptArgs().size();
+    //GET_SYSTEM(Lua)->GetCurrentScript()->PushArgs(L);
+    return 0;//GET_SYSTEM(Lua)->GetCurrentScript()->GetScriptArgs().size();
   }
 
-  Script* Lua::GetScript(const std::string& filename)
+  Script* LuaManager::GetScript(const std::string& filename)
   {
     return manager_->GetScript(filename);
   }
@@ -100,26 +92,25 @@ namespace WickedSick
     newObjectRef->SetOwns(true);
     newObjectRef->Validate();
 
+    Metadata* type = data->GetType();
     std::vector<Var*> args;
     Var self(data);
     self.SetType(data->GetType());
     args.push_back(&self);
-    std::unordered_map<std::string, Constructor>& constructors = data->GetType()->GetConstructors();
-    auto it = constructors.find("copy");
-    if(it == constructors.end())
+    Constructor* ctor = type->GetConstructor("copy");
+    if(!ctor)
     {
-      PopError(
-        "LUA Error", data->GetType()->GetName() 
-        +  " has no copy constructor shared with lua\n"
-        " (register a copy constructor named \"copy\", or contact "
-        "\nMark Lauzon at mark.lauzon@digipen.edu, or text (207)712-2039");
+      __debugbreak();
+      //WSError("No copy constructor defined or no constructor exists...")
     }
 
-    data->GetType()->GetConstructors()["copy"](newObjectRef, args);
+    (*ctor)(newObjectRef, args);
     newObjectRef->SetOwns(true);
     //need a way of telling the meta system about this new object.... this is not the way
     //data->SetRef(newObject);
-    GET_SYSTEM(Lua)->GetCurrentScript()->GetScriptArgs().push_back(newObjectRef);
+
+    //GET_SYSTEM(Lua)->GetCurrentScript()->GetScriptArgs().push_back(newObjectRef);
+
     //GET_SYSTEM(Lua)->GetCurrentScript()->GetReferences()[newObjectRef] = data;
   }
 
@@ -235,7 +226,7 @@ namespace WickedSick
 
 
     //construct the type on top of the LuaUserdata
-    type->GetConstructors()[ctorName](&returnValue, args);
+    (*type->GetConstructor(ctorName))(&returnValue, args);
     
 
     //set the metatable
@@ -253,11 +244,14 @@ namespace WickedSick
   {
     /* for get: stack has userdata, index, lightuserdata */
     /* for set: stack has userdata, index, value, lightuserdata */
-    Marktopus::LuaMemberdata* m = (Marktopus::LuaMemberdata*)lua_touserdata(L, -1);  /* member info */
+    LuaMemberdata* m = (LuaMemberdata*)lua_touserdata(L, -1);  /* member info */
     lua_pop(L, 1);                               /* drop lightuserdata */
     luaL_checktype(L, 1, LUA_TUSERDATA);
     LuaUserdata* userdata = (LuaUserdata*)lua_touserdata(L, 1);
-    ErrorIf(userdata->GetIndirection() != m->indirection, "META INDIRECTION CONFLICT");
+    //ErrorIf(userdata->GetIndirection() != m->indirection, "META INDIRECTION CONFLICT");
+    
+    if(userdata->GetIndirection() != m->indirection)
+      __debugbreak();
     void* dataPtr = userdata->GetData();
     if (m->indirection)
     {
@@ -273,7 +267,7 @@ namespace WickedSick
     return toreturn;
   }
 
-  void Lua::add(lua_State * L, std::vector<Marktopus::LuaMemberdata>& l)
+  void Lua::add(lua_State * L, std::vector<LuaMemberdata>& l)
   {
     for (auto& it : l)
     {
@@ -326,7 +320,7 @@ namespace WickedSick
     if(argc > 1)// we have arguments passed
     {
       //predeclare our pointers
-      LuaUserdata* arg;
+      LuaUserdata* arg = nullptr;
       Var* newref;
       //loop through and grab the arguments
       for(int i = 1; i < argc; ++i)
@@ -376,6 +370,11 @@ namespace WickedSick
         }
 
         //set the refvariant and push it back, pop the argument off the stack
+        if(arg == nullptr)
+        {
+          __debugbreak();
+        }
+
         new (newref) Var(arg);
         args.push_back(newref);
         lua_pop(L, 1);
@@ -424,7 +423,7 @@ namespace WickedSick
     return 1;
   }
 
-  int Lua::access_member(lua_State* L, void* data, Marktopus::LuaMemberdata* memberData)
+  int Lua::access_member(lua_State* L, void* data, LuaMemberdata* memberData)
   {
     switch(memberData->type)
     {
@@ -572,7 +571,9 @@ namespace WickedSick
         {
           LuaUserdata* newdata = (LuaUserdata*)lua_touserdata(L, 3);
           //make sure they're the same type before we set them
-          assert(newdata->GetType() == memberData->meta);
+          if(newdata->GetType() != memberData->meta)
+            __debugbreak();
+
           memcpy(data, newdata->GetData(), (newdata->GetIndirection()) ? sizeof(void*) : memberData->meta->GetSize());
         }
         return 0;
@@ -580,6 +581,12 @@ namespace WickedSick
     }
     return -1;
   }
+
+   lua_State * Reflection::LuaManager::GetLua() { return lua_; }
+
+   Script * Reflection::LuaManager::GetCurrentScript() { return (current_scripts_.size()) ? current_scripts_.back() : nullptr; }
+
+   ScriptManager * Reflection::LuaManager::GetScriptManager() { return manager_; }
 
   int Lua::GenericFunc(lua_State* L)
   {
@@ -644,21 +651,25 @@ namespace WickedSick
           }
           case LUA_TNIL:
           {
-            Warn("Lua Error: Passed Nil value to function in lua, can't call.");
+            __debugbreak();
+            //WSError("Lua Error: Passed Nil value to function in lua, can't call.");
             return 0;
           }
           case LUA_TLIGHTUSERDATA:
           {
-            Warn("Lua Error: Passed a pointer?? to function in lua.");
+            __debugbreak();
+            //WSError("Lua Error: Passed a pointer?? to function in lua.");
             return 0;
           }
           case LUA_TTABLE:
           {
-            Warn("Lua Error: Passed a table to lua. Use \".value\"");
+            __debugbreak();
+            //WSError("Lua Error: Passed a table to lua. Use \".value\"");
             return 0;
           }
           default:
-            Warn("Lua Error: Go Get Mark");
+            __debugbreak();
+            //WSError("Lua Error: Fuck what");
             return 0;
         }
 
@@ -677,7 +688,8 @@ namespace WickedSick
     }
     else if(!argc) // no args means no method
     {
-      Warn("Lua Error: Woah what. There's no function to call. Did you accidentally type a dot when you needed a colon?");
+      __debugbreak();
+      //Warn("Lua Error: Woah what. There's no function to call. Did you accidentally type a dot when you needed a colon?");
       return 0;
     }
 
@@ -685,7 +697,7 @@ namespace WickedSick
     Var self;
     //get our base object
     void* object = nullptr;
-    Metadata* typeMeta = nullptr;
+    Metadata* selfType = nullptr;
     //make sure the top is userdata and not a table
     switch(lua_type(L, lua_gettop(L)))
     {
@@ -701,21 +713,21 @@ namespace WickedSick
         self.SetLevelsOfIndirection(luadata->GetIndirection());
         self.SetData(object);
         self.SetType(luadata->GetType());
-        typeMeta = luadata->GetType();
+        selfType = luadata->GetType();
       }
     }
 
     lua_pop(L, 1);
 
-    if(typeMeta)
+    if(selfType)
     {
-      auto it = typeMeta->GetMethods().find(methodName);
-      if(it != typeMeta->GetMethods().end())
+      auto it = selfType->GetMethods().find(methodName);
+      if(it != selfType->GetMethods().end())
       {
         if(object)
         {
           Var returnValue;
-          Metadata* ret_type = typeMeta->GetMethods()[methodName].return_type_;
+          Metadata* ret_type = selfType->GetMethod(methodName)->return_type_;
           LuaUserdata* newdata = nullptr;//return type
           if(ret_type)
           {
@@ -732,7 +744,8 @@ namespace WickedSick
           
 
           //call the function, depositing the return value into the lua userdata
-          self.GetMetadata()->GetMethods()[methodName](&self, &returnValue, args);
+          Function& func = *(selfType->GetMethod(methodName));
+          func(&self, &returnValue, args);
           //data versioning. need instant writes to references on modification. need to get any modified data when we use it.
           //generate a new hash for "thisObject"
           
@@ -813,7 +826,7 @@ namespace WickedSick
       }
       else
       {
-        std::string errorString = "Calling non-existant member function: " + methodName + " on type: " + typeMeta->GetName();
+        std::string errorString = "Calling non-existant member function: " + methodName + " on type: " + selfType->GetName();
         return luaL_error(L, errorString.c_str());
       }
     }
@@ -841,20 +854,13 @@ namespace WickedSick
     return 0;
   }
 
-  bool Lua::Load()
+  bool LuaManager::Load()
   {
     manager_->LoadScripts();
     return true;
   }
 
-  Lua* Lua::Initialize()
-  {
-    
-    return this;
-  }
-
-  Lua::Lua() : System(ST_Lua, "Lua"), 
-               engine_ref_(*Engine::ENGINE)
+  LuaManager::LuaManager()
   {
     //meta function
     MetaManager::DefineConversions();
@@ -867,7 +873,7 @@ namespace WickedSick
     lua_getglobal(lua_, "_G");
     luaL_register(lua_, NULL, printlib);
     lua_pop(lua_, 1);
-    Marktopus::LuaMemberdata memberData;
+    LuaMemberdata memberData;
     auto& metamap = MetaManager::getMetas();
     for(auto& mit : metamap)
     {
@@ -917,13 +923,13 @@ namespace WickedSick
 
       for(auto it = ctors.begin(); it != ctors.end(); ++it)
       {
-        luaMethodVector.push_back({it->first.c_str(), Marktopus::Lua::Allocate});
+        luaMethodVector.push_back({it->first.c_str(), Lua::Allocate});
       }
-      luaMethodVector.push_back({"new", Marktopus::Lua::Allocate});
+      luaMethodVector.push_back({"new", Lua::Allocate});
 
       for(auto it = methodMap.begin(); it != methodMap.end(); ++it)
       {
-        luaMethodVector.push_back({it->first.c_str(), Marktopus::Lua::GenericFunc});
+        luaMethodVector.push_back({it->first.c_str(), Lua::GenericFunc});
       }
       luaMethodVector.push_back({nullptr, nullptr});
 
@@ -956,15 +962,15 @@ namespace WickedSick
 
       lua_pushliteral(lua_, "__index");
       lua_pushvalue(lua_, metatable);
-      add(lua_, getterVector);
+      Lua::add(lua_, getterVector);
       lua_pushvalue(lua_, methods);
-      lua_pushcclosure(lua_, index_handler, 2);
+      lua_pushcclosure(lua_, Lua::index_handler, 2);
       lua_rawset(lua_, metatable);     /* metatable.__index = index_handler */
 
       lua_pushliteral(lua_, "__newindex");
       lua_newtable(lua_);              /* table for members you can set */
-      add(lua_, setterVector);     /* fill with setters */
-      lua_pushcclosure(lua_, newindex_handler, 1);
+      Lua::add(lua_, setterVector);     /* fill with setters */
+      lua_pushcclosure(lua_, Lua::newindex_handler, 1);
       lua_rawset(lua_, metatable);     /* metatable.__newindex = newindex_handler */
 
       lua_pop(lua_, 1);                /* drop metatable */
@@ -977,37 +983,34 @@ namespace WickedSick
 
   }
 
-  Lua::~Lua()
+  LuaManager::~LuaManager()
   {  
     lua_close(lua_);
     delete manager_;
   }
 
-  void Lua::Update(const float&)
-  {
-    //manager_->GetScript("Scripts/Test.lua")->Run(lua_);
-  }
-
-  void Lua::UpdateInput()
-  {
-    if(input_->IsToggled("ReloadScripts"))
-    {
-      manager_->ReloadScripts();
-    }
-  }
-
-  Script* Lua::AddScript(const std::string& filename)
+  Script* LuaManager::AddScript(const std::string& filename)
   {
     return manager_->MakeScript(filename);
   }
 
-  void Lua::RunScript(const std::string& script)
+  void LuaManager::RunScript(const std::string& script)
   {
     //std::cout << lua_gettop(lua_) << std::endl;
-    manager_->GetScript(script)->Run();
+    //manager_->GetScript(script)->Run();
+  }
+
+  void LuaManager::set_current_script(Script * s)
+  {
+    current_scripts_.push_back(s);
+  }
+
+  void LuaManager::end_script()
+  {
+    current_scripts_.pop_back();
   }
 }
 
-RegisterType(Marktopus, Lua)
+RegisterType(Reflection, LuaManager)
 
 }

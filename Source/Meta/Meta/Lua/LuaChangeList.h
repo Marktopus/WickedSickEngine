@@ -1,14 +1,9 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark
-//Date:        3/4/2014
-//Description: ui list implementation
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
-#ifndef CHANGELIST_H
-#define CHANGELIST_H
+#pragma once
 
-namespace WickedSick
+
+namespace Reflection
 {
+  struct LuaMemberdata;
   struct LuaChange
   {
     LuaChange();
@@ -33,4 +28,3 @@ namespace WickedSick
   };
 }
 
-#endif

@@ -1,15 +1,11 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark
-//Date:        3/4/2014
-//Description: ui list implementation
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
-#include "Precompiled.h"
-#include "LuaChangeList.h"
-#include "Member.h"
-#include "Metadata.h"
 
-namespace WickedSick
+#include "MetaPrecompiled.h"
+#include "LuaChangeList.h"
+#include "Type/Member.h"
+#include "Type/Metadata.h"
+#include "LuaUserdata.h"
+
+namespace Reflection
 {
   LuaChange::LuaChange() : member(nullptr)
   {

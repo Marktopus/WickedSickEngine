@@ -1,69 +1,8 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark
-//Date:        3/4/2014
-//Description: ui list implementation
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
-#ifndef LUA_USERDATA_H
-#define LUA_USERDATA_H
+#pragma once
 
-
-namespace WickedSick
+namespace Reflection
 {
-  /*struct LuaString
-  {
-    MetaDef
-    char* value;
-  };
-
-  struct LuaDouble
-  {
-    MetaDef
-    double value;
-  };
-  
-  struct LuaFloat
-  {
-    MetaDef
-    float value;
-  };
-
-  struct LuaBool
-  {
-    MetaDef
-    bool value;
-  };
-
-  struct LuaLong
-  {
-    MetaDef
-    long value;
-  };
-
-  struct LuaInt
-  {
-    MetaDef
-    long value;
-  };
-  
-  struct LuaUnsigned
-  {
-    MetaDef
-    unsigned value;
-  };
-
-  struct LuaChar
-  {
-    MetaDef
-    char value;
-  };
-  
-  struct LuaShort
-  {
-    MetaDef
-    short value;
-  };*/
-
+  class Metadata;
   class LuaUserdata
   {
     public:
@@ -102,5 +41,3 @@ namespace WickedSick
     CBType type;
   };
 }
-
-#endif

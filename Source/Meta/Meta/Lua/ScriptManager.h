@@ -1,6 +1,6 @@
+#pragma once
 
-
-namespace WickedSick
+namespace Reflection
 {
   class Script;
   class ScriptManager
