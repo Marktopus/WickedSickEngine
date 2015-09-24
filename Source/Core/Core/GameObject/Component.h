@@ -24,9 +24,13 @@ namespace WickedSick
     COREDLL_API virtual ~Component();
 
     COREDLL_API virtual void Initialize() = 0;
+    COREDLL_API virtual void Update(float dt) = 0;
     COREDLL_API virtual std::string GetName() = 0;
 
     COREDLL_API virtual ComponentType GetType() final;
+    COREDLL_API virtual bool GetActive() final;
+    COREDLL_API virtual void Activate() final;
+    COREDLL_API virtual void Deactivate() final;
 
     COREDLL_API virtual Component* GetSibling(ComponentType type) final;
 

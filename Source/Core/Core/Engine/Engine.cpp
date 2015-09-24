@@ -11,6 +11,7 @@
 #include "Debugging/DebugInterface.h"
 namespace WickedSick
 {
+  
   Engine* Engine::Core = nullptr;
 
   COREDLL_API Engine::Engine() :  frame_controller_(nullptr),
@@ -59,7 +60,6 @@ namespace WickedSick
         //initThreads[it->GetType()] = new std::thread(&System::Initialize, it);
       }
     }
-
   }
 
   COREDLL_API void Engine::Load()
@@ -92,8 +92,7 @@ namespace WickedSick
     {
       if (it && (it->GetType() != ST_Physics))
       {
-        it->Update(frame_controller_->GetFrameTime());
-        Sleep(1);//temporary
+        it->Update(1.0f/60.0f);//frame_controller_->GetFrameTime());
       }
     }
   }

@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics\Components\CameraController.h" />
+    <ClInclude Include="Graphics\Components\CameraComponent.h" />
+    <ClInclude Include="Graphics\Model\Loaders\BinLoader.h" />
     <ClInclude Include="Graphics\Components\ModelComponent.h" />
     <ClInclude Include="Graphics\Shader\DxShader.h" />
     <ClInclude Include="Graphics\Model\DxModel.h" />
@@ -41,6 +44,9 @@
     <ClInclude Include="Light.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics\Components\CameraController.cpp" />
+    <ClCompile Include="Graphics\Components\CameraComponent.cpp" />
+    <ClCompile Include="Graphics\Model\Loaders\BinLoader.cpp" />
     <ClCompile Include="Graphics\Components\ModelComponent.cpp" />
     <ClCompile Include="Graphics\Shader\DxShader.cpp" />
     <ClCompile Include="Graphics\Model\DxModel.cpp" />
@@ -112,18 +118,18 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GRAPHICSDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;GRAPHICSDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>GraphicsPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Utility;$(SolutionDir)Debugging;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Math;$(SolutionDir)Core;Graphics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Input;$(SolutionDir)Utility;$(SolutionDir)Debugging;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Math;$(SolutionDir)Core;Graphics;$(SolutionDir)Externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalDependencies>d3d11.lib;D3DCompiler.lib;Utility.lib;Debugging.lib;Core.lib;Window.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Input.lib;Utility.lib;Debugging.lib;Core.lib;Window.lib;Math.lib;D3DCompiler.lib;d3d11.lib;lua53_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -135,10 +141,10 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_RELEASE;_WINDOWS;_USRDLL;GRAPHICSDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_RELEASE;_WINDOWS;_USRDLL;GRAPHICSDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>GraphicsPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Utility;$(SolutionDir)/Debugging;$(SolutionDir)/Logic;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Math;$(SolutionDir)/Core;Graphics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Input;$(SolutionDir)Utility;$(SolutionDir)Debugging;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Math;$(SolutionDir)Core;Graphics;$(SolutionDir)Externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
@@ -150,8 +156,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalDependencies>d3d11.lib;D3DCompiler.lib;Utility.lib;Debugging.lib;Core.lib;Window.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Input.lib;Utility.lib;Debugging.lib;Core.lib;Window.lib;Math.lib;d3d11.lib;D3DCompiler.lib;lua53.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <Profile>true</Profile>

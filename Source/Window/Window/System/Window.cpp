@@ -2,6 +2,7 @@
 #include "Window.h"
 
 #include "EventSystem/EventSystemInterface.h"
+#include "Input/InputInterface.h"
 #include "Core/CoreInterface.h"
 
 namespace WickedSick
@@ -210,72 +211,80 @@ namespace WickedSick
     return "UnknownKey";// satisfies return value warning
   }
 
+
   LRESULT CALLBACK WindowProc(HWND hWnd,
                               UINT message,
                               WPARAM wParam,
                               LPARAM lParam)
   {
     EventSystem* msgSystem = Engine::GetCore()->GetSystem<EventSystem>(ST_Messaging);
+    Window* windowSystem = Engine::GetCore()->GetSystem<Window>(ST_Window);
+    InputBuffer* buf = windowSystem->GetInputBuffer();
+
+    Vector2i pos;
+    pos.x = GET_X_LPARAM(lParam);
+    pos.y = GET_Y_LPARAM(lParam);
     // sort through and find what code to run for the message given
+    if(!windowSystem->InFocus())
+    {
+      if(message != WM_SETFOCUS)
+      {
+        return DefWindowProc (hWnd, message, wParam, lParam);
+      }
+    }
+
     switch(message)
     {
         ///////////////////////////////////////////////////////////////////////////
       // Handle Cursor
       ///////////////////////////////////////////////////////////////////////////
-      case WM_MOUSEMOVE:
-      {
       
-        //if(window_active_)
-        //{
-        Vector2i delta;
-
-        //MouseEvent* mouse = new MouseEvent(ST_Window, ST_Input, delta, MouseEvent::Moved, MouseEvent::ButtonCount);
-        //msgSystem->QueueEvent(mouse);
-        //}
-        break;
-      }
       case WM_MOUSEWHEEL:
       {
-        //if(window_active_)
-        //{
         
-        //}      
+        buf->wheelChange = GET_WHEEL_DELTA_WPARAM(wParam)/WHEEL_DELTA;
+        //buf->wheelChange = (wParam / WHEEL_DELTA);
+        break;
+      }
+      case WM_MOUSEMOVE:
+      {
+        buf->mousePos = pos;
         break;
       }
       case WM_LBUTTONUP:
       {
-        //Event mouse(System::Window, System::Input, Event::Mouse);
-        //mouse.mouse_info_.button = MouseEvent::Left;
+        buf->mousePos = pos;
+        buf->down[VK_LBUTTON] = false;
         break;
       }
       case WM_RBUTTONUP:
       {
-        //Event mouse(System::Window, System::Input, Event::Mouse);
-        //mouse.mouse_info_.button = MouseEvent::Right;
+        buf->mousePos = pos;
+        buf->down[VK_RBUTTON] = false;
         break;
       }
       case WM_MBUTTONUP:
       {
-        //Event mouse(System::Window, System::Input, Event::Mouse);
-        //mouse.mouse_info_.button = MouseEvent::Middle;
+        buf->mousePos = pos;
+        buf->down[VK_MBUTTON] = false;
         break;
       }
       case WM_LBUTTONDOWN:
       {
-        //Event mouse(System::Window, System::Input, Event::Mouse);
-        //mouse.mouse_info_.button = MouseEvent::Left;
+        buf->mousePos = pos;
+        buf->down[VK_LBUTTON] = true;
         break;
       }
       case WM_RBUTTONDOWN:
       {
-        //Event mouse(System::Window, System::Input, Event::Mouse);
-        //mouse.mouse_info_.button = MouseEvent::Right;
+        buf->mousePos = pos;
+        buf->down[VK_RBUTTON] = true;
         break;
       }
       case WM_MBUTTONDOWN:
       {
-        //Event mouse(System::Window, System::Input, Event::Mouse);
-        //mouse.mouse_info_.button = MouseEvent::Middle;
+        buf->mousePos = pos;
+        buf->down[VK_MBUTTON] = true;
         break;
       }
       case WM_MOUSELEAVE: //this doesn't seem to do anything
@@ -324,25 +333,48 @@ namespace WickedSick
       ///////////////////////////////////////////////////////////////////////////
       case WM_KEYDOWN:
       {
-
-        
-        //KeyboardMessage* msg = new KeyboardMessage(ST_Window, ST_Input, VKKeyToString(wParam));
-        //msgSystem->QueueEvent(msg);
-        //if(window_active_)
-        //{
-          //Event keyboard(System::Window, System::Input, Event::Keyboard);      
-          //keyboard.keyboard_info_.key = wParam;
-        //}
-
+        buf->down[wParam] = true;
+        switch(wParam)
+        {
+          case VK_LCONTROL:
+          case VK_RCONTROL:
+          case VK_CONTROL:
+            buf->current_modifiers_[ModifierType::Control] = true;
+            break;
+          case VK_LMENU:
+          case VK_RMENU:
+          case VK_MENU:
+            buf->current_modifiers_[ModifierType::Alt] = true;
+            break;
+          case VK_LSHIFT:
+          case VK_RSHIFT:
+          case VK_SHIFT:
+            buf->current_modifiers_[ModifierType::Shift] = true;
+            break;
+        }
         break;
       }
       case WM_KEYUP:
       {
-        //if(data.m_window_active)
-        //{
-          //Event keyboard(System::Window, System::Input, Event::Keyboard);      
-          //keyboard.keyboard_info_.key = wParam;
-        //}
+        buf->down[wParam] = false;
+        switch (wParam)
+        {
+          case VK_LCONTROL:
+          case VK_RCONTROL:
+          case VK_CONTROL:
+            buf->current_modifiers_[ModifierType::Control] = false;
+            break;
+          case VK_LMENU:
+          case VK_RMENU:
+          case VK_MENU:
+            buf->current_modifiers_[ModifierType::Alt] = false;
+            break;
+          case VK_LSHIFT:
+          case VK_RSHIFT:
+          case VK_SHIFT:
+            buf->current_modifiers_[ModifierType::Shift] = false;
+            break;
+        }
         break;
       }
       ///////////////////////////////////////////////////////////////////////////
@@ -350,6 +382,8 @@ namespace WickedSick
       ///////////////////////////////////////////////////////////////////////////
       case WM_SIZE:
       {
+
+
         //if(window->IsFullscreen())
         //{
         //  data.m_window_size = data.m_desktop_size;
@@ -396,9 +430,10 @@ namespace WickedSick
       case WM_CLOSE:
       case WM_QUIT:
       {
+        msgSystem->QueueEvent("Quit");
         //Event* quit = new Event(ST_Window, GlobalID, WickedSick::Event::Quit);
         //msgSystem->QueueEvent(quit);
-        return 0;
+        break;
       }
       case WM_SYSKEYDOWN:
       {
@@ -408,7 +443,7 @@ namespace WickedSick
           {
             //Event* quit = new Event(ST_Window, GlobalID, WickedSick::Event::Quit);
             //msgSystem->QueueEvent(quit);
-            return 0;         
+            break;         
           }
           case VK_RETURN:
           {
@@ -428,25 +463,27 @@ namespace WickedSick
         }
         break;
       }
+      default:
+        return DefWindowProc (hWnd, message, wParam, lParam);
     }
-
     // Handle any messages the switch statement didn't
-    return DefWindowProc (hWnd, message, wParam, lParam);
+    return 0;
   }
 
   WINDOWDLL_API Window::Window() : System(ST_Window)
   {
-    window_instance_ = GetModuleHandle(nullptr);;
+    window_instance_ = GetModuleHandle(nullptr);
+    input_buf_ = new InputBuffer();
   }
 
   WINDOWDLL_API Window::~Window()
   {
-
+    delete input_buf_;
   }
 
   WINDOWDLL_API void Window::Initialize()
   {
-
+    in_focus_ = true;
     //DefWindowProc(hwnd, uMsg, wParam, lParam);
     WNDCLASSEX windowInfo;
     ZeroMemory(&windowInfo, sizeof(windowInfo));
@@ -512,9 +549,14 @@ namespace WickedSick
     return true;
   }
   
-  WINDOWDLL_API void Window::Update(double dt)
+  WINDOWDLL_API void Window::Update(float dt)
   {
+    input_buf_->wheelChange = 0;
+    Input* inputSystem = Engine::GetCore()->GetSystem<Input>(ST_Input);
+
     message_update();
+    inputSystem->UpdateInput(input_buf_);
+    
   }
 
   WINDOWDLL_API void Window::ReceiveMessage(Event * msg)
@@ -525,6 +567,11 @@ namespace WickedSick
   WINDOWDLL_API HWND& Window::GetWindowHandle()
   {
     return window_handle_;
+  }
+
+  WINDOWDLL_API InputBuffer * Window::GetInputBuffer()
+  {
+    return input_buf_;
   }
 
 
@@ -538,14 +585,20 @@ namespace WickedSick
     return window_size_;
   }
 
+  WINDOWDLL_API bool Window::InFocus()
+  {
+    return in_focus_;
+  }
+
 
   void Window::message_update()
   {
+
     BOOL msgErr;
     do
     {
       msgErr = PeekMessage(&msg_, nullptr, 0, 0, PM_REMOVE);
-      if (msgErr != -1)
+      if (msgErr > -1)
       {
         //switch (msg_.message)
         //{

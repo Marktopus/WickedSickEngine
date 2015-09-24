@@ -10,10 +10,34 @@
 
 namespace WickedSick
 {
-  InputBuffer::InputBuffer()
+  INPUTDLL_API Key::Key()
   {
-    memset(&last_frame_[0],     0, MAX_KEYS_TEMP * sizeof(last_frame_   [0]));
-    memset(&this_frame_[0],     0, MAX_KEYS_TEMP * sizeof(this_frame_   [0]));
-    memset(&last_released_[0],  0, MAX_KEYS_TEMP * sizeof(last_released_[0]));
+    for(int i = 0; i < InputType::Count; ++i)
+    {
+      inputType[i] = false;
+    }
+  }
+
+  INPUTDLL_API InputBuffer::InputBuffer() : current_modifiers_{false, false, false}, wheelChange(0)
+  {
+    memset(&down[0], 0, MaxKeys * sizeof(down[0]));
+  }
+
+  INPUTDLL_API bool InputBuffer::Get(int index)
+  {
+    if (index < MaxKeys)
+    {
+      return down[index];
+    }
+    return false;
+  }
+
+  INPUTDLL_API void InputBuffer::Set(int index, bool value)
+  {
+    if(index < MaxKeys)
+    {
+      down[index] = value;
+    }
+
   }
 }

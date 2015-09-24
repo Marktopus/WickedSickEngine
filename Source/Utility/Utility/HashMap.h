@@ -85,7 +85,7 @@ namespace WickedSick
     {
     public:
       Entry() : key(*new Key()),
-                type(*new Type())
+                val(*new Type())
       {
         WSError("Something in the HashMap broke. I sure hope you don't plan on commenting this out....");
       }
@@ -93,18 +93,18 @@ namespace WickedSick
       Entry(Key& myKey, 
             Type& myType)
             : key(myKey),
-              type(myType)
+              val(myType)
       {
       }
 
       Entry(const Entry& entry)
             : key(entry.key),
-              type(entry.type)
+              val(entry.val)
       {
       }
 
       Key& key;
-      Type& type;
+      Type& val;
     };
 
     class Slot
@@ -142,7 +142,7 @@ namespace WickedSick
 
       Slot(const Entry& entry)
             : key_(entry.key),
-              type_(entry.type),
+              type_(entry.val),
               index_(-1),
               next_(nullptr),
               prev_(nullptr)
@@ -557,7 +557,7 @@ namespace WickedSick
 
     Iterator insert(const Entry& elem)
     {
-      return insert(elem.key, elem.type);
+      return insert(elem.key, elem.val);
     }
 
     Iterator insert(const Iterator& source)
@@ -624,7 +624,7 @@ namespace WickedSick
       {
         it = insert(key, Type());
       }
-      return (*it).type;
+      return (*it).val;
     }
 
     Iterator find(const Key& key)
@@ -633,7 +633,7 @@ namespace WickedSick
       {
         size_t index = HashType(key) % capacity_;
         index *= collision_buf_;
-        for (int i = index; i < (index + collision_buf_); ++i)
+        for (int i = index; i < ((int)index + collision_buf_); ++i)
         {
           if (map_[i] && map_[i]->key_ == key)
           {

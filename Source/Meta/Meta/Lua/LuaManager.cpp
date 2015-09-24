@@ -312,7 +312,7 @@ namespace Reflection
     std::vector<Var*> args;
 
     //heap flag
-    bool heap = lua_toboolean(L, lua_gettop(L));
+    bool heap = (lua_toboolean(L, lua_gettop(L)) != 0);
     --argc;
     lua_pop(L, 1);
 
@@ -333,7 +333,7 @@ namespace Reflection
           case LUA_TBOOLEAN:
           {
             // grab boolean value, set our luadata
-            bool copyFrom = lua_toboolean(L, lua_gettop(L));
+            bool copyFrom = (lua_toboolean(L, lua_gettop(L)) != 0);
             arg = (LuaUserdata*)alloca(sizeof(LuaUserdata) + sizeof(bool));//its a bool so
             memset(arg, 0, sizeof(LuaUserdata) + sizeof(bool));
             arg->SetObject(FindType(bool), &copyFrom);
@@ -528,7 +528,7 @@ namespace Reflection
         {
           if(memberData->meta->GetName() == "bool")
           {
-            *(bool*)data = lua_toboolean(L, -1);
+            *(bool*)data = (lua_toboolean(L, -1) != 0);
           }
           else if(memberData->meta->GetName() == "long")
           {
@@ -617,7 +617,7 @@ namespace Reflection
           case LUA_TBOOLEAN:
           {
             // grab boolean value, set our luadata
-            bool copyFrom = lua_toboolean(L, lua_gettop(L));
+            bool copyFrom = (lua_toboolean(L, lua_gettop(L)) != 0);
             arg = (LuaUserdata*)alloca(sizeof(LuaUserdata) + sizeof(bool));
             memset(arg, 0, sizeof(LuaUserdata) + sizeof(bool));
             arg->SetObject(FindType(bool), &copyFrom);

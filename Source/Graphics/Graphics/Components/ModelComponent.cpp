@@ -37,6 +37,11 @@ namespace WickedSick
     }
   }
 
+  GRAPHICSDLL_API void ModelComponent::Update(float dt)
+  {
+    //nothing
+  }
+
   GRAPHICSDLL_API void ModelComponent::Destroy()
   {
     base_->RemoveInstance(this);

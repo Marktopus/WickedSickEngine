@@ -51,13 +51,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Testing;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Input;$(SolutionDir)TestSuite;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Core;$(SolutionDir)EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Testing;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Input;$(SolutionDir)TestSuite;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Core;$(SolutionDir)EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua53_d.lib;Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <SubSystem>Console</SubSystem>
@@ -70,8 +70,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Testing;$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Input;$(SolutionDir)/TestSuite;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Core;$(SolutionDir)/EventSystem;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_RELEASE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)/Testing;$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Input;$(SolutionDir)/TestSuite;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Core;$(SolutionDir)/EventSystem;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_RELEASE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
@@ -80,10 +80,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua53.lib;Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <Profile>false</Profile>
     </Link>

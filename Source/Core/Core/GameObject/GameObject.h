@@ -16,7 +16,13 @@ namespace WickedSick
     COREDLL_API void Initialize();
     COREDLL_API void Clone(GameObject* newObj);
     COREDLL_API int GetID() const;
+    COREDLL_API std::string GetArchetypeName() const;
+    COREDLL_API std::string GetName() const;
+
     COREDLL_API void SetID(int id);
+    COREDLL_API void SetArchetypeName(const std::string& name);
+    COREDLL_API void SetName(const std::string& name);
+
     COREDLL_API void Activate();
     COREDLL_API void Deactivate();
     COREDLL_API bool GetActive();
@@ -26,7 +32,7 @@ namespace WickedSick
     static const int invalidID = -1;
   private:
     static Factory<Transform> transforms_;
-	//asdfsf<asdfds/>
+  //asdfsf<asdfds/>
     std::string archetype_name_;
     std::string name_;
     Component* components_[CT_Count];

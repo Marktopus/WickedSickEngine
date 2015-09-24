@@ -1,3 +1,4 @@
+#pragma once
 #include "Utility/MetaMacros.h"
 #include "Type/Metadata.h"
 #include "Utility/IndirectionCount.h"

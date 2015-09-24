@@ -1,2 +1,4 @@
 RegisterComponentType(Transform)
+RegisterComponentType(CameraComponent)
+RegisterComponentType(CameraController)
 RegisterComponentType(ModelComponent)

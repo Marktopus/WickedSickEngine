@@ -1,4 +1,7 @@
 #pragma once
+
+#include "MetaDLL.h"
+
 namespace Reflection
 {
 
@@ -12,16 +15,16 @@ namespace Reflection
   {
     public:
 
-      static void RegisterTypeData();
-      Metadata* GetMetatype();
+      METADLL_API static void RegisterTypeData();
+      METADLL_API Metadata* GetMetatype();
 
-      Var(void);
-      Var(Metadata* type, 
+      METADLL_API Var(void);
+      METADLL_API Var(Metadata* type, 
           void* data);
-      Var(const Var& other);
-      Var(LuaUserdata* data);
+      METADLL_API Var(const Var& other);
+      METADLL_API Var(LuaUserdata* data);
     
-      ~Var();
+      METADLL_API ~Var();
 
       template<typename T>
       Var(T& data);
@@ -52,24 +55,24 @@ namespace Reflection
       template<>
       void SetValue(std::string& value);
 
-      void SetValueIndirection(void* value, int indirection);
+      METADLL_API void SetValueIndirection(void* value, int indirection);
 
-      void SetOwns(bool owns);
-      void SetType(Metadata* type);
-      void SetData(void* data);
+      METADLL_API void SetOwns(bool owns);
+      METADLL_API void SetType(Metadata* type);
+      METADLL_API void SetData(void* data);
 
-      template <typename Type>
+       template <typename Type>
       void Copy(const Type& type);
 
-      void Invalidate();
-      void Validate();
+      METADLL_API void Invalidate();
+      METADLL_API void Validate();
 
-      bool IsValid();
-      void* GetData();
-      Metadata* GetMetadata();
-      unsigned short GetIndirection();
+      METADLL_API bool IsValid();
+      METADLL_API void* GetData();
+      METADLL_API Metadata* GetMetadata();
+      METADLL_API unsigned short GetIndirection();
 
-      void SetLevelsOfIndirection(unsigned short indirection);
+      METADLL_API void SetLevelsOfIndirection(unsigned short indirection);
 
     private:
       bool owns_;

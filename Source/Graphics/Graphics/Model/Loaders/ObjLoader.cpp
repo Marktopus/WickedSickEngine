@@ -125,13 +125,13 @@ namespace WickedSick
           vertIt = vertMap.find(vert);
           if (vertIt == vertMap.end())
           {
-            indexList.  push_back(vertexList.size());
-            vertexList. push_back(vert);
+            indexList.push_back(vertexList.size());
+            vertexList.push_back(vert);
             vertMap.insert(vert, indexList.back());
           }
           else
           {
-            indexList.push_back((*vertIt).type);
+            indexList.push_back((*vertIt).val);
           }
         }
       }
@@ -169,15 +169,23 @@ namespace WickedSick
     target = target.substr(index, target.size() - index);
     target = TrimSpaces(target);
     Vector3 toInsert;
+    std::string entries[3];
+    int curString = 0;
+    for(unsigned i = 0; i < target.size(); ++i)
+    {
+      if(target[i] == ' ')
+      {
+        ++curString;
+      }
+      else
+      {
+        entries[curString].push_back(target[i]);
+      }
+    }
 
-    int innerIndex = target.find_first_of(' ') + 1;
-    int innerIndex2 = target.find_last_of(' ');
-    std::string first = target.substr(0, (innerIndex == std::string::npos) ? target.size() : innerIndex);
-    std::string second = target.substr((innerIndex == std::string::npos) ? 0 : innerIndex, (innerIndex2 == std::string::npos) ? target.size() : (target.size() - innerIndex2));
-    std::string third = target.substr((innerIndex2 == std::string::npos) ? 0 : innerIndex2, target.size());
-    toInsert[0] = static_cast<float>(::atof(first.c_str()) );
-    toInsert[1] = static_cast<float>(::atof(second.c_str()));
-    toInsert[2] = static_cast<float>(::atof(third.c_str()) );
+    toInsert[0] = static_cast<float>(::atof(entries[0].c_str()));
+    toInsert[1] = static_cast<float>(::atof(entries[1].c_str()));
+    toInsert[2] = static_cast<float>(::atof(entries[2].c_str()));
 
     return toInsert;
   }
@@ -264,7 +272,7 @@ namespace WickedSick
   //      auto& mIt = normalMap.find(vertex_list_[it.indices[i]].position);
   //      if (mIt != normalMap.end())
   //      {
-  //        (*mIt).type.push_back(&vertex_list_[it.indices[i]].normal);
+  //        (*mIt).val.push_back(&vertex_list_[it.indices[i]].normal);
   //      }
   //    }
   //  }
@@ -273,15 +281,15 @@ namespace WickedSick
   //  {
   //    Vector3 normal;
   //    int numNormals;
-  //    for (int i = 0; i < it.type.size(); ++i)
+  //    for (int i = 0; i < it.val.size(); ++i)
   //    {
-  //      normal += *it.type[i];
+  //      normal += *it.val[i];
   //    }
-  //    normal /= it.type.size();
+  //    normal /= it.val.size();
   //    normal.Normalize();
-  //    for (int i = 0; i < it.type.size(); ++i)
+  //    for (int i = 0; i < it.val.size(); ++i)
   //    {
-  //      *it.type[i] = normal;
+  //      *it.val[i] = normal;
   //    }
   //  }
   //}

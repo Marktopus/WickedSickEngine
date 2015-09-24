@@ -7,7 +7,7 @@ namespace WickedSick
   {
     for (auto it : map)
     { 
-      ConsolePrint("[" + it.key + "]" + " = " + std::to_string(it.type));
+      ConsolePrint("[" + it.key + "]" + " = " + std::to_string(it.val));
       ConsolePrint("\n");
     }
     ConsolePrint("\n");
@@ -106,16 +106,16 @@ namespace WickedSick
     }
 
     auto it = map.find("Hello0");
-    (*it).type = 420;
+    (*it).val = 420;
 
     auto sit = map.find("Hello5");
-    (*sit).type = 69;
+    (*sit).val = 69;
     
     auto tit = map.find("Hello0");
-    ConsolePrint((*tit).key + std::to_string((*tit).type));
+    ConsolePrint((*tit).key + std::to_string((*tit).val));
 
     auto fit = map.find("Hello5");
-    ConsolePrint((*fit).key + std::to_string((*fit).type));
+    ConsolePrint((*fit).key + std::to_string((*fit).val));
     
     return true;
   }

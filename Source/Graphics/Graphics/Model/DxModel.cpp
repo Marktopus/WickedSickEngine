@@ -54,19 +54,19 @@ namespace WickedSick
     ID3D11Buffer* indBuf = (ID3D11Buffer*)index->BufferPointer();
 
     
-	  // Set the vertex buffer to active in the input assembler so it can be rendered.
-	  context->IASetVertexBuffers(0, 
+    // Set the vertex buffer to active in the input assembler so it can be rendered.
+    context->IASetVertexBuffers(0, 
                                 1, 
                                 &vertBuf, 
                                 &vert->stride_, 
                                 &vert->offset_);
 
-	  // Set the index buffer to active in the input assembler so it can be rendered.
-	  context->IASetIndexBuffer(indBuf, 
+    // Set the index buffer to active in the input assembler so it can be rendered.
+    context->IASetIndexBuffer(indBuf, 
                               DXGI_FORMAT_R32_UINT, 
                               0);
 
-	  // Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
-	  context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    // Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
+    context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
   }
 }

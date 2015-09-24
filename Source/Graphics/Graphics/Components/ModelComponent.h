@@ -16,6 +16,7 @@ namespace WickedSick
     GRAPHICSDLL_API void Destroy();
     GRAPHICSDLL_API void SetModel(const std::string& model);
     GRAPHICSDLL_API void Initialize();
+    GRAPHICSDLL_API void Update(float dt);
   private:
     const std::string name_;
     std::string model_;

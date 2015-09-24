@@ -1,9 +1,3 @@
-///////////////////////////////////////////////////////////////////////////
-//Author:      Mark, Nathan Park
-//Date:        4/4/2014
-//Description: file io includes
-//All content (c) 2014 DigiPen (USA) Corporation, all rights reserved.
-///////////////////////////////////////////////////////////////////////////
 #include "MathPrecompiled.h"
 #include "Vector3.h"
 
@@ -157,7 +151,7 @@ namespace WickedSick
     x = -x; y = -y; z = -z;
   }
 
-  MATHDLL_API Vector3 Vector3::GetNormalized()
+  MATHDLL_API Vector3 Vector3::GetNormalized() const
   {
     float len = Length();
     if(len == 0)

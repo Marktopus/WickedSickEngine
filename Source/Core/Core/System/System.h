@@ -32,7 +32,7 @@ namespace WickedSick
       virtual void  Initialize() = 0;
       virtual bool  Load() = 0;
       virtual bool  Reload() = 0;
-      virtual void  Update(double dt) = 0;
+      virtual void  Update(float dt) = 0;
       virtual void  ReceiveMessage(Event* msg) = 0;
 
       

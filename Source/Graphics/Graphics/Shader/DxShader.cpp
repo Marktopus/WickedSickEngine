@@ -52,10 +52,10 @@ namespace WickedSick
     ID3D11DeviceContext* context = swapChain->device->D3DContext;
 
     D3D11_MAPPED_SUBRESOURCE mappedResource;
-	  LightBuffer* dataPtr;
+    LightBuffer* dataPtr;
     ID3D11Buffer* buffer = (ID3D11Buffer*)matrix_buffer_->BufferPointer();
 
-	  unsigned int bufferNumber = 0;
+    unsigned int bufferNumber = 0;
 
 
     DXError(context->Map( buffer, 
@@ -70,14 +70,14 @@ namespace WickedSick
 
 
 
-	  // Copy the matrices into the constant buffer.
-    dataPtr->modelToWorld = world;
-    dataPtr->worldToClip = clip;
-    dataPtr->lightDir = Vector3(-1, -1, -1);
+    // Copy the matrices into the constant buffer.
+    dataPtr->modelToWorld = world;//.GetTranspose();;
+    dataPtr->worldToClip = clip;//.GetTranspose();
+    dataPtr->lightDir = Vector3(1, 1, 1);
     dataPtr->cameraVec = cameraPos;
 
-	  // Unlock the constant buffer.
-	  context->Unmap(buffer, 0);
+    // Unlock the constant buffer.
+    context->Unmap(buffer, 0);
 
     context->VSSetConstantBuffers(bufferNumber, 1, &buffer);
   }
@@ -89,12 +89,12 @@ namespace WickedSick
     ID3D11DeviceContext* context = swapChain->device->D3DContext;
     context->IASetInputLayout(layout_);
 
-	  // Set the vertex and pixel shaders that will be used to render this triangle.
-	  context->VSSetShader(vertex_shader_, NULL, 0);
-	  context->PSSetShader(pixel_shader_, NULL, 0);
+    // Set the vertex and pixel shaders that will be used to render this triangle.
+    context->VSSetShader(vertex_shader_, NULL, 0);
+    context->PSSetShader(pixel_shader_, NULL, 0);
 
-	  // Render the triangle.
-	  context->DrawIndexed(indexCount, 0, 0);
+    // Render the triangle.
+    context->DrawIndexed(indexCount, 0, 0);
 
     
   }
@@ -107,9 +107,9 @@ namespace WickedSick
     ID3D11Device* device = swapChain->device->D3DDevice;
 
     ID3D10Blob* errorMessage = nullptr;
-	  ID3D10Blob* vertexShaderBuffer = nullptr;
-	  ID3D10Blob* pixelShaderBuffer = nullptr;
-	  
+    ID3D10Blob* vertexShaderBuffer = nullptr;
+    ID3D10Blob* pixelShaderBuffer = nullptr;
+    
     std::string baseFileName = vertex_file_.Path();
     std::wstring fileStr(baseFileName.begin(), baseFileName.end());
     if (vertex_file_.WasModified() || forceCompile)
@@ -129,7 +129,7 @@ namespace WickedSick
                                   D3D10_SHADER_ENABLE_STRICTNESS,
                                 #endif
                                   0, 
-                        				  &vertexShaderBuffer, 
+                                  &vertexShaderBuffer, 
                                   &errorMessage));
       if (errorMessage)
       {
@@ -176,7 +176,7 @@ namespace WickedSick
                                   D3D10_SHADER_ENABLE_STRICTNESS,
                                 #endif
                                   0, 
-				                          &pixelShaderBuffer, 
+                                  &pixelShaderBuffer, 
                                   &errorMessage));
       if (errorMessage)
       {

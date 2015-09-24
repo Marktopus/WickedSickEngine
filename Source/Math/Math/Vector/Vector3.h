@@ -44,11 +44,16 @@ namespace WickedSick
     MATHDLL_API float   Length(void) const;
     MATHDLL_API float   LengthSq(void) const;
     MATHDLL_API void    Negate(void);
-    MATHDLL_API Vector3 GetNormalized(void); //returns a normalized version of the vector
+    MATHDLL_API Vector3 GetNormalized(void) const; //returns a normalized version of the vector
     MATHDLL_API void    Normalize(void);
     MATHDLL_API float   Dot(const Vector3& rhs) const;
     MATHDLL_API Vector3 Cross(const Vector3& rhs) const;
     MATHDLL_API bool    IsZero(void);
+
+    // Utility Functions
+    MATHDLL_API float   AngleBetween(const Vector3 & other);
+    MATHDLL_API void    RotateAround(const Vector3& axis, float amount);
+    MATHDLL_API Vector3 GetRotatedAround(const Vector3& axis, float amount);
 
     // Settors
     MATHDLL_API void Zero(void);

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Core/CoreInterface.h"
-
+#include "Utility/UtilityInterface.h"
+#include "Meta/MetaInterface.h"
 #include "EventSystemDLL.h"
 
 namespace WickedSick
@@ -12,17 +13,8 @@ namespace WickedSick
   class Event
   {
   public:
-    enum Type
-    {
-      #define RegisterType(x) x,
-      #include "RegisterEventType.h"
-      #undef RegisterType
-      Count
-    };
     
-
-    EVENTSYSTEMDLL_API Event( const std::string& name, 
-                              Type type);
+    EVENTSYSTEMDLL_API Event( const std::string& name);
 
     EVENTSYSTEMDLL_API std::string GetName();
 
@@ -31,19 +23,33 @@ namespace WickedSick
     void Add(const std::string& id, const Param& toAdd)
     {
       
+      variables_.insert(id, new Reflection::Var(toAdd));
     }
 
+    template<typename Param>
+    Param* Get(const std::string& id)
+    {
+      auto& it = variables_.find(id);
+      if(it != variables_.end())
+      {
+        Reflection::Var* variable = ((*it).val);
+        return &variable->GetValue<Param>();
+      }
+      return nullptr;
+    }
+
+
     //template<typename T>
-    //void Set(const std::string& name, const T& type)
+    //void Set(const std::string& name, const T& val)
     //{
     //  auto& it = variables_.find(name);
     //  if (it != variables_.end())
     //  {
-    //    (*it).type->Set(type);
+    //    (*it).val->Set(val);
     //  }
     //  else
     //  {
-    //    variables_.insert(name, Var(type));
+    //    variables_.insert(name, Var(val));
     //  }
     //}
     //
@@ -52,7 +58,7 @@ namespace WickedSick
     //  auto& it = variables_.find(name);
     //  if (it != variables_.end())
     //  {
-    //    return &((*it).type);
+    //    return &((*it).val);
     //  }
     //  return nullptr;
     //}
@@ -64,10 +70,9 @@ namespace WickedSick
 
   private:
 
-    //HashMap<std::string, Var> variables_;
+    HashMap<std::string, Reflection::Var*> variables_;
 
     std::string       event_name_;
-    Type              event_type_;
     int               event_ID_;
 
     static int        id_count_;

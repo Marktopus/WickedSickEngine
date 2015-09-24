@@ -102,7 +102,7 @@ namespace Reflection
     {
       if (endType == FindType(bool))
       {
-        bool endtype = static_cast<bool>(*reinterpret_cast<char*>(start));
+        bool endtype = (*reinterpret_cast<char*>(start) != 0);
         new (end) bool(endtype);
       }
       else if (endType == FindType(char))
@@ -149,7 +149,7 @@ namespace Reflection
     {
       if (endType == FindType(bool))
       {
-        bool endtype = static_cast<bool>(*reinterpret_cast<short*>(start));
+        bool endtype = (*reinterpret_cast<short*>(start) != 0);
         new (end) bool(endtype);
       }
       else if (endType == FindType(char))
@@ -196,7 +196,7 @@ namespace Reflection
     {
       if (endType == FindType(bool))
       {
-        bool endtype = static_cast<bool>(*reinterpret_cast<int*>(start));
+        bool endtype = (*reinterpret_cast<int*>(start) != 0);
         new (end) bool(endtype);
       }
       else if (endType == FindType(char))
@@ -248,7 +248,7 @@ namespace Reflection
     {
       if (endType == FindType(bool))
       {
-        bool endtype = static_cast<bool>(*reinterpret_cast<long*>(start));
+        bool endtype = (*reinterpret_cast<long*>(start) != 0l);
         new (end) bool(endtype);
       }
       else if (endType == FindType(char))
@@ -295,7 +295,7 @@ namespace Reflection
     {
       if (endType == FindType(bool))
       {
-        bool endtype = static_cast<bool>(*reinterpret_cast<float*>(start));
+        bool endtype = (*reinterpret_cast<float*>(start) != 0.0f);
         new (end) bool(endtype);
       }
       else if (endType == FindType(char))
@@ -342,7 +342,7 @@ namespace Reflection
     {
       if (endType == FindType(bool))
       {
-        bool endtype = static_cast<bool>(*reinterpret_cast<double*>(start));
+        bool endtype = (*reinterpret_cast<double*>(start) != 0.0);
         new (end) bool(endtype);
       }
       else if (endType == FindType(char))
@@ -394,7 +394,7 @@ namespace Reflection
     {
       if (endType == FindType(bool))
       {
-        bool endtype = static_cast<bool>(*reinterpret_cast<unsigned*>(start));
+        bool endtype = (*reinterpret_cast<unsigned*>(start) != 0);
         new (end) bool(endtype);
       }
       else if (endType == FindType(char))

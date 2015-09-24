@@ -53,15 +53,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Debugging;$(SolutionDir)Utility;Input;$(SolutionDir)Window;$(SolutionDir)Math;$(SolutionDir)Core;F:\Program Files (x86)\Windows Kits\8.1\Include\shared;$(SolutionDir)/Input</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_USRDLL;INPUTDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Math;$(SolutionDir)Externals;$(SolutionDir)Debugging;$(SolutionDir)Utility;Input;$(SolutionDir)Math;$(SolutionDir)Core;F:\Program Files (x86)\Windows Kits\8.1\Include\shared;$(SolutionDir)/Input</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_USRDLL;INPUTDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>InputPrecompiled.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Debugging.lib;Utility.lib;Core.lib;Window.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;F:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua53_d.lib;Math.lib;Debugging.lib;Utility.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;F:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
     </Link>
@@ -73,8 +73,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Debugging;$(SolutionDir)/Utility;Input;$(SolutionDir)/Window;$(SolutionDir)/Math;$(SolutionDir)/Core;F:\Program Files (x86)\Windows Kits\8.1\Include\shared;$(SolutionDir)/Input</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_RELEASE;_USRDLL;INPUTDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Math;$(SolutionDir)Externals;$(SolutionDir)/Debugging;$(SolutionDir)/Utility;Input;$(SolutionDir)/Math;$(SolutionDir)/Core;F:\Program Files (x86)\Windows Kits\8.1\Include\shared;$(SolutionDir)/Input</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_RELEASE;_USRDLL;INPUTDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
@@ -83,8 +83,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Debugging.lib;Utility.lib;Core.lib;Window.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;F:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua53.lib;Math.lib;Debugging.lib;Utility.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;F:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <Profile>true</Profile>
@@ -99,6 +99,7 @@
     <ClCompile Include="Input\System\Input.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Input\InputEnums.h" />
     <ClInclude Include="Input\InputInterface.h" />
     <ClInclude Include="Input\InputPrecompiled.h" />
     <ClInclude Include="Input\Handlers\InputBuffer.h" />

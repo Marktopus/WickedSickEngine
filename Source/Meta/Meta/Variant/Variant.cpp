@@ -7,7 +7,7 @@
 namespace Reflection
 {
 
-  Var::Var(void) 
+  METADLL_API Var::Var(void) 
             : levels_of_indirection_(0),
               is_valid_(false),
               type_(nullptr),
@@ -16,7 +16,7 @@ namespace Reflection
   {
   }
 
-  Var::Var( Metadata * type,
+  METADLL_API Var::Var( Metadata * type,
             void * data) 
             : type_(type),
               data_(data),
@@ -26,7 +26,7 @@ namespace Reflection
   {
   }
 
-  Var::Var(const Var& other) :  is_valid_(other.is_valid_),
+  METADLL_API Var::Var(const Var& other) :  is_valid_(other.is_valid_),
                                 type_(other.type_),
                                 data_(other.data_),
                                 levels_of_indirection_(other.levels_of_indirection_),
@@ -36,7 +36,7 @@ namespace Reflection
 
 
 
-  Var::Var(LuaUserdata* data) :  type_(data->GetType()),
+  METADLL_API Var::Var(LuaUserdata* data) :  type_(data->GetType()),
                                                   is_valid_(true),
                                                   levels_of_indirection_(data->GetIndirection()),
                                                   data_(data->GetData()),
@@ -45,7 +45,7 @@ namespace Reflection
 
   }
 
-  Var::~Var()
+  METADLL_API Var::~Var()
   {
     if(owns_)
     {
@@ -53,7 +53,7 @@ namespace Reflection
     }
   }
 
-  void Var::SetValueIndirection(void * value, int indirection)
+  METADLL_API void Var::SetValueIndirection(void * value, int indirection)
   {
     void* target = data_;
     //we want a pointer to our data, not the data itself
@@ -75,52 +75,52 @@ namespace Reflection
     memcpy(target, value, (indirection > 1) ? sizeof(void*) : type_->GetSize());
   }
 
-  void Var::SetOwns(bool owns)
+  METADLL_API void Var::SetOwns(bool owns)
   {
     owns_ = owns;
   }
 
-  void Var::Invalidate()
+  METADLL_API void Var::Invalidate()
   {
     is_valid_ = false;
   }
 
-  void Var::SetType(Metadata * type)
+  METADLL_API void Var::SetType(Metadata * type)
   {
     type_ = type;
   }
 
-  void Var::SetData(void * data)
+  METADLL_API void Var::SetData(void * data)
   {
     data_ = data;
   }
 
-  void Var::Validate()
+  METADLL_API void Var::Validate()
   {
     is_valid_ = true;
   }
 
-  bool Var::IsValid()
+  METADLL_API bool Var::IsValid()
   {
     return is_valid_;
   }
 
-  void* Var::GetData()
+  METADLL_API void* Var::GetData()
   {
     return data_;
   }
 
-  Metadata* Var::GetMetadata()
+  METADLL_API Metadata* Var::GetMetadata()
   {
     return type_;
   }
 
-  unsigned short Var::GetIndirection()
+  METADLL_API unsigned short Var::GetIndirection()
   {
     return levels_of_indirection_;
   }
 
-  void Var::SetLevelsOfIndirection(unsigned short indirection)
+  METADLL_API void Var::SetLevelsOfIndirection(unsigned short indirection)
   {
     levels_of_indirection_ = indirection;
   }

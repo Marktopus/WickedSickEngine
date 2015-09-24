@@ -1,37 +1,53 @@
 #pragma once
 
 
-#include <string>
-#include <vector>
-#include <unordered_map>
+
+#include "InputBuffer.h"
+#include "InputDLL.h"
+#include "Utility/UtilityInterface.h"
+#include "Math/MathInterface.h"
+#include <set>
+
 
 namespace WickedSick
 {
   enum SystemType;
+
+  struct Keybind
+  {
+    InputType::Enum type;
+    int primaryId;
+    std::set<int> ids;
+    std::set<ModifierType::Enum> modifiers;
+  };
+
   class InputHandler
   {
     public:
 
-      InputHandler(SystemType sys);
+      INPUTDLL_API InputHandler();
 
-      void Update();
-      void SetActive(bool active);
-      void Load(const std::string& filename);
-      void Save(const std::string& filename);
-      
-      bool IsToggled(const std::string& identifier);
-      bool IsPressed(const std::string& identifier);
-      
-      bool IsDoubleToggled(const std::string& identifier);
-      bool IsDoublePressed(const std::string& identifier);
+      INPUTDLL_API void Update(float dt);
+      INPUTDLL_API void SetActive(bool active);
+      INPUTDLL_API void Load(const std::string& filename);
+      INPUTDLL_API void Save(const std::string& filename);
 
+      INPUTDLL_API bool Check(const std::string& identifier);
+      INPUTDLL_API Vector2i GetMousePos();
+      INPUTDLL_API int GetScrollPos();
 
+      INPUTDLL_API void UpdateInput(const InputBuffer& buf);
 
-      std::vector<std::string> get_keys(const std::string& identifier);
+      INPUTDLL_API std::vector<Keybind> get_keys(const std::string& identifier);
     private:
       //                  command     key to bind
-      std::unordered_map<std::string, std::vector<std::string>> inputs_;
+      HashMap<std::string, Keybind> inputs_;
+      std::set<std::string> active_inputs_;
+      std::vector<Key> keys;
+      Vector2i cur_mouse_pos_;
+      int cur_wheel_pos_;
+      bool current_modifiers_[ModifierType::Count];
+
       bool active_;
-      SystemType attached_sys_;
   };
 }

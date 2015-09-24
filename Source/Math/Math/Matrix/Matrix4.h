@@ -79,6 +79,10 @@ namespace WickedSick
     MATHDLL_API Matrix4& Translate(const Vector3& dist);
     MATHDLL_API Matrix4 GetTranslated(const Vector3& dist) const;
 
+    // Utility
+
+    
+
     // Other
     MATHDLL_API void Print(void) const;
 

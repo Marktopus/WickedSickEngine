@@ -38,7 +38,6 @@ namespace WickedSick
                                       : name_(rhs.name_),
                                         archetype_name_(rhs.archetype_name_)
   {
-//    __debugbreak();
     for (int i = 0; i < CT_Count; ++i)
     {
       components_[i] = nullptr;
@@ -53,7 +52,7 @@ namespace WickedSick
 
   COREDLL_API Component * GameObject::GetComponent(ComponentType type)
   {
-	  return components_[type];
+    return components_[type];
   }
 
   COREDLL_API int GameObject::GetID() const
@@ -61,19 +60,53 @@ namespace WickedSick
     return go_id_;
   }
 
+  COREDLL_API std::string GameObject::GetArchetypeName() const
+  {
+    return archetype_name_;
+  }
+
+  COREDLL_API std::string GameObject::GetName() const
+  {
+    return name_;
+  }
+
   COREDLL_API void GameObject::SetID(int id)
   {
     go_id_ = id;
   }
 
+  COREDLL_API void GameObject::SetArchetypeName(const std::string& name)
+  {
+    archetype_name_ = name;
+  }
+
+  COREDLL_API void GameObject::SetName(const std::string& name)
+  {
+    name_ = name;
+  }
+
   COREDLL_API void GameObject::Activate()
   {
     active_ = true;
+    for(auto& it : components_)
+    {
+      if(it)
+      {
+        it->Activate();
+      }
+    }
   }
 
   COREDLL_API void GameObject::Deactivate()
   {
     active_ = false;
+    for (auto& it : components_)
+    {
+      if(it)
+      {
+        it->Deactivate();
+      }
+    }
   }
 
 
@@ -100,11 +133,11 @@ namespace WickedSick
 
   COREDLL_API void GameObject::AddComponent(Component* newComp)
   {
-    components_[newComp->GetType()] = newComp;
-    newComp->SetOwner(this);
+    if(newComp)
+    {
+      components_[newComp->GetType()] = newComp;
+      newComp->SetOwner(this);
+    }
   }
-
-  
-
 
 }

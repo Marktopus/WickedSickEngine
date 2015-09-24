@@ -16,7 +16,7 @@ namespace WickedSick
                               UINT message,
                               WPARAM wParam,
                               LPARAM lParam);
-
+  struct InputBuffer;
   class Window : public System
   {
   public:
@@ -25,21 +25,26 @@ namespace WickedSick
     WINDOWDLL_API void Initialize();
     WINDOWDLL_API bool Load();
     WINDOWDLL_API bool Reload();
-    WINDOWDLL_API void Update(double dt);
+    WINDOWDLL_API void Update(float dt);
     WINDOWDLL_API void ReceiveMessage(Event * msg);
     WINDOWDLL_API HWND& GetWindowHandle();
-
+    WINDOWDLL_API InputBuffer* GetInputBuffer();
     WINDOWDLL_API Vector2i GetWindowSize();
-
+    WINDOWDLL_API bool InFocus();
 
     WINDOWDLL_API std::mutex& GetWindowHandleMutex();
   private:
 
     void message_update();
-
+    InputBuffer* input_buf_;
+    friend LRESULT CALLBACK WindowProc(HWND hWnd,
+                                         UINT message,
+                                         WPARAM wParam,
+                                         LPARAM lParam);
 
     Vector2i window_size_;
     
+    bool in_focus_;
 
     MSG msg_;
     HWND window_handle_;

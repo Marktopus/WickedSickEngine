@@ -9,7 +9,7 @@ namespace WickedSick
                                     GameObject* owner)
                                     : type_(type),
                                       owner_(owner),
-                                      active_(true)
+                                      active_(false)
   {
     if (!owner_)
     {
@@ -25,6 +25,21 @@ namespace WickedSick
   COREDLL_API ComponentType Component::GetType()
   {
     return type_;
+  }
+
+  COREDLL_API bool Component::GetActive()
+  {
+    return active_;
+  }
+
+  COREDLL_API void Component::Activate()
+  {
+    active_ = true;
+  }
+
+  COREDLL_API void Component::Deactivate()
+  {
+    active_ = false;
   }
 
   COREDLL_API Component * Component::GetSibling(ComponentType type)

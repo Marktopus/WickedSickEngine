@@ -19,7 +19,7 @@ namespace WickedSick
     OBJECTFACTORYDLL_API void Initialize();
     OBJECTFACTORYDLL_API bool Load();
     OBJECTFACTORYDLL_API bool Reload();
-    OBJECTFACTORYDLL_API void Update(double dt);
+    OBJECTFACTORYDLL_API void Update(float dt);
     OBJECTFACTORYDLL_API void ReceiveMessage(Event * msg);
     OBJECTFACTORYDLL_API GameObject* CloneArchetype(const std::string& name);
     OBJECTFACTORYDLL_API GameObject* MakeBlank();

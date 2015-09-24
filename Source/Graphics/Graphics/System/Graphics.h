@@ -34,9 +34,11 @@ namespace WickedSick
     GRAPHICSDLL_API void Initialize();
     GRAPHICSDLL_API bool Load();
     GRAPHICSDLL_API bool Reload();
-    GRAPHICSDLL_API void Update(double dt);
+    GRAPHICSDLL_API void Update(float dt);
     GRAPHICSDLL_API void ReceiveMessage(Event * msg);
     GRAPHICSDLL_API void Render();
+
+    GRAPHICSDLL_API Camera* GetCamera();
 
     GRAPHICSDLL_API Model* GetModel(const std::string& name);
     GRAPHICSDLL_API Model* LoadModel(const std::string& model);
@@ -56,7 +58,7 @@ namespace WickedSick
     HashMap<std::string, Shader*> shaders_;
 
     Matrix4 projection_matrix_;
-	  Matrix4 orthographic_matrix_;
+    Matrix4 orthographic_matrix_;
 
     
     MatrixStack*      mat_stack_;

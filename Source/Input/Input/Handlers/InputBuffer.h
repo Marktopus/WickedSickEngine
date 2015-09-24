@@ -1,14 +1,28 @@
 #pragma once
-#include "InputInterface.h"
+#include "InputPrecompiled.h"
+#include "InputDLL.h"
+#include "Math/MathInterface.h"
+#include "InputEnums.h"
 
 namespace WickedSick
 {
+  struct Key
+  {
+    INPUTDLL_API Key();
+    int key;
+    float sinceReleased;
+    bool inputType[InputType::Count];
+  };
+
   struct InputBuffer
   {
-    InputBuffer();
-    bool  last_frame_[MAX_KEYS_TEMP];
-    bool  this_frame_[MAX_KEYS_TEMP];
-    int   last_released_[MAX_KEYS_TEMP];
+    INPUTDLL_API InputBuffer();
+    INPUTDLL_API bool Get(int index);
+    INPUTDLL_API void Set(int index, bool value);
+    bool down[MaxKeys];
+    bool current_modifiers_[ModifierType::Count];
+    Vector2i mousePos;
+    int wheelChange;
   };
 }
 

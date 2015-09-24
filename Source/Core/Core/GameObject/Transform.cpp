@@ -36,6 +36,11 @@ namespace WickedSick
 
   }
 
+  COREDLL_API void Transform::Update(float dt)
+  {
+    //nothing
+  }
+
   COREDLL_API std::string Transform::GetName()
   {
     return name_;

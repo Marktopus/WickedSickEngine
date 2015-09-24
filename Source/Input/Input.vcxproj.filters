@@ -47,5 +47,8 @@
     <ClInclude Include="Input\InputInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Input\InputEnums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

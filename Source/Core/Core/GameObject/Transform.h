@@ -13,15 +13,17 @@ namespace WickedSick
   public:
     
     COREDLL_API Transform(GameObject*     owner = nullptr,
-							            const Vector3&  pos    = Vector3(),
-							            const Vector3&  scale  = Vector3(1.0f, 1.0f, 1.0f),
-							            const Vector3&  rot    = Vector3());
+                          const Vector3&  pos    = Vector3(),
+                          const Vector3&  scale  = Vector3(1.0f, 1.0f, 1.0f),
+                          const Vector3&  rot    = Vector3());
     
     COREDLL_API Transform(const Transform& rhs);
 
     COREDLL_API ~Transform();
 
     COREDLL_API void Initialize();
+    COREDLL_API void Update(float dt);
+
 
     COREDLL_API std::string GetName();
 

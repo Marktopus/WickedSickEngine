@@ -11,11 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EventSystem\Event\EventCallbackList.h" />
     <ClInclude Include="EventSystem\Event\EventCallback.h" />
     <ClInclude Include="EventSystem\Event\Event.h" />
-    <ClInclude Include="EventSystem\EventTypes\KeyboardEvent.h" />
-    <ClInclude Include="EventSystem\EventTypes\EventTypes.h" />
-    <ClInclude Include="EventSystem\EventTypes\MouseEvent.h" />
     <ClInclude Include="EventSystem\EventSystemInterface.h" />
     <ClInclude Include="EventSystem\EventSystemPrecompiled.h" />
     <ClInclude Include="EventSystem\RegisterEventType.h" />
@@ -23,9 +21,8 @@
     <ClInclude Include="EventSystem\EventSystemDLL.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventSystem\Event\EventCallbackList.cpp" />
     <ClCompile Include="EventSystem\Event\EventCallback.cpp" />
-    <ClCompile Include="EventSystem\EventTypes\KeyboardEvent.cpp" />
-    <ClCompile Include="EventSystem\EventTypes\MouseEvent.cpp" />
     <ClCompile Include="EventSystem\EventSystemPrecompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -78,18 +75,18 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;EVENTSYSTEMDLL_EXPORTS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;_USRDLL;EVENTSYSTEMDLL_EXPORTS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>EventSystemPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Core;$(SolutionDir)EventSystem;EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Core;$(SolutionDir)EventSystem;EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalDependencies>Utility.lib;Debugging.lib;Math.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua53_d.lib;Meta.lib;Utility.lib;Debugging.lib;Math.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -101,10 +98,10 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;EVENTSYSTEMDLL_EXPORTS;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;_USRDLL;EVENTSYSTEMDLL_EXPORTS;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>EventSystemPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Core;$(SolutionDir)EventSystem;EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Core;$(SolutionDir)EventSystem;EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
@@ -116,8 +113,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalDependencies>Utility.lib;Debugging.lib;Math.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua53.lib;Meta.lib;Utility.lib;Debugging.lib;Math.lib;Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <Profile>true</Profile>

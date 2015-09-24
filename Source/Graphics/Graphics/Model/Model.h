@@ -26,8 +26,8 @@ namespace WickedSick
       virtual void Initialize() = 0;
       virtual void Render() = 0;
 
-      void Set( const std::vector<Vertex>&    faceList,
-                const std::vector<Face>&  vertexList);      
+      void Set( const std::vector<Vertex>& vertexList,
+                const std::vector<Face>&   faceList);      
 
       int GetNumIndices();
       int GetNumFaces();

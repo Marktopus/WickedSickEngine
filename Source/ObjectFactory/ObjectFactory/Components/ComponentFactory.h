@@ -16,11 +16,10 @@ namespace WickedSick
     {
 
     }
-
     Archetype<T>& GetArchetype(const std::string& name)
     {
       auto& object = archetype_map_.find(name);
-      return (*object).type;
+      return (*object).val;
     }
 
     //hardcoded
@@ -39,13 +38,10 @@ namespace WickedSick
       Component* toReturn = nullptr;
       if(archetype != archetype_map_.end())
       {
-        toReturn = manager_.New((*archetype).type.GetBase());
+        toReturn = manager_.New((*archetype).val.GetBase());
+        toReturn->SetOwner(owner);
       }
-      else
-      {
-        toReturn = manager_.New();
-      }
-      toReturn->SetOwner(owner);
+      
       return toReturn;
     }
 

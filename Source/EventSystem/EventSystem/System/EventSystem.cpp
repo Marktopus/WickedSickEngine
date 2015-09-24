@@ -4,6 +4,7 @@
 #include "Utility/UtilityInterface.h"
 
 #include "Event/EventCallback.h"
+#include "Event/EventCallbackList.h"
 
 #include "Event/Event.h"
 
@@ -21,7 +22,9 @@ namespace WickedSick
 
   EVENTSYSTEMDLL_API void EventSystem::Initialize()
   {
-    
+    //register engine wide events
+
+    Register("Quit", QuitEvent);
   }
 
   EVENTSYSTEMDLL_API bool EventSystem::Load()
@@ -34,23 +37,26 @@ namespace WickedSick
     return true;
   }
 
-  EVENTSYSTEMDLL_API void EventSystem::Update(double dt)
+  EVENTSYSTEMDLL_API void EventSystem::Update(float dt)
   {
     FireEvents();
   }
 
-  EVENTSYSTEMDLL_API void EventSystem::QueueEvent(Event* message)
+
+  EVENTSYSTEMDLL_API Event* EventSystem::QueueEvent(const std::string& eventName)
   {
-    event_queue_.push_back(message);
+    Event* newEvent = event_manager_.New(eventName);
+    event_queue_.push_back(newEvent);
+    return newEvent;
   }
 
   EVENTSYSTEMDLL_API void EventSystem::Register(const std::string & eventName,
-                                                const EventCallback& callback)
+                                                EventCallback callback)
   {
     auto it = event_map_.find(eventName);
     if (it != event_map_.end())
     {
-      auto& callbackList = (*it).type;
+      auto& callbackList = (*it).val;
       callbackList.push_back(callback);
     }
     else
@@ -69,10 +75,13 @@ namespace WickedSick
     for (auto& it : event_queue_)
     {
       auto& mapIt = event_map_.find(it->GetName());
-      auto& callbackList = (*mapIt).type;
-      for (auto& cit : callbackList)
+      if(mapIt != event_map_.end())
       {
-        cit.Fire(it);
+        auto& callbackList = (*mapIt).val;
+        for (auto& cit : callbackList)
+        {
+          cit.Fire(it);
+        }
       }
     }
     event_queue_.clear();

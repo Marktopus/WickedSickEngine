@@ -307,18 +307,19 @@ namespace WickedSick
 
   MATHDLL_API Matrix4& Matrix4::Scale(const Vector3& scale)
   {
-    m[0][0] *= scale.x;
-    m[1][1] *= scale.y;
-    m[2][2] *= scale.z;
+    *this = GetScaled(scale);
     return *this;
   }
 
   MATHDLL_API Matrix4 Matrix4::GetScaled(const Vector3& scale) const
   {
-    return Matrix4( m00 * scale.x, m01, m02, m03,
-                    m10, m11 * scale.y, m12, m13,
-                    m20, m21, m22 * scale.z, m23,
-                    m30, m31, m32, m33);
+    Matrix4 scaleMat;
+    scaleMat.Identity();
+    scaleMat.m[0][0] = scale.x;
+    scaleMat.m[1][1] = scale.y;
+    scaleMat.m[2][2] = scale.z;
+
+    return (scaleMat * *this);
   }
 
 
@@ -407,18 +408,21 @@ namespace WickedSick
 
   MATHDLL_API Matrix4& Matrix4::Translate(const Vector3& dist)
   {
-    m03 += dist.x;
-    m13 += dist.y;
-    m23 += dist.z;
+    *this = GetTranslated(dist);
     return *this;
   }
 
   MATHDLL_API Matrix4 Matrix4::GetTranslated(const Vector3& dist) const
   {
-    return Matrix4(m00, m01, m02, m03 + dist.x,
-                   m10, m11, m12, m13 + dist.y,
-                   m20, m21, m22, m23 + dist.z,
-                   m30, m31, m32, m33);
+    Matrix4 translateMat;
+    translateMat.Identity();
+    translateMat.m[0][3] += dist.x;
+    translateMat.m[1][3] += dist.y;
+    translateMat.m[2][3] += dist.z;
+
+    return (translateMat * *this);
+
+    
   }
 
   MATHDLL_API void Matrix4::Print(void) const
@@ -434,13 +438,26 @@ namespace WickedSick
 
   MATHDLL_API Matrix4& Matrix4::DoPerspective(float fovW, float znear, float zfar, float aspectRatio)
   {
-    Zero();
-    fovW *= 0.5f;
-    float yScale = 1.0f/tan(fovW);
-    m[0][0] = yScale / aspectRatio;
-                                    m[1][1] = yScale;
-                                                      m[2][2] = zfar / (znear - zfar);            m[2][3] = (znear * zfar) / (znear - zfar);
-                                                      m[3][2] = -1.0f;
+
+    Identity();
+    //return *this;
+    //fovW = 90;
+
+    float yScale = 1.0f / tan(fovW / 2.0f);
+    float xScale = yScale / aspectRatio;
+
+    *this = Matrix4(xScale,   0,      0,                                0,
+                    0,        yScale, 0,                                0,
+                    0,        0,      zfar / (zfar - znear),            1,
+                    0,        0,      (-znear * zfar) / (zfar - znear), 0);
+    Transpose();
+    //Zero();
+    //fovW *= 0.5f;
+    //float yScale = 1.0f/tan(fovW);
+    //m[0][0] = yScale / aspectRatio;
+    //                                m[1][1] = yScale;
+    //                                                  m[2][2] = zfar / (znear - zfar);            m[2][3] = (znear * zfar) / (znear - zfar);
+    //                                                  m[3][2] = 1.0f;
 
     //m[0][0] = yScale / aspectRatio;
     //                                m[1][1] = yScale;

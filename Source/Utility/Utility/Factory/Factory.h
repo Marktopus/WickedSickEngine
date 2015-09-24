@@ -17,7 +17,7 @@ namespace WickedSick
     Archetype<T>& GetArchetype(const std::string& name)
     {
       auto& object = archetype_map_.find(name);
-      return (*object).type;
+      return (*object).val;
     }
 
     //hardcoded
@@ -33,7 +33,7 @@ namespace WickedSick
     T* Make(const std::string& archetypeName)
     {
       auto& archetype = archetype_map_.find(archetypeName);
-      return manager_.New((*archetype).type.GetBase());
+      return manager_.New((*archetype).val.GetBase());
     }
 
     T* Make(const Archetype<T>& archetype)
