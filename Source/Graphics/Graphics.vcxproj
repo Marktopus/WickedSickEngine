@@ -135,7 +135,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalDependencies>Input.lib;Utility.lib;Debugging.lib;Core.lib;Window.lib;Math.lib;d3d11.lib;D3DCompiler.lib;dxguid.lib;lua53_d.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
+      <AdditionalDependencies>Input.lib;Utility.lib;Debugging.lib;Core.lib;Window.lib;Math.lib;d3d11.lib;D3DCompiler.lib;dxguid.lib;imgui.lib;lua53_d.lib;%(AdditionalDependencies);</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Externals\imgui\lib;$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
@@ -163,7 +163,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalDependencies>Input.lib;Utility.lib;Debugging.lib;Core.lib;Window.lib;Math.lib;d3d11.lib;D3DCompiler.lib;dxguid.lib;lua53.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
+      <AdditionalDependencies>Input.lib;Utility.lib;Debugging.lib;Core.lib;Window.lib;Math.lib;d3d11.lib;D3DCompiler.lib;dxguid.lib;imgui.lib;lua53.lib;%(AdditionalDependencies);</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>

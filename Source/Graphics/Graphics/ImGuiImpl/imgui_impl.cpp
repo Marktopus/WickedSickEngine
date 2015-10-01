@@ -183,7 +183,7 @@ static void DxImguiRender(ImDrawData* draw_data)
   g_pd3dDeviceContext->PSSetShader(NULL, NULL, 0);
   g_pd3dDeviceContext->VSSetShader(NULL, NULL, 0);
 }
-#endif
+
 
 void ImGui_ImplDX11_RenderDrawLists(ImDrawData* draw_data)
 {
@@ -344,3 +344,4 @@ void ImGui_ImplDX11_RenderDrawLists(ImDrawData* draw_data)
   context->PSSetShader(NULL, NULL, 0);
   context->VSSetShader(NULL, NULL, 0);
 }
+#endif

@@ -143,7 +143,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Externals\imgui\lib;$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua53_d.lib;Debugging.lib;Utility.lib;Math.lib;lua53_d.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
+      <AdditionalDependencies>Debugging.lib;Utility.lib;Math.lib;imgui.lib;lua53_d.lib;%(AdditionalDependencies);</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
@@ -177,7 +177,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <Profile>true</Profile>
       <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua53.lib;Debugging.lib;Utility.lib;Math.lib;lua53.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
+      <AdditionalDependencies>Debugging.lib;Utility.lib;Math.lib;imgui.lib;lua53.lib;%(AdditionalDependencies);</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
     </Link>

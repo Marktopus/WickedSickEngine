@@ -59,7 +59,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Physics.lib;Meta.lib;ObjectFactory.lib;Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;lua53_d.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;Meta.lib;ObjectFactory.lib;Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;imgui.lib;lua53_d.lib;%(AdditionalDependencies);</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Externals\imgui\lib;$(SolutionDir)Externals\Lua\lib;../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
@@ -88,7 +88,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>Physics.lib;Meta.lib;ObjectFactory.lib;Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;lua53.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;Meta.lib;ObjectFactory.lib;Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;imgui.lib;lua53.lib;%(AdditionalDependencies);</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <Profile>true</Profile>
     </Link>

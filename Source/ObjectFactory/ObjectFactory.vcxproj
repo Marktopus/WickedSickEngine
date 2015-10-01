@@ -88,7 +88,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Externals\imgui\lib;$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Physics.lib;Meta.lib;Graphics.lib;Debugging.lib;Utility.lib;EventSystem.lib;Core.lib;Math.lib;lua53_d.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;Meta.lib;Graphics.lib;Debugging.lib;Utility.lib;EventSystem.lib;Core.lib;Math.lib;imgui.lib;lua53_d.lib;%(AdditionalDependencies);</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -116,7 +116,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>Physics.lib;Meta.lib;Graphics.lib;Debugging.lib;Utility.lib;EventSystem.lib;Core.lib;Math.lib;lua53.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;Meta.lib;Graphics.lib;Debugging.lib;Utility.lib;EventSystem.lib;Core.lib;Math.lib;imgui.lib;lua53.lib;%(AdditionalDependencies);</AdditionalDependencies>
       <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
