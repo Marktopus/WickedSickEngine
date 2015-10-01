@@ -26,19 +26,25 @@ namespace WickedSick
   void DxModel::Initialize()
   {
 
-    vertex_buffer_ = new DxBuffer(sizeof(Vertex),
-                                  0,
-                                  &vertex_list_[0],
-                                  sizeof(Vertex) * GetNumVerts(),
-                                  WickedSick::Buffer::Vertex);
-    index_buffer_ = new DxBuffer( sizeof(int),
-                                  0,
-                                  &face_list_[0],
-                                  sizeof(int) * GetNumIndices(),
-                                  WickedSick::Buffer::Index);
+    buffers_.vertBuf = new DxBuffer("Vertex",
+                                    sizeof(Vertex),
+                                    0,
+                                    &vertex_list_[0],
+                                    sizeof(Vertex) * GetNumVerts(),
+                                    WickedSick::BufferType::Vertex,
+                                    AccessType::None,
+                                    UsageType::Default);
+    buffers_.indexBuf = new DxBuffer("Index",
+                                     sizeof(int),
+                                     0,
+                                     &face_list_[0],
+                                     sizeof(int) * GetNumIndices(),
+                                     WickedSick::BufferType::Index,
+                                     AccessType::None,
+                                     UsageType::Default);
 
-    vertex_buffer_->Initialize();
-    index_buffer_->Initialize();
+    buffers_.vertBuf->Initialize();
+    buffers_.indexBuf->Initialize();
   }
   
   void DxModel::Render()
@@ -47,8 +53,8 @@ namespace WickedSick
     DirectX* dx = (DirectX*)Graphics::graphicsAPI;
     ID3D11DeviceContext* context = dx->GetSwapChain()->device->D3DContext;
 
-    DxBuffer* vert = (DxBuffer*)vertex_buffer_;
-    DxBuffer* index = (DxBuffer*)index_buffer_;
+    DxBuffer* vert = (DxBuffer*) buffers_.vertBuf;
+    DxBuffer* index = (DxBuffer*) buffers_.indexBuf;
 
     ID3D11Buffer* vertBuf = (ID3D11Buffer*)vert->BufferPointer();
     ID3D11Buffer* indBuf = (ID3D11Buffer*)index->BufferPointer();

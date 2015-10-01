@@ -10,7 +10,7 @@
 
 namespace WickedSick
 {
-  EVENTSYSTEMDLL_API EventSystem::EventSystem() : System(ST_Messaging)
+  EVENTSYSTEMDLL_API EventSystem::EventSystem() : System(ST_EventSystem)
   {
     
   }

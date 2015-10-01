@@ -13,7 +13,7 @@
 
 
 #include "Utility/UtilityInterface.h"
-
+struct ImDrawData;
 namespace WickedSick
 {
   class ModelComponent;
@@ -45,16 +45,21 @@ namespace WickedSick
 
     GRAPHICSDLL_API void RecompileShaders();
 
+
+    GRAPHICSDLL_API Buffer* GetUIVertexBuffer();
+    GRAPHICSDLL_API Buffer* GetUIIndexBuffer();
+    GRAPHICSDLL_API Shader* GetShader(const std::string& name);
+    GRAPHICSDLL_API Renderable* GetRenderable(const std::string& name);
     
     static GraphicsAPI*            graphicsAPI;
   private:
 
 
-    static Factory<ModelComponent> model_comp_factory_;
     
     HashMap<int, ModelComponent*> model_components_; 
     HashMap<std::string, ModelLoader*> loaders_;
     HashMap<std::string, Model*> models_;
+    HashMap<std::string, Renderable> renderables_;//basically buffers that don't have associated models
     HashMap<std::string, Shader*> shaders_;
 
     Matrix4 projection_matrix_;
@@ -66,6 +71,7 @@ namespace WickedSick
     Camera*           camera_;
 
     GraphicsOptions*  options_;
+
 
   };
 }

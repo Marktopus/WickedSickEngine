@@ -20,13 +20,16 @@
 
 #include "Utility/UtilityInterface.h"
 
+#include "ImGuiImpl/imgui_impl.h"
+
+#include "Imgui/include/imgui.h"
+
 #include <thread>
 #include <mutex>
 
 namespace WickedSick
 {
   GraphicsAPI*  Graphics::graphicsAPI  = nullptr;
-  Factory<ModelComponent> Graphics::model_comp_factory_;
   GRAPHICSDLL_API Graphics::Graphics()  : camera_(nullptr),
                                           options_(nullptr),
                                           mat_stack_(nullptr),
@@ -65,11 +68,35 @@ namespace WickedSick
     {
       delete (it.val);
     }
+    ImGui::Shutdown();
   }
 
   GRAPHICSDLL_API void Graphics::Initialize()
   {
+    ImGuiIO& io = ImGui::GetIO();
+    io.KeyMap[ImGuiKey_Tab] = VK_TAB;                              // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array that we will update during the application lifetime.
+    io.KeyMap[ImGuiKey_LeftArrow] = VK_LEFT;
+    io.KeyMap[ImGuiKey_RightArrow] = VK_RIGHT;
+    io.KeyMap[ImGuiKey_UpArrow] = VK_UP;
+    io.KeyMap[ImGuiKey_DownArrow] = VK_DOWN;
+    io.KeyMap[ImGuiKey_PageUp] = VK_PRIOR;
+    io.KeyMap[ImGuiKey_PageDown] = VK_NEXT;
+    io.KeyMap[ImGuiKey_Home] = VK_HOME;
+    io.KeyMap[ImGuiKey_End] = VK_END;
+    io.KeyMap[ImGuiKey_Delete] = VK_DELETE;
+    io.KeyMap[ImGuiKey_Backspace] = VK_BACK;
+    io.KeyMap[ImGuiKey_Enter] = VK_RETURN;
+    io.KeyMap[ImGuiKey_Escape] = VK_ESCAPE;
+    io.KeyMap[ImGuiKey_A] = 'A';
+    io.KeyMap[ImGuiKey_C] = 'C';
+    io.KeyMap[ImGuiKey_V] = 'V';
+    io.KeyMap[ImGuiKey_X] = 'X';
+    io.KeyMap[ImGuiKey_Y] = 'Y';
+    io.KeyMap[ImGuiKey_Z] = 'Z';
+
+    //io.RenderDrawListsFn = ImGui_RenderDrawLists;
     
+    //ImGui::NewFrame();
     
     
     WickedSick::Window* window = core_->GetSystem<WickedSick::Window>(ST_Window);
@@ -99,12 +126,23 @@ namespace WickedSick
     bunny->Initialize();
     sphere->Initialize();
 
-    Shader* shader = graphicsAPI->MakeShader();
+    Shader* colorShader = graphicsAPI->MakeShader();
 
-    shader->SetShaders("../Content/Shaders/Color/color.vs",
-                       "../Content/Shaders/Color/color.ps");
-    shader->Initialize();
-    shaders_.insert("Color", shader);
+    colorShader->SetShaders("../Content/Shaders/Color/color.vs",
+                            "../Content/Shaders/Color/color.ps");
+
+    //Layout& colorLayout = colorShader->GetLayout();
+    //colorLayout.pixelEntry = "ColorPixelShader";
+    //colorLayout.vertexEntry = "ColorVertexShader";
+    //colorLayout.AddParam({"POSITION", sizeof(float) * 3, DataType::Float});
+    //colorLayout.AddParam({"NORMAL", sizeof(float) * 3, DataType::Float});
+    //colorLayout.AddParam({"COLOR", sizeof(float) * 4, DataType::Float});
+
+    //colorShader->AddConstantBuffer("LightBuffer", sizeof(LightBuffer));
+
+    colorShader->Initialize();
+    shaders_.insert("Color", colorShader);
+
     
 
     return true;
@@ -171,12 +209,32 @@ namespace WickedSick
       it.val->Compile();
     }
   }
+
+  GRAPHICSDLL_API Shader * Graphics::GetShader(const std::string & name)
+  {
+    auto& shaderIt = shaders_.find(name);
+    if(shaderIt != shaders_.end())
+    {
+      return (*shaderIt).val;
+    }
+    return nullptr;
+  }
+
+  GRAPHICSDLL_API Renderable * Graphics::GetRenderable(const std::string & name)
+  {
+    auto& renderableIt = renderables_.find(name);
+    if(renderableIt != renderables_.end())
+    {
+      return &(*renderableIt).val;
+    }
+    return nullptr;
+  }
   
   GRAPHICSDLL_API void Graphics::Render()
   {
     mat_stack_->Push(camera_->GetViewMatrix());
 
-    Matrix4 world;
+    Matrix4 modelToWorld;
     graphicsAPI->BeginScene();
     for (auto& shaderIt : shaders_)
     {
@@ -189,35 +247,44 @@ namespace WickedSick
         {
           Transform* tr = (Transform*)inst->GetSibling(CT_Transform);
 
-          world.Identity();
+          modelToWorld.Identity();
 
 
 
-          Matrix4 rotate = world.GetRotatedXYZ(tr->GetRotation());
-          Matrix4 scale = world.GetScaled(tr->GetScale());
-          Matrix4 translate = world.GetTranslated(tr->GetPosition());
+          Matrix4 rotate = modelToWorld.GetRotatedXYZ(tr->GetRotation());
+          Matrix4 scale = modelToWorld.GetScaled(tr->GetScale());
+          Matrix4 translate = modelToWorld.GetTranslated(tr->GetPosition());
 
-          world = translate * rotate * scale;
+          modelToWorld = translate * rotate * scale;
 
+          Matrix4 worldToClip = projection_matrix_ * camera_->GetViewMatrix();
+          Vector3 cameraPos = camera_->GetPosition();
+          Vector3 lightDir = Vector3(-1.0f, -1.0f, -1.0f);
           
-          
-
-
+          std::vector<ParamPasser> params;
+          params.push_back({"LightBuffer", "modelToWorld", &modelToWorld});
+          params.push_back({"LightBuffer", "worldToClip", &worldToClip});
+          params.push_back({"LightBuffer", "lightDir", &lightDir});
+          params.push_back({"LightBuffer", "cameraPos", &cameraPos});
           //mat_stack_->Push(world);
           
           shader->Render(model->GetNumIndices(),
-                         world,
-                         projection_matrix_ * camera_->GetViewMatrix(),
-                         camera_->GetLookAt() - camera_->GetPosition());
+                         params);
 
           //mat_stack_->Pop();
         }
       }
     }
     
-    graphicsAPI->RenderScene();
+    
+    
+
+
+    //ImGui::Render();
+
     graphicsAPI->EndScene();
     mat_stack_->Pop();
+    //ImGui::NewFrame();
   }
 
   GRAPHICSDLL_API Camera * Graphics::GetCamera()
@@ -230,4 +297,5 @@ namespace WickedSick
     auto& modelIt = models_.find(name);
     return (modelIt != models_.end()) ? (*modelIt).val : nullptr;
   }
+
 }

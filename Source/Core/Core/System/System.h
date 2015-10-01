@@ -11,7 +11,7 @@ namespace WickedSick
 
   enum SystemType
   {
-    #define RegisterSystem(x) x,
+    #define RegisterSystem(x) ST_##x,
     #include "RegisterSystem.h"
     #undef RegisterSystem
     ST_Count
@@ -21,8 +21,6 @@ namespace WickedSick
   {
 
     public:
-
-      
 
       COREDLL_API System(SystemType type);
       COREDLL_API ~System();

@@ -15,23 +15,29 @@
 
 namespace WickedSick
 {
-  DxBuffer::DxBuffer( size_t stride,
-                      size_t offset,
-                      void* data,
-                      size_t size,
-                      Type  type) 
-                      : Buffer( stride, 
-                                offset, 
-                                data, 
-                                size, 
-                                type)
+  DxBuffer::DxBuffer(const std::string& name,
+                     size_t stride,
+                     size_t offset,
+                     void* init,
+                     size_t size,
+                     BufferType::Enum  type,
+                     AccessType::Enum accessType,
+                     UsageType::Enum usageType)
+                      : Buffer(name,
+                               stride,
+                               offset,
+                               init,
+                               size,
+                               type,
+                               accessType,
+                               usageType)
   {
 
   }
 
   DxBuffer::~DxBuffer()
   {
-
+    
   }
   
   void DxBuffer::Initialize()
@@ -39,51 +45,78 @@ namespace WickedSick
     DirectX* dx = (DirectX*)Graphics::graphicsAPI;
     ID3D11Device* device = dx->GetSwapChain()->device->D3DDevice;
     D3D11_BUFFER_DESC bufferDesc;
+    SecureZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
     D3D11_SUBRESOURCE_DATA* buffData = nullptr;
 
     
-	  bufferDesc.ByteWidth = size_;
+    bufferDesc.ByteWidth = size_;
 
     switch (type_)
     {
-    case Buffer::Vertex:
+    case BufferType::Vertex:
       bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-      bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-      bufferDesc.CPUAccessFlags = 0;
       buffData = (D3D11_SUBRESOURCE_DATA*)alloca(sizeof(D3D11_SUBRESOURCE_DATA));
+      SecureZeroMemory(buffData, sizeof(D3D11_SUBRESOURCE_DATA));
       buffData->pSysMem = data_;
-	    buffData->SysMemPitch = 0;
-	    buffData->SysMemSlicePitch = 0;
       break;
-    case Buffer::Index:
+    case BufferType::Index:
       bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-      bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-      bufferDesc.CPUAccessFlags = 0;
       buffData = (D3D11_SUBRESOURCE_DATA*)alloca(sizeof(D3D11_SUBRESOURCE_DATA));
+      SecureZeroMemory(buffData, sizeof(D3D11_SUBRESOURCE_DATA));
       buffData->pSysMem = data_;
-	    buffData->SysMemPitch = 0;
-	    buffData->SysMemSlicePitch = 0;
       break;
-    case Buffer::Constant:
+    case BufferType::Constant:
       bufferDesc.ByteWidth = size_ + (16 - (size_ % 16));
       bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-      bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	    bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-      bufferDesc.MiscFlags = 0;
-      bufferDesc.StructureByteStride = 0;
       break;
     default:
       break;
     }
 
-	  bufferDesc.MiscFlags = 0;
-	  bufferDesc.StructureByteStride = 0;
+    switch (access_type_)
+    {
+      case AccessType::CpuBoth:
+        bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+        break;
+      case AccessType::CpuRead:
+        bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+        break;
+      case AccessType::CpuWrite:
+        bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+        break;
+      default:
+        bufferDesc.CPUAccessFlags = 0;
+        break;
+    }
 
+    switch (usage_type_)
+    {
+      case UsageType::Default:
+        bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+        break;
+      case UsageType::Dynamic:
+        bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+        break;
+      case UsageType::Static:
+        bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+        break;
+      case UsageType::Staging:
+        bufferDesc.Usage = D3D11_USAGE_STAGING;
+        break;
+      default:
+        bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+    }
 
 
     DXError(device->CreateBuffer(&bufferDesc, 
                                  buffData, 
                                  &buffer_));
+  }
+
+  void DxBuffer::ClearBuffer()
+  {
+    buffer_->Release();
+    buffer_ = nullptr;
   }
 
   void* DxBuffer::BufferPointer()

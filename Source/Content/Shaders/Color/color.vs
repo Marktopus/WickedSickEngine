@@ -10,25 +10,26 @@ cbuffer LightBuffer
 struct VertexInput
 {
   float3 position : POSITION;
-  float4 color : COLOR;
   float3 normal : NORMAL;
+  float4 color : COLOR;
 };
 
 struct PixelInputType
 {
   float4 position : SV_POSITION;
   float4 color : COLOR;
+  float4 normal : NORMAL;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // Vertex Shader
 ////////////////////////////////////////////////////////////////////////////////
-PixelInputType ColorVertexShader(VertexInput input)
+PixelInputType main(VertexInput input)
 {
   PixelInputType output;
   output.position = mul(float4(input.position.xyz, 1), modelToWorld);
   float3 lightDirNorm = normalize(-lightDir);
-  float3 camVec = cameraPos - output.position.xyz;
+  float3 view = normalize(cameraPos - output.position.xyz);
   // Calculate the position of the vertex against the world, view, and projection matrices.
   output.position = mul(output.position, worldToClip);
 
@@ -38,18 +39,18 @@ PixelInputType ColorVertexShader(VertexInput input)
   // Store the input color for the pixel shader to use.
   
 
-  float3 halfVector = normalize(lightDirNorm + camVec);
+  float3 halfVector = (lightDirNorm + view) / 2;
 
   float nDotH = max(dot(normalWorldSpace.xyz, halfVector), 0);
   float intensity = pow(nDotH, 20);
 
-  float specular = intensity * nDotH;
+  float specular = min(intensity * nDotH, 1);
 
 
-  output.color = (nDotL * input.color) + specular;//input.color;//float4(input.normal, 1);
+  output.color = input.color * (nDotL + specular * input.color);//input.color;//float4(input.normal, 1);
   //output.position.z = 0.1;
     
   //output.color = float4(1,0,0,1);
-
+  output.normal = normalWorldSpace;
   return output;
 }

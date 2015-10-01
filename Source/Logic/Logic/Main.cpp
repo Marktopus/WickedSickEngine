@@ -4,6 +4,7 @@
 #include "Window/WindowInterface.h"
 #include "Input/InputInterface.h"
 #include "Utility/UtilityInterface.h"
+#include "Physics/PhysicsInterface.h"
 
 #include "Testing/TestingInterface.h"
 #include "ObjectFactory/ObjectFactoryInterface.h"
@@ -23,6 +24,7 @@ int main(void)
   engine->AddSystem(new WickedSick::Input());
   engine->AddSystem(new WickedSick::EventSystem());
   engine->AddSystem(new WickedSick::ObjectFactory());
+  engine->AddSystem(new WickedSick::Physics());
   
 
   engine->Initialize();
@@ -31,7 +33,8 @@ int main(void)
   WickedSick::ObjectFactory* fact = (WickedSick::ObjectFactory*)engine->GetSystem(WickedSick::ST_ObjectFactory);
   fact->CreateArchetypes();
   fact->BuildScene();
-
+  WickedSick::Physics* pSys = (WickedSick::Physics*)engine->GetSystem(WickedSick::ST_Physics);
+  pSys->GetScene()->LoadScene();
   while (engine->IsActive())
   {
     engine->Update();

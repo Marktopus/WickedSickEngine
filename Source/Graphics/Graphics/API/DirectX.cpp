@@ -181,11 +181,6 @@ namespace WickedSick
     clear_buffers();
   }
 
-  void DirectX::RenderScene()
-  {
-    //do shader thing i guess
-  }
-
   void DirectX::EndScene()
   {
     if(options_->VSync)//vsync

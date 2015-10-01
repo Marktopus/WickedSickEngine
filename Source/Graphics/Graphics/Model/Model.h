@@ -3,14 +3,13 @@
 #include "Math/MathInterface.h"
 #include "ModelInstance.h"
 
+#include "Renderable.h"
+
 #include "Utility/UtilityInterface.h"
 #include "Face.h"
 #include "API/APIType.h"
 
 //#include "Graphics/WS_Graphics_DLL.h"
-
-
-#include <unordered_map>
 
 namespace WickedSick
 {
@@ -39,9 +38,7 @@ namespace WickedSick
       std::vector<ModelComponent*>& GetInstances();
 
     protected:
-      Buffer* vertex_buffer_;
-      Buffer* index_buffer_;
-
+      Renderable buffers_;
       friend class DirectX;
 
       std::vector<ModelComponent*> instance_list_;

@@ -5,6 +5,7 @@
 #include "Input/InputInterface.h"
 #include "Core/CoreInterface.h"
 
+#include "Imgui/include/imgui.h"
 namespace WickedSick
 {
   std::string VKKeyToString(WPARAM vkCode)
@@ -217,7 +218,7 @@ namespace WickedSick
                               WPARAM wParam,
                               LPARAM lParam)
   {
-    EventSystem* msgSystem = Engine::GetCore()->GetSystem<EventSystem>(ST_Messaging);
+    EventSystem* msgSystem = Engine::GetCore()->GetSystem<EventSystem>(ST_EventSystem);
     Window* windowSystem = Engine::GetCore()->GetSystem<Window>(ST_Window);
     InputBuffer* buf = windowSystem->GetInputBuffer();
 
@@ -242,7 +243,7 @@ namespace WickedSick
       case WM_MOUSEWHEEL:
       {
         
-        buf->wheelChange = GET_WHEEL_DELTA_WPARAM(wParam)/WHEEL_DELTA;
+        buf->wheelChange = GET_WHEEL_DELTA_WPARAM(wParam) > 0 ? +1.0f : -1.0f;
         //buf->wheelChange = (wParam / WHEEL_DELTA);
         break;
       }
@@ -467,7 +468,7 @@ namespace WickedSick
         return DefWindowProc (hWnd, message, wParam, lParam);
     }
     // Handle any messages the switch statement didn't
-    return 0;
+    return 1;
   }
 
   WINDOWDLL_API Window::Window() : System(ST_Window)
@@ -537,6 +538,9 @@ namespace WickedSick
                                     windowInfo.hInstance,   //got this from GetModuleHandle() earlier
                                     nullptr);               //used with multiple windows?
     ShowWindow(window_handle_, SW_SHOW);
+    ImGuiIO& io = ImGui::GetIO();
+    io.DisplaySize = ImVec2(1920.0f, 1080.0f);
+    io.ImeWindowHandle = window_handle_;
   }
   
   WINDOWDLL_API bool Window::Load()
@@ -556,6 +560,14 @@ namespace WickedSick
 
     message_update();
     inputSystem->UpdateInput(input_buf_);
+    ImGuiIO& imgui = ImGui::GetIO();
+    memcpy(imgui.KeysDown, input_buf_->down, sizeof(bool) * 256);
+    
+
+    imgui.MouseClicked[0] = input_buf_->down[VK_LBUTTON];
+    imgui.MouseClicked[1] = input_buf_->down[VK_RBUTTON];
+    imgui.MouseClicked[2] = input_buf_->down[VK_MBUTTON];
+    
     
   }
 

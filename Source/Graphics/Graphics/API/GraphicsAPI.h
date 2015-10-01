@@ -1,5 +1,6 @@
 #pragma once
-
+#include "Shader/ParamTypeInfo.h"
+#include "Shader/Shader.h"
 
 namespace WickedSick
 {
@@ -8,6 +9,7 @@ namespace WickedSick
   class Shader;
   struct GraphicsOptions;
   class Window;
+  class Shader;
   enum APIType;
 
 
@@ -23,7 +25,6 @@ namespace WickedSick
     virtual void CleanUp() = 0;
 
     virtual void BeginScene() = 0;
-    virtual void RenderScene() = 0;
     virtual void EndScene() = 0;
 
     virtual Model* MakeModel() = 0;

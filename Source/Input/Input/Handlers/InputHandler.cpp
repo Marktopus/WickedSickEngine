@@ -56,7 +56,7 @@ namespace WickedSick
   {
     cur_mouse_pos_ = buf.mousePos;
     cur_wheel_pos_ = buf.wheelChange;
-    ConsolePrint(std::to_string(cur_wheel_pos_));
+    //ConsolePrint(std::to_string(cur_wheel_pos_));
     memcpy(current_modifiers_, buf.current_modifiers_, sizeof(current_modifiers_));
     for(int i = 0; i < MaxKeys; ++i)
     {
@@ -149,6 +149,9 @@ namespace WickedSick
       }
       
     }
+
+    
+
   }
 
 
@@ -158,6 +161,8 @@ namespace WickedSick
     inputs_.insert("Move", { InputType::Pressed, VK_RBUTTON, std::set<int>{}, std::set<ModifierType::Enum>{ModifierType::Control}});
     inputs_.insert("ZoomIn", { InputType::Pressed, VK_ADD, std::set<int>{}, std::set<ModifierType::Enum>{}});
     inputs_.insert("ZoomOut", { InputType::Pressed, VK_SUBTRACT, std::set<int>{}, std::set<ModifierType::Enum>{}});
+    
+    //inputs_.insert("ZoomOut", { InputType::Pressed, VK_SUBTRACT, std::set<int>{}, std::set<ModifierType::Enum>{}});
     //Serialization::Deserialize(filename, GetMetaType(), this);
   }
 

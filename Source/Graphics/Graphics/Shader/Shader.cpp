@@ -8,6 +8,7 @@
 #include "System/Graphics.h"
 #include "D3D/SwapChain.h"
 #include "D3D/Device.h"
+#include "Buffer/Buffer.h"
 
 
 namespace WickedSick
@@ -41,6 +42,21 @@ namespace WickedSick
     {
       geometry_file_ = geo;
     }
+  }
+
+  Buffer * Shader::GetConstantBuffer(const std::string & name)
+  {
+    auto it = constant_buffers_.find(name);
+    if(it != constant_buffers_.end())
+    {
+      return (*it).val;
+    }
+    return nullptr;
+  }
+
+  void Shader::AddConstantBuffer(Buffer * newBuf)
+  {
+    constant_buffers_.insert(newBuf->GetName(), newBuf);
   }
 
 }

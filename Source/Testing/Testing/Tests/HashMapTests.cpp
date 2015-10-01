@@ -18,7 +18,7 @@ namespace WickedSick
     HashMap<std::string, int> map;
     for (int i = 0; i < 20; ++i)
     {
-      map.insert(HashMap<std::string, int>::Entry("Hello" + std::to_string(i), i));
+      map.insert("Hello" + std::to_string(i), i);
       HashMap_print(map);
     }
     HashMap_print(map);
@@ -30,7 +30,7 @@ namespace WickedSick
     HashMap<std::string, int> map;
     for (int i = 0; i < 2000; ++i)
     {
-      map.insert(HashMap<std::string, int>::Entry("Hello" + std::to_string(i), i));
+      map.insert("Hello" + std::to_string(i), i);
     }
     return (map.size() == 2000);
   }
@@ -40,7 +40,7 @@ namespace WickedSick
     HashMap<std::string, int> map;
     for (int i = 0; i < 20; ++i)
     {
-      map.insert(HashMap<std::string, int>::Entry("Hello" + std::to_string(i), i));
+      map.insert("Hello" + std::to_string(i), i);
     }
 
     for (int i = 0; i < 10; ++i)
@@ -57,7 +57,7 @@ namespace WickedSick
     HashMap<std::string, int> map2;
     for (int i = 0; i < 20; ++i)
     {
-      map2.insert(HashMap<std::string, int>::Entry("Hello" + std::to_string(i), i));
+      map2.insert("Hello" + std::to_string(i), i);
     }
 
     for (int i = 0; i < 10; ++i)

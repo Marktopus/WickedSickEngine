@@ -3,6 +3,8 @@
 #include "Handlers/InputBuffer.h"
 #include "Handlers/InputHandler.h"
 
+#include "Imgui/include/imgui.h"
+
 namespace WickedSick
 {
 
@@ -34,6 +36,7 @@ namespace WickedSick
   INPUTDLL_API void Input::Update(float dt)
   {
     handler_->Update(dt);
+    
   }
 
   INPUTDLL_API void Input::ReceiveMessage(Event * msg)

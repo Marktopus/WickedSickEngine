@@ -257,6 +257,7 @@ namespace WickedSick
       Vector3 v1v2 = vertexList[it.indices[2]] - vertexList[it.indices[0]];
       v1v0.Normalize();
       Vector3 faceNormal = v1v0.Cross(v1v2);
+
       normals.push_back(faceNormal.GetNormalized());
     }
     return normals;

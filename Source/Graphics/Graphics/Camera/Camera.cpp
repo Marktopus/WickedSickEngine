@@ -16,17 +16,32 @@ namespace WickedSick
 
   GRAPHICSDLL_API Vector3 Camera::GetPosition()
   {
-    return pos_;
+    if(source_)
+    {
+      return static_cast<Transform*>(source_->GetSibling(CT_Transform))->GetPosition();
+    }
+    else
+    {
+      return pos_;
+    }
+    
   }
 
   GRAPHICSDLL_API void Camera::SetPosition(const Vector3& pos)
   {
-    pos_ = pos;
+    if(source_)
+    {
+      static_cast<Transform*>(source_->GetSibling(CT_Transform))->SetPosition(pos);
+    }
+    else
+    {
+      pos_ = pos;;
+    }
   }
 
   GRAPHICSDLL_API void Camera::SetPosition(float x, float y, float z)
   {
-    pos_ = Vector3(x, y, z);
+    SetPosition(Vector3(x, y, z));
   }
 
   GRAPHICSDLL_API Vector3 Camera::GetRotation()

@@ -3,6 +3,7 @@
 #include "Core/CoreInterface.h"
 #include "Components/ComponentFactory.h"
 #include "Graphics/GraphicsInterface.h"
+#include "Physics/PhysicsInterface.h"
 //#include ""
 
 namespace WickedSick

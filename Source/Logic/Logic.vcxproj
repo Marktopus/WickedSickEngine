@@ -52,15 +52,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)ObjectFactory;$(SolutionDir)Testing;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Input;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Core;$(SolutionDir)EventSystem;$(SolutionDir)Math;Logic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Physics;$(SolutionDir)Meta;$(SolutionDir)ObjectFactory;$(SolutionDir)Testing;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Input;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Core;$(SolutionDir)EventSystem;$(SolutionDir)Math;Logic;$(SolutionDir)Externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>LogicPrecompiled.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lua53_d.lib;Meta.lib;ObjectFactory.lib;Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Physics.lib;Meta.lib;ObjectFactory.lib;Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;lua53_d.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Externals\imgui\lib;$(SolutionDir)Externals\Lua\lib;../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <SubSystem>Console</SubSystem>
@@ -73,7 +73,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)ObjectFactory;$(SolutionDir)Testing;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Input;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Core;$(SolutionDir)EventSystem;$(SolutionDir)Math;Logic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Physics;$(SolutionDir)Meta;$(SolutionDir)ObjectFactory;$(SolutionDir)Testing;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Input;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Core;$(SolutionDir)EventSystem;$(SolutionDir)Math;Logic;$(SolutionDir)Externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_RELEASE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>LogicPrecompiled.h</PrecompiledHeaderFile>
@@ -88,7 +88,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;../Output/$(Configuration)/Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>lua53.lib;Meta.lib;ObjectFactory.lib;Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;Meta.lib;ObjectFactory.lib;Debugging.lib;Testing.lib;Utility.lib;Input.lib;Core.lib;Graphics.lib;Window.lib;Math.lib;EventSystem.lib;lua53.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <Profile>true</Profile>
     </Link>

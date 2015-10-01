@@ -116,6 +116,18 @@ namespace WickedSick
       cameraComp->SetLookAt(lookAt -= view);
 
     }
+    else if (handler->GetScrollPos())
+    {
+      CameraComponent* cameraComp = (CameraComponent*)GetSibling(CT_CameraComponent);
+      Vector3 lookAt = cameraComp->GetLookAt();
+      Transform* tr = (Transform*)GetSibling(CT_Transform);
+      Vector3 view = lookAt - tr->GetPosition();
+      view.Normalize();
+      view *= dt;
+      tr->SetPosition(tr->GetPosition() += view * handler->GetScrollPos());
+      cameraComp->SetLookAt(lookAt += view * handler->GetScrollPos());
+
+    }
     else
     {
       last_mouse_pos_ = Vector2i(-1, -1);

@@ -28,29 +28,29 @@ namespace WickedSick
     void Initialize();
 
     bool Compile(bool forceCompile = false);
+    void ReflectBuffers();
 
     bool InitLayout(ID3D10Blob* vertexShaderBuffer);
 
 
     void Render(int indexCount,
-                const Matrix4& world,
-                const Matrix4& clip,
-                const Vector3& cameraPos);
+                const std::vector<ParamPasser>& params);
+    void SetShaderDir(const std::string& dir);
+    
     void RenderShader(int indexCount);
 
-    void SetParameters( const Matrix4& world,
-                        const Matrix4& clip,
-                        const Vector3& cameraPos);
+    void SetParameters(const std::vector<ParamPasser>& params);
 
-    void SetShaderDir(const std::string& dir);
 
   private:
 
+
+
     ID3D11VertexShader*   vertex_shader_;
-	  ID3D11PixelShader*    pixel_shader_;
+    ID3D11PixelShader*    pixel_shader_;
     ID3D11ComputeShader*  compute_shader_;
     ID3D11GeometryShader* geometry_shader_;
-	  ID3D11InputLayout*    layout_;
+    ID3D11InputLayout*    layout_;
 
   };
 }

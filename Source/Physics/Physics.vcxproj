@@ -11,31 +11,58 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EventSystem\Event\EventCallbackList.h" />
-    <ClInclude Include="EventSystem\Event\EventCallback.h" />
-    <ClInclude Include="EventSystem\Event\Event.h" />
-    <ClInclude Include="EventSystem\EventSystemInterface.h" />
-    <ClInclude Include="EventSystem\EventSystemPrecompiled.h" />
-    <ClInclude Include="EventSystem\RegisterEventType.h" />
-    <ClInclude Include="EventSystem\System\EventSystem.h" />
-    <ClInclude Include="EventSystem\EventSystemDLL.h" />
+    <ClInclude Include="Physics\AABB.h" />
+    <ClInclude Include="Physics\Architecture\Collider.h" />
+    <ClInclude Include="Physics\Architecture\Geometry.h" />
+    <ClInclude Include="Physics\Architecture\PhysicsMaterial.h" />
+    <ClInclude Include="Physics\Architecture\PhysicsMesh.h" />
+    <ClInclude Include="Physics\Architecture\PhysicsScene.h" />
+    <ClInclude Include="Physics\Architecture\RigidBody.h" />
+    <ClInclude Include="Physics\Broadphase\BroadPhase.h" />
+    <ClInclude Include="Physics\Broadphase\DynamicAABB.h" />
+    <ClInclude Include="Physics\Components\OrbitComponent.h" />
+    <ClInclude Include="Physics\MotionState.h" />
+    <ClInclude Include="Physics\Components\PhysicsComponent.h" />
     <ClInclude Include="Physics\PhysicsDLL.h" />
     <ClInclude Include="Physics\PhysicsInterface.h" />
     <ClInclude Include="Physics\PhysicsPrecompiled.h" />
+    <ClInclude Include="Physics\PhysicsUtil.h" />
+    <ClInclude Include="Physics\Resolution\Constraint.h" />
+    <ClInclude Include="Physics\Resolution\ConstraintList.h" />
+    <ClInclude Include="Physics\Resolution\Contact.h" />
+    <ClInclude Include="Physics\Resolution\ContactConstraint.h" />
+    <ClInclude Include="Physics\Resolution\ContactEdge.h" />
+    <ClInclude Include="Physics\Resolution\ContactManifold.h" />
+    <ClInclude Include="Physics\Resolution\PointConstraint.h" />
+    <ClInclude Include="Physics\System\Physics.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EventSystem\Event\EventCallbackList.cpp" />
-    <ClCompile Include="EventSystem\Event\EventCallback.cpp" />
-    <ClCompile Include="EventSystem\EventSystemPrecompiled.cpp">
+    <ClCompile Include="Physics\AABB.cpp" />
+    <ClCompile Include="Physics\Architecture\Collider.cpp" />
+    <ClCompile Include="Physics\Architecture\Geometry.cpp" />
+    <ClCompile Include="Physics\Architecture\PhysicsMaterial.cpp" />
+    <ClCompile Include="Physics\Architecture\PhysicsMesh.cpp" />
+    <ClCompile Include="Physics\Architecture\PhysicsScene.cpp" />
+    <ClCompile Include="Physics\Architecture\RigidBody.cpp" />
+    <ClCompile Include="Physics\Components\OrbitComponent.cpp" />
+    <ClCompile Include="Physics\MotionState.cpp" />
+    <ClCompile Include="Physics\Components\PhysicsComponent.cpp" />
+    <ClCompile Include="Physics\PhysicsPrecompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="EventSystem\Event\Event.cpp" />
-    <ClCompile Include="EventSystem\System\EventSystem.cpp" />
-    <ClCompile Include="Physics\PhysicsPrecompiled.cpp" />
+    <ClCompile Include="Physics\PhysicsUtil.cpp" />
+    <ClCompile Include="Physics\Resolution\Constraint.cpp" />
+    <ClCompile Include="Physics\Resolution\ConstraintList.cpp" />
+    <ClCompile Include="Physics\Resolution\Contact.cpp" />
+    <ClCompile Include="Physics\Resolution\ContactConstraint.cpp" />
+    <ClCompile Include="Physics\Resolution\ContactEdge.cpp" />
+    <ClCompile Include="Physics\Resolution\ContactManifold.cpp" />
+    <ClCompile Include="Physics\Resolution\PointConstraint.cpp" />
+    <ClCompile Include="Physics\System\Physics.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{CF15E220-4C39-46A8-A65B-2203A845BCAC}</ProjectGuid>
+    <ProjectGuid>{724A0994-BB88-4C06-9968-4A1457A89264}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>GraphicsDLL</RootNamespace>
     <ProjectName>Physics</ProjectName>
@@ -79,9 +106,9 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;PHYSICSDLL_EXPORTS;_CRT_SECURE_NO_WARNINGS;_USRDLL</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PHYSICSDLL_EXPORTS;_CRT_SECURE_NO_WARNINGS;_USRDLL;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <PrecompiledHeaderFile>EventSystemPrecompiled.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>PhysicsPrecompiled.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Core;$(SolutionDir)Math;$(SolutionDir)Externals;$(SolutionDir)Physics;Physics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -89,8 +116,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalDependencies>Meta.lib;Utility.lib;Debugging.lib;Math.lib;Core.lib;lua53_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Meta.lib;Utility.lib;Debugging.lib;Math.lib;Core.lib;lua53_d.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Externals\imgui\lib;$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
@@ -102,9 +129,9 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_RELEASE;PHYSICSDLL_EXPORTS;_CRT_SECURE_NO_WARNINGS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PHYSICSDLL_EXPORTS;_CRT_SECURE_NO_WARNINGS;_USRDLL;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <PrecompiledHeaderFile>EventSystemPrecompiled.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>PhysicsPrecompiled.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Core;$(SolutionDir)Math;$(SolutionDir)Externals;$(SolutionDir)Physics;Physics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -117,7 +144,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalDependencies>Meta.lib;Utility.lib;Debugging.lib;Math.lib;Core.lib;lua53.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Meta.lib;Utility.lib;Debugging.lib;Math.lib;Core.lib;lua53.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>

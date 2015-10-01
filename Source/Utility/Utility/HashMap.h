@@ -87,24 +87,11 @@ namespace WickedSick
       Entry() : key(*new Key()),
                 val(*new Type())
       {
-        WSError("Something in the HashMap broke. I sure hope you don't plan on commenting this out....");
+        WSError("Something in the HashMap broke. This should never be constructed. I sure hope you don't plan on commenting this out....");
       }
 
-      Entry(Key& myKey, 
-            Type& myType)
-            : key(myKey),
-              val(myType)
-      {
-      }
-
-      Entry(const Entry& entry)
-            : key(entry.key),
-              val(entry.val)
-      {
-      }
-
-      Key& key;
-      Type& val;
+      Key key;
+      Type val;
     };
 
     class Slot
@@ -240,11 +227,17 @@ namespace WickedSick
       }
 
 
-      Entry operator*() const
+      Entry& operator*() const
       {
         WSAssert(type_, "Content of Invalid Iterator!");
-        return Entry(type_->key_, type_->type_);
+        return *(Entry*)type_;
       }
+
+      //Entry& operator->() const
+      //{
+      //  WSAssert(type_, "Content of Invalid Iterator!");
+      //  return *(Entry*)type_;
+      //}
 
       bool is_valid() const
       {
@@ -336,11 +329,17 @@ namespace WickedSick
       }
 
 
-      const Entry operator*() const
+      Entry& operator*() const
       {
-        WSAssert(type_, "Taking content of invalid iterator");
-        return Entry(type_->key_, type_->type_);
+        WSAssert(type_, "Content of Invalid Iterator!");
+        return *(Entry*)type_;
       }
+
+      //Entry& operator->() const
+      //{
+      //  WSAssert(type_, "Content of Invalid Iterator!");
+      //  return *(Entry*)type_;
+      //}
 
       bool is_valid() const
       {
@@ -435,11 +434,11 @@ namespace WickedSick
     {
       size_ = 0;
       load_factor_ = 0.0f;
-      for (auto& it : map_)
+      for (int i = 0; i < capacity_; ++i)
       {
-        if (it)
+        if (map_[i])
         {
-          manager_.Delete(it);
+          manager_.Delete(map_[i]);
         }
       }
       first_ = last_ = invalid_index_;

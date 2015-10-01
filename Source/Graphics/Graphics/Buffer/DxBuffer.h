@@ -9,17 +9,20 @@ namespace WickedSick
   class DxBuffer : public Buffer
   {
   public:
-    DxBuffer( size_t stride,
-              size_t offset,
-              void* data,
-              size_t size,
-              Type  type);
+    DxBuffer(const std::string& name,
+             size_t stride,
+             size_t offset,
+             void* init,
+             size_t size,
+             BufferType::Enum  type,
+             AccessType::Enum accessType,
+             UsageType::Enum usageType);
     DxBuffer(const DxBuffer& buffer);
     ~DxBuffer();
 
-    void Initialize();
-
-    void* BufferPointer();
+    void Initialize() override;
+    void ClearBuffer() override;
+    void* BufferPointer() override;
   private:
 
     friend class DirectX;

@@ -78,17 +78,17 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;OBJECTFACTORYDLL_EXPORTS;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>ObjectFactoryPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Graphics;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)EventSystem;$(SolutionDir)Logic;$(SolutionDir)ObjectFactory;ObjectFactory;$(SolutionDir)Math;$(SolutionDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Physics;$(SolutionDir)Meta;$(SolutionDir)Graphics;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)EventSystem;$(SolutionDir)Logic;$(SolutionDir)Math;$(SolutionDir)Core;$(SolutionDir)Externals;$(SolutionDir)ObjectFactory;ObjectFactory;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Externals\imgui\lib;$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>lua53_d.lib;Meta.lib;Graphics.lib;Debugging.lib;Utility.lib;EventSystem.lib;Core.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;Meta.lib;Graphics.lib;Debugging.lib;Utility.lib;EventSystem.lib;Core.lib;Math.lib;lua53_d.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -101,7 +101,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;OBJECTFACTORYDLL_EXPORTS;_RELEASE;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>ObjectFactoryPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Graphics;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)EventSystem;$(SolutionDir)Logic;$(SolutionDir)ObjectFactory;ObjectFactory;$(SolutionDir)Math;$(SolutionDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Physics;$(SolutionDir)Meta;$(SolutionDir)Graphics;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)EventSystem;$(SolutionDir)Logic;$(SolutionDir)Math;$(SolutionDir)Core;$(SolutionDir)Externals;$(SolutionDir)ObjectFactory;ObjectFactory;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
@@ -116,7 +116,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Externals\Lua\lib;..\Output\$(Configuration)\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\Output\$(Configuration)\Libraries\$(TargetName).lib</ImportLibrary>
       <OutputFile>..\Output\$(Configuration)\Binaries\$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>lua53.lib;Meta.lib;Graphics.lib;Debugging.lib;Utility.lib;EventSystem.lib;Core.lib;Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;Meta.lib;Graphics.lib;Debugging.lib;Utility.lib;EventSystem.lib;Core.lib;Math.lib;lua53.lib;%(AdditionalDependencies);imgui.lib;</AdditionalDependencies>
       <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>

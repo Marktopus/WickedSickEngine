@@ -29,8 +29,6 @@ namespace WickedSick
     Shader* MakeShader();
 
     void BeginScene();
-    void RenderShader(Shader* shader);
-    void RenderScene();
     void EndScene();
     
     SwapChain* GetSwapChain();

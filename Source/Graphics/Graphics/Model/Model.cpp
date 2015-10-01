@@ -15,8 +15,7 @@
 namespace WickedSick
 {
 
-  Model::Model()  : vertex_buffer_(nullptr),
-                    index_buffer_(nullptr)
+  Model::Model()
   {
   }
 

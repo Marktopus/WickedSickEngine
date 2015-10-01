@@ -8,8 +8,8 @@ namespace WickedSick
   {
     bool operator==(const Vertex& rhs);
     Vector3 position;
-    Vector4 color;
     Vector3 normal;
+    Vector4 color;
 
     std::string to_string();
     void Print();

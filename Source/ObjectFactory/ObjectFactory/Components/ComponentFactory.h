@@ -4,6 +4,7 @@
 #include "Utility/Factory/Archetype.h"
 #include "ComponentFactoryBase.h"
 #include "Core/CoreInterface.h"
+#include "Physics/PhysicsInterface.h"
 
 namespace WickedSick
 {

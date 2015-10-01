@@ -9,11 +9,11 @@ namespace WickedSick
   public:
     COREDLL_API FrameController();
     COREDLL_API ~FrameController();
-    void    COREDLL_API Step();
+    bool    COREDLL_API Step();
     void    COREDLL_API Update();
     void    COREDLL_API SetTimeStep(double time_step);
-    double  COREDLL_API GetTimeStep();
-    double  COREDLL_API GetFrameTime();
+    float   COREDLL_API GetTimeStep();
+    float   COREDLL_API GetFrameTime();
   private:
     LARGE_INTEGER last_time_;
     LARGE_INTEGER clocks_per_cycle_;
