@@ -75,7 +75,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;WINDOWDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>WindowPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Input;$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)EventSystem;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;Window;$(SolutionDir)Math;$(SolutionDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Input;$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)EventSystem;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;Window;$(SolutionDir)Math;$(SolutionDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -98,7 +98,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_RELEASE;_WINDOWS;_USRDLL;WINDOWDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>WindowPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Input;$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)EventSystem;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;Window;$(SolutionDir)Math;$(SolutionDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Input;$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)EventSystem;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;Window;$(SolutionDir)Math;$(SolutionDir)Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>

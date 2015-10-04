@@ -66,8 +66,9 @@ namespace WickedSick
       }
       else if (handler->GetMousePos() != last_mouse_pos_)
       {
+        int camSpeed = 5.0f;
         Vector2i curPos = handler->GetMousePos();
-        Vector2 amountToMove = (curPos - last_mouse_pos_).to_f() * dt;
+        Vector2 amountToMove = (curPos - last_mouse_pos_).to_f() * dt * camSpeed;
         CameraComponent* cameraComp = (CameraComponent*)GetSibling(CT_CameraComponent);
         Vector3 lookAt = cameraComp->GetLookAt();
         Transform* tr = (Transform*)GetSibling(CT_Transform);

@@ -88,12 +88,21 @@ namespace WickedSick
 
   COREDLL_API void Engine::Update()
   {
+    frame_controller_->Update();
     for (auto& it : systems_)
     {
-      if (it && (it->GetType() != ST_Physics))
+      if(it)
       {
-        it->Update(1.0f/60.0f);//frame_controller_->GetFrameTime());
+        if(it->GetType() != ST_Physics)
+        {
+          it->Update(frame_controller_->GetFrameTime());
+        }
+        else if(frame_controller_->Step())
+        {
+          it->Update(frame_controller_->GetTimeStep());
+        }
       }
+
     }
   }
 

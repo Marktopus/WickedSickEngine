@@ -83,7 +83,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Utility;$(SolutionDir)Debugging;$(SolutionDir)Math;$(SolutionDir)Core;Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Externals;$(SolutionDir)Utility;$(SolutionDir)Debugging;$(SolutionDir)Math;$(SolutionDir)Core;Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>CorePrecompiled.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;COREDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -109,7 +109,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Utility;$(SolutionDir)Debugging;$(SolutionDir)Math;$(SolutionDir)Core;Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Externals;$(SolutionDir)Utility;$(SolutionDir)Debugging;$(SolutionDir)Math;$(SolutionDir)Core;Core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>CorePrecompiled.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_RELEASE;_WINDOWS;_USRDLL;COREDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>

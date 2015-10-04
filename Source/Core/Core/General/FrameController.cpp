@@ -20,13 +20,15 @@ namespace WickedSick
 
   }
 
-  void FrameController::Step()
+  bool FrameController::Step()
   {
     if (accumulator_ >= time_step_)
     { 
       accumulator_ -= time_step_;
       ++frame_count_;
+      return true;
     }
+    return false;
   }
 
   void FrameController::Update()
@@ -36,7 +38,7 @@ namespace WickedSick
     LARGE_INTEGER timePassed;
     timePassed.QuadPart = currentTime.QuadPart - last_time_.QuadPart;
 
-    frame_time_ = static_cast<double>(timePassed.QuadPart / clocks_per_cycle_.QuadPart);
+    frame_time_ = (double)timePassed.QuadPart / (double)clocks_per_cycle_.QuadPart;
     last_elapsed_ = elapsed_;
     accumulator_ += frame_time_;
     elapsed_ += frame_time_;
@@ -55,13 +57,13 @@ namespace WickedSick
     time_step_ = time_step;
   }
 
-  double FrameController::GetTimeStep()
+  float FrameController::GetTimeStep()
   {
-    return time_step_;
+    return (float)time_step_;
   }
 
-  double FrameController::GetFrameTime()
+  float FrameController::GetFrameTime()
   {
-    return frame_time_;
+    return (float)frame_time_;
   }
 }

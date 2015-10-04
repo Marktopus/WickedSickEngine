@@ -8,6 +8,8 @@
 
 #include "Components/ComponentManager.h"
 
+#include "Physics/PhysicsInterface.h"
+
 #include "Graphics/GraphicsInterface.h"
 
 
@@ -45,15 +47,14 @@ namespace WickedSick
   OBJECTFACTORYDLL_API void ObjectFactory::Update(float dt)
   {
     comp_manager_->Update(dt);
-    return;
-    for (auto& it : game_objects_)
+    for(auto& it : game_objects_)
     {
-      Transform* tr = (Transform*)it.val->GetComponent(CT_Transform);
-      Vector3 rot = tr->GetRotation();
-      rot.y += 0.01f;
-      //rot.x -= 0.01f;
-      //rot.z += 0.05f;
-      tr->SetRotation(rot);
+      Transform* tr = (Transform*) it.second->GetComponent(CT_Transform);
+      PhysicsComponent* ph = (PhysicsComponent*) it.second->GetComponent(CT_PhysicsComponent);
+      if(ph)
+      {
+        tr->SetPosition(ph->GetPosition());
+      }
     }
   }
 
@@ -77,10 +78,10 @@ namespace WickedSick
       newObject->AddComponent(comp_manager_->CreateComponent(names[i], name, newObject));
     }
     newObject->SetID(objects_created_++);
-    game_objects_.insert(newObject->GetID(), newObject);
+    game_objects_.insert(std::make_pair(newObject->GetID(), newObject));
+    
     newObject->Activate();
     newObject->SetArchetypeName(name);
-    newObject->Initialize();
     return newObject;
   }
 
@@ -97,23 +98,62 @@ namespace WickedSick
   OBJECTFACTORYDLL_API void ObjectFactory::CreateArchetypes()
   {
     ComponentFactory<ModelComponent>* modelFactory = (ComponentFactory<ModelComponent>*)comp_manager_->GetFactory("ModelComponent");
+    ComponentFactory<PhysicsComponent>* physicsFactory = (ComponentFactory<PhysicsComponent>*)comp_manager_->GetFactory("PhysicsComponent");
+    ComponentFactory<OrbitComponent>* orbitFactory = (ComponentFactory<OrbitComponent>*)comp_manager_->GetFactory("OrbitComponent");
+
+    physicsFactory->AddArchetype("bunny", Archetype<PhysicsComponent>("bunny"));
+    physicsFactory->AddArchetype("box", Archetype<PhysicsComponent>("box"));
+    physicsFactory->AddArchetype("plane", Archetype<PhysicsComponent>("plane"));
+    physicsFactory->AddArchetype("sphere", Archetype<PhysicsComponent>("sphere"));
+    orbitFactory->AddArchetype("sphere", Archetype<OrbitComponent>("sphere"));
 
     modelFactory->AddArchetype("bunny", Archetype<ModelComponent>("bunny"));
+    modelFactory->AddArchetype("plane", Archetype<ModelComponent>("plane"));
     Archetype<ModelComponent>& bunnyCompType = modelFactory->GetArchetype("bunny");
     ModelComponent& bunnyModelComp = bunnyCompType.GetBase();
     bunnyModelComp.SetModel("bunny");
 
 
+    Archetype<ModelComponent>& planeCompType = modelFactory->GetArchetype("plane");
+    ModelComponent& planeModelComp = planeCompType.GetBase();
+    planeModelComp.SetModel("plane");
+
+
+
+
 
     WickedSick::Graphics* gSys = (WickedSick::Graphics*)Engine::GetCore()->GetSystem(ST_Graphics);
 
-    object_factory_.AddArchetype("bunny", Archetype<GameObject>("bunny") );
+    object_factory_.AddArchetype("bunny", Archetype<GameObject>("bunny"));
     Archetype<GameObject>& bunny = object_factory_.GetArchetype("bunny");
     GameObject& bunnyObject = bunny.GetBase();
-    Component* bunnyComp = comp_manager_->CreateComponent("ModelComponent", 
-                                                          "bunny", 
+    Component* bunnyComp = comp_manager_->CreateComponent("ModelComponent",
+                                                          "bunny",
                                                           &bunnyObject);
     bunnyObject.AddComponent(bunnyComp);
+    PhysicsComponent* bunnyPhysicsComp = (PhysicsComponent*) comp_manager_->CreateComponent("PhysicsComponent",
+                                                                 "bunny",
+                                                                 &bunnyObject);
+    bunnyPhysicsComp->GetRigidBody()->SetGravityScalar(0.0f);
+    bunnyObject.AddComponent(bunnyPhysicsComp);
+
+
+    object_factory_.AddArchetype("plane", Archetype<GameObject>("plane"));
+    Archetype<GameObject>& plane = object_factory_.GetArchetype("plane");
+    GameObject& planeObject = plane.GetBase();
+    Component* planeComp = comp_manager_->CreateComponent("ModelComponent",
+                                                          "plane",
+                                                          &planeObject);
+    planeObject.AddComponent(planeComp);
+    PhysicsComponent* planePhysicsComp = (PhysicsComponent*) comp_manager_->CreateComponent("PhysicsComponent",
+                                                                                            "plane",
+                                                                                            &planeObject);
+    planePhysicsComp->GetRigidBody()->SetGravityScalar(0.0f);
+    planeObject.AddComponent(planePhysicsComp);
+
+
+
+
 
 
     modelFactory->AddArchetype("box", Archetype<ModelComponent>("box"));
@@ -121,13 +161,21 @@ namespace WickedSick
     ModelComponent& cubeModelComp = cubeCompType.GetBase();
     cubeModelComp.SetModel("box");
 
-    object_factory_.AddArchetype("box", Archetype<GameObject>("box") );
+
+
+    object_factory_.AddArchetype("box", Archetype<GameObject>("box"));
     Archetype<GameObject>& cube = object_factory_.GetArchetype("box");
     GameObject& cubeObject = cube.GetBase();
-    Component* cubeComp = comp_manager_->CreateComponent( "ModelComponent",
-                                                          "box",
-                                                          &cubeObject);
+    Component* cubeComp = comp_manager_->CreateComponent("ModelComponent",
+                                                         "box",
+                                                         &cubeObject);
     cubeObject.AddComponent(cubeComp);
+
+
+    Component* cubePhysicsComp = comp_manager_->CreateComponent("PhysicsComponent",
+                                                                "box",
+                                                                &cubeObject);
+    cubeObject.AddComponent(cubePhysicsComp);
 
 
 
@@ -136,6 +184,7 @@ namespace WickedSick
     ModelComponent& sphereModelComp = sphereCompType.GetBase();
     sphereModelComp.SetModel("sphere");
 
+
     object_factory_.AddArchetype("sphere", Archetype<GameObject>("sphere"));
     Archetype<GameObject>& sphere = object_factory_.GetArchetype("sphere");
     GameObject& sphereObject = sphere.GetBase();
@@ -143,6 +192,18 @@ namespace WickedSick
                                                            "sphere",
                                                            &sphereObject);
     sphereObject.AddComponent(sphereComp);
+
+    Component* spherePhysicsComp = comp_manager_->CreateComponent("PhysicsComponent",
+                                                                  "sphere",
+                                                                  &sphereObject);
+    sphereObject.AddComponent(spherePhysicsComp);
+
+    static_cast<PhysicsComponent*>(spherePhysicsComp)->GetRigidBody()->SetGravityScalar(0.0f);
+
+    Component* sphereOrbitComp = comp_manager_->CreateComponent("OrbitComponent",
+                                                                "sphere",
+                                                                &sphereObject);
+    sphereObject.AddComponent(sphereOrbitComp);
 
 
     ComponentFactory<CameraController>* controllerFactory = (ComponentFactory<CameraController>*)comp_manager_->GetFactory("CameraController");
@@ -154,7 +215,7 @@ namespace WickedSick
     cameraFactory->AddArchetype("camera", Archetype<CameraComponent>("camera"));
     Archetype<CameraComponent>& cameraCompType = cameraFactory->GetArchetype("camera");
     CameraComponent& cameraTemplateComp = cameraCompType.GetBase();
-    cameraTemplateComp.SetLookAt(Vector3(0.0f,0.0f,0.0f));
+    cameraTemplateComp.SetLookAt(Vector3(0.0f, 0.0f, 0.0f));
 
     object_factory_.AddArchetype("camera", Archetype<GameObject>("camera"));
     Archetype<GameObject>& camera = object_factory_.GetArchetype("camera");
@@ -177,10 +238,10 @@ namespace WickedSick
 
     GameObject* camera = CloneArchetype("camera");
     Transform* cameraTr = (Transform*)camera->GetComponent(CT_Transform);
-    cameraTr->SetRotation(0.0f, PI / 4.0f, 0.0f);
-    cameraTr->SetPosition(0.0f, 1.0f, 0.5f);
+    //cameraTr->SetRotation(0.0f, PI / 4.0f, 0.0f);
+    cameraTr->SetPosition(0.0f, 10.0f, 16.0f);
     CameraComponent* cameraComp = (CameraComponent*)camera->GetComponent(CT_CameraComponent);
-    cameraComp->SetLookAt(Vector3(0.0f, 0.0f, 6.0f));
+    cameraComp->SetLookAt(Vector3(0.0f, 0.0f, 0.0f));
 
 
     Graphics* graphics = (Graphics*)Engine::GetCore()->GetSystem(ST_Graphics);
@@ -189,18 +250,64 @@ namespace WickedSick
 
     GameObject* bunny = CloneArchetype("bunny");
     Transform* bunnyTr = (Transform*)bunny->GetComponent(CT_Transform);
-    bunnyTr->SetRotation(0.0f, PI/4.0f, 0.0f);
-    bunnyTr->SetPosition(0.0f, 0.0f, 3.0f);
+    //bunnyTr->SetRotation(0.0f, PI/2.0f, 0.0f);
+    bunnyTr->SetPosition(0.0f, 0.0f, 0.0f);
     bunnyTr->SetScale(10.0f);
 
-    GameObject* box = CloneArchetype("box");
-    Transform* boxTr = (Transform*)box->GetComponent(CT_Transform);
-    boxTr->SetRotation(0.0f, PI / 4.0f, 0.0f);
-    boxTr->SetScale(1.0f);
-    boxTr->SetPosition(0.0f, 0.0f, 6.0f);
+    PhysicsComponent* bunnyPhysics = (PhysicsComponent*) bunny->GetComponent(CT_PhysicsComponent);
+    bunnyPhysics->GetRigidBody()->SetGravityScalar(0.0f);
 
+    GameObject* plane = CloneArchetype("plane");
+    Transform* planeTr = (Transform*) plane->GetComponent(CT_Transform);
+    //bunnyTr->SetRotation(0.0f, PI/2.0f, 0.0f);
+    planeTr->SetPosition(0.0f, -42.5f, 0.0f);
+    planeTr->SetScale(25.0f);
+    
+    PhysicsComponent* planePhysics = (PhysicsComponent*) plane->GetComponent(CT_PhysicsComponent);
+    planePhysics->GetRigidBody()->SetGravityScalar(0.0f);
+
+    //GameObject* box = CloneArchetype("sphere"); 
+    //Transform* boxTr = (Transform*)box->GetComponent(CT_Transform);
+    ////boxTr->SetRotation(0.0f, PI / 4.0f, 0.0f);
+    //boxTr->SetScale(1.0f);
+    //boxTr->SetPosition(0.0f, 5.0f, 2.0f);
+    Physics* pSys = (Physics*) Engine::GetCore()->GetSystem(ST_Physics);
+
+    Vector3 dirs[4] = 
+    {
+      {1.0f,  1.0f, 0.0f},
+      {0.0f, -1.0f, 0.0f},
+      {1.0f,  0.0f, 0.0f},
+      {-1.0f,  1.0f, 0.0f}
+    };
+
+    for(int i = 0; i < 4; ++i)
+    {
+      GameObject* box = CloneArchetype("sphere");
+      Transform* boxTr = (Transform*) box->GetComponent(CT_Transform);
+      boxTr->SetRotation(0.0f, PI / 4.0f, 0.0f);
+      boxTr->SetScale(1.0f);
+      boxTr->SetPosition(0.0f, 0.0f, (i + 4));
+      PhysicsComponent* boxPhysics = (PhysicsComponent*) box->GetComponent(CT_PhysicsComponent);
+      boxPhysics->GetRigidBody()->SetGravityScalar(0.0f);
+      OrbitComponent* boxOrbit = (OrbitComponent*) box->GetComponent(CT_OrbitComponent);
+      boxOrbit->SetCurrentDir(dirs[i]);
+      boxOrbit->SetTargetDist((i + 4));
+      boxOrbit->SetForce((i + 1) * 50.0f);
+      box->Initialize();
+      
+    }
+
+    
+
+
+    
+    plane->Initialize();
+    bunny->Initialize();
+    camera->Initialize();
 
     //bunnyTr->SetScale(100.0f);
+
   }
 
 }

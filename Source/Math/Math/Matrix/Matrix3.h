@@ -22,37 +22,37 @@ namespace WickedSick
     };
   
     // Constructors
-    Matrix3(void);
-    Matrix3(const Matrix3& rhs);
-    Matrix3(float mm00, float mm01, float mm02,
+    MATHDLL_API Matrix3(void);
+    MATHDLL_API Matrix3(const Matrix3& rhs);
+    MATHDLL_API Matrix3(float mm00, float mm01, float mm02,
             float mm10, float mm11, float mm12,
             float mm20, float mm21, float mm22);
   
     // Assignment operator, does not need to handle self-assignment
-    Matrix3& operator=(const Matrix3& rhs);
+    MATHDLL_API Matrix3& operator=(const Matrix3& rhs);
   
     // Multiplying a Matrix3 with a Vector3 or a Point3
-    Vector3 operator*(const Vector3& rhs) const;
+    MATHDLL_API Vector3 operator*(const Vector3& rhs) const;
   
     // Basic Matrix arithmetic operations
-    Matrix3 operator+(const Matrix3& rhs) const;
-    Matrix3 operator-(const Matrix3& rhs) const;
-    Matrix3 operator*(const Matrix3& rhs) const;
-    Matrix3& operator+=(const Matrix3& rhs);
-    Matrix3& operator-=(const Matrix3& rhs);
-    Matrix3& operator*=(const Matrix3& rhs);
-    Matrix3 operator*(const float rhs) const;
-    Matrix3 operator/(const float rhs) const;
-    Matrix3& operator*=(const float rhs);
-    Matrix3& operator/=(const float rhs);
+    MATHDLL_API Matrix3 operator+(const Matrix3& rhs) const;
+    MATHDLL_API Matrix3 operator-(const Matrix3& rhs) const;
+    MATHDLL_API Matrix3 operator*(const Matrix3& rhs) const;
+    MATHDLL_API Matrix3& operator+=(const Matrix3& rhs);
+    MATHDLL_API Matrix3& operator-=(const Matrix3& rhs);
+    MATHDLL_API Matrix3& operator*=(const Matrix3& rhs);
+    MATHDLL_API Matrix3 operator*(const float rhs) const;
+    MATHDLL_API Matrix3 operator/(const float rhs) const;
+    MATHDLL_API Matrix3& operator*=(const float rhs);
+    MATHDLL_API Matrix3& operator/=(const float rhs);
   
     // Comparison operators 
-    bool operator==(const Matrix3& rhs) const;
-    bool operator!=(const Matrix3& rhs) const;
+    MATHDLL_API bool operator==(const Matrix3& rhs) const;
+    MATHDLL_API bool operator!=(const Matrix3& rhs) const;
 
     // Linear Algebra
-    void Transpose();
-    void Inverse();
+    MATHDLL_API void Transpose();
+    MATHDLL_API void Inverse();
 
     //rotation
     void MakeRotateX(float x);
@@ -60,11 +60,11 @@ namespace WickedSick
     void MakeRotateZ(float z);
 
     // Settors
-    void Zero(void);
-    void Identity(void);
+    MATHDLL_API void Zero(void);
+    MATHDLL_API void Identity(void);
   
     // Other
-    void Print(void) const;
+    MATHDLL_API void Print(void) const;
   };
 }
 

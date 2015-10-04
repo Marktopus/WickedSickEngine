@@ -28,7 +28,8 @@ PixelInputType ColorVertexShader(VertexInput input)
   PixelInputType output;
   output.position = mul(float4(input.position.xyz, 1), modelToWorld);
   float3 lightDirNorm = normalize(-lightDir);
-  float3 camVec = cameraPos - output.position.xyz;
+  float3 camVec = normalize(cameraPos - output.position.xyz);
+
   // Calculate the position of the vertex against the world, view, and projection matrices.
   output.position = mul(output.position, worldToClip);
 
@@ -46,7 +47,7 @@ PixelInputType ColorVertexShader(VertexInput input)
   float specular = intensity * nDotH;
 
 
-  output.color = (nDotL * input.color) + specular;//input.color;//float4(input.normal, 1);
+  output.color = (nDotL + specular) * input.color;//input.color;//float4(input.normal, 1);
   //output.position.z = 0.1;
     
   //output.color = float4(1,0,0,1);

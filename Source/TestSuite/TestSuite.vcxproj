@@ -51,7 +51,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Testing;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Input;$(SolutionDir)TestSuite;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Core;$(SolutionDir)EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Externals;$(SolutionDir)Testing;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Input;$(SolutionDir)TestSuite;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Core;$(SolutionDir)EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -70,7 +70,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)/Testing;$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Input;$(SolutionDir)/TestSuite;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Core;$(SolutionDir)/EventSystem;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Externals;$(SolutionDir)/Testing;$(SolutionDir)/Debugging;$(SolutionDir)/Utility;$(SolutionDir)/Input;$(SolutionDir)/TestSuite;$(SolutionDir)/Graphics;$(SolutionDir)/Window;$(SolutionDir)/Core;$(SolutionDir)/EventSystem;$(SolutionDir)/Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_RELEASE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>

@@ -78,7 +78,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;_USRDLL;EVENTSYSTEMDLL_EXPORTS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>EventSystemPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Core;$(SolutionDir)EventSystem;EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Core;$(SolutionDir)EventSystem;EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -101,7 +101,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS;_USRDLL;EVENTSYSTEMDLL_EXPORTS;_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>EventSystemPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Core;$(SolutionDir)EventSystem;EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Externals;$(SolutionDir)Meta;$(SolutionDir)Debugging;$(SolutionDir)Utility;$(SolutionDir)Core;$(SolutionDir)EventSystem;EventSystem;$(SolutionDir)Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>

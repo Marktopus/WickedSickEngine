@@ -56,7 +56,6 @@ namespace WickedSick
   {
     cur_mouse_pos_ = buf.mousePos;
     cur_wheel_pos_ = buf.wheelChange;
-    ConsolePrint(std::to_string(cur_wheel_pos_));
     memcpy(current_modifiers_, buf.current_modifiers_, sizeof(current_modifiers_));
     for(int i = 0; i < MaxKeys; ++i)
     {

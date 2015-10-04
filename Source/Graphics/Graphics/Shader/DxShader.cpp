@@ -73,7 +73,7 @@ namespace WickedSick
     // Copy the matrices into the constant buffer.
     dataPtr->modelToWorld = world;//.GetTranspose();;
     dataPtr->worldToClip = clip;//.GetTranspose();
-    dataPtr->lightDir = Vector3(1, 1, 1);
+    dataPtr->lightDir = Vector3(-1, -1, -1);
     dataPtr->cameraVec = cameraPos;
 
     // Unlock the constant buffer.

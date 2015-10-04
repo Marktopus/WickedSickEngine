@@ -16,6 +16,10 @@ namespace WickedSick
 
   GRAPHICSDLL_API Vector3 Camera::GetPosition()
   {
+    if(source_)
+    {
+      return static_cast<Transform*>(source_->GetSibling(CT_Transform))->GetPosition();
+    }
     return pos_;
   }
 

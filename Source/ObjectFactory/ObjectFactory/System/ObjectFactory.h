@@ -36,8 +36,7 @@ namespace WickedSick
 
     ComponentManager*   comp_manager_;
     Factory<GameObject> object_factory_;
-
-    HashMap<int, GameObject*> game_objects_;
+    std::unordered_map<int, GameObject*> game_objects_;
 
     unsigned objects_created_;
 

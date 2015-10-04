@@ -42,7 +42,7 @@ namespace WickedSick
     D3D11_SUBRESOURCE_DATA* buffData = nullptr;
 
     
-	  bufferDesc.ByteWidth = size_;
+    bufferDesc.ByteWidth = size_;
 
     switch (type_)
     {
@@ -52,8 +52,8 @@ namespace WickedSick
       bufferDesc.CPUAccessFlags = 0;
       buffData = (D3D11_SUBRESOURCE_DATA*)alloca(sizeof(D3D11_SUBRESOURCE_DATA));
       buffData->pSysMem = data_;
-	    buffData->SysMemPitch = 0;
-	    buffData->SysMemSlicePitch = 0;
+      buffData->SysMemPitch = 0;
+      buffData->SysMemSlicePitch = 0;
       break;
     case Buffer::Index:
       bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -61,14 +61,14 @@ namespace WickedSick
       bufferDesc.CPUAccessFlags = 0;
       buffData = (D3D11_SUBRESOURCE_DATA*)alloca(sizeof(D3D11_SUBRESOURCE_DATA));
       buffData->pSysMem = data_;
-	    buffData->SysMemPitch = 0;
-	    buffData->SysMemSlicePitch = 0;
+      buffData->SysMemPitch = 0;
+      buffData->SysMemSlicePitch = 0;
       break;
     case Buffer::Constant:
       bufferDesc.ByteWidth = size_ + (16 - (size_ % 16));
       bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
       bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	    bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+      bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
       bufferDesc.MiscFlags = 0;
       bufferDesc.StructureByteStride = 0;
       break;
@@ -76,8 +76,8 @@ namespace WickedSick
       break;
     }
 
-	  bufferDesc.MiscFlags = 0;
-	  bufferDesc.StructureByteStride = 0;
+    bufferDesc.MiscFlags = 0;
+    bufferDesc.StructureByteStride = 0;
 
 
 

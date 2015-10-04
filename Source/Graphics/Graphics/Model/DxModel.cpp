@@ -8,7 +8,7 @@
 #include "System/Graphics.h"
 
 
-
+#define _NO_DEBUG_HEAP
 
 namespace WickedSick
 {

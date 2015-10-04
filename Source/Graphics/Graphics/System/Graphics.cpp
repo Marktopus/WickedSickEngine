@@ -23,6 +23,9 @@
 #include <thread>
 #include <mutex>
 
+
+#include <direct.h>
+
 namespace WickedSick
 {
   GraphicsAPI*  Graphics::graphicsAPI  = nullptr;
@@ -32,6 +35,9 @@ namespace WickedSick
                                           mat_stack_(nullptr),
                                           System(ST_Graphics)
   {
+    
+    
+    
     loaders_.insert(".obj", new ObjLoader());
     loaders_.insert(".bin", new BinLoader());
 
@@ -91,18 +97,24 @@ namespace WickedSick
 
   GRAPHICSDLL_API bool Graphics::Load()
   {
+
+    
     //temporary init
-    Model* cube = LoadModel("../Content/Models/box.bin");
-    Model* bunny = LoadModel("../Content/Models/bunny.bin");
-    Model* sphere = LoadModel("../Content/Models/sphere.bin");
+    Model* cube = LoadModel("Content/Models/box.bin");
+    Model* bunny = LoadModel("Content/Models/bunny.bin");
+    Model* plane = LoadModel("Content/Models/plane.bin");
+    Model* sphere = LoadModel("Content/Models/sphere.bin");
+
+
     cube->Initialize();
     bunny->Initialize();
     sphere->Initialize();
+    plane->Initialize();
 
     Shader* shader = graphicsAPI->MakeShader();
 
-    shader->SetShaders("../Content/Shaders/Color/color.vs",
-                       "../Content/Shaders/Color/color.ps");
+    shader->SetShaders("Content/Shaders/Color/color.vs",
+                       "Content/Shaders/Color/color.ps");
     shader->Initialize();
     shaders_.insert("Color", shader);
     
@@ -208,7 +220,7 @@ namespace WickedSick
           shader->Render(model->GetNumIndices(),
                          world,
                          projection_matrix_ * camera_->GetViewMatrix(),
-                         camera_->GetLookAt() - camera_->GetPosition());
+                         camera_->GetPosition());
 
           //mat_stack_->Pop();
         }

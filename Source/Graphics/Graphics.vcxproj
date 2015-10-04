@@ -121,7 +121,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;GRAPHICSDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>GraphicsPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Input;$(SolutionDir)Utility;$(SolutionDir)Debugging;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Math;$(SolutionDir)Core;Graphics;$(SolutionDir)Externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Input;$(SolutionDir)Utility;$(SolutionDir)Debugging;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Math;$(SolutionDir)Core;Graphics;$(SolutionDir)Externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -144,7 +144,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_RELEASE;_WINDOWS;_USRDLL;GRAPHICSDLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>GraphicsPrecompiled.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Input;$(SolutionDir)Utility;$(SolutionDir)Debugging;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Math;$(SolutionDir)Core;Graphics;$(SolutionDir)Externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Input;$(SolutionDir)Utility;$(SolutionDir)Debugging;$(SolutionDir)Logic;$(SolutionDir)Graphics;$(SolutionDir)Window;$(SolutionDir)Math;$(SolutionDir)Core;Graphics;$(SolutionDir)Externals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>

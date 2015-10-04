@@ -9,11 +9,11 @@
 #include "ObjectFactory/ObjectFactoryInterface.h"
 
 #include "EventSystem/EventSystemInterface.h"
+#include "Physics/PhysicsInterface.h"
+
 
 int main(void)
 {
-  
-
   WickedSick::MemoryManager<int> memory;
 
   WickedSick::Engine* engine = new WickedSick::Engine();
@@ -23,6 +23,7 @@ int main(void)
   engine->AddSystem(new WickedSick::Input());
   engine->AddSystem(new WickedSick::EventSystem());
   engine->AddSystem(new WickedSick::ObjectFactory());
+  engine->AddSystem(new WickedSick::Physics());
   
 
   engine->Initialize();
@@ -31,6 +32,9 @@ int main(void)
   WickedSick::ObjectFactory* fact = (WickedSick::ObjectFactory*)engine->GetSystem(WickedSick::ST_ObjectFactory);
   fact->CreateArchetypes();
   fact->BuildScene();
+  
+  WickedSick::Physics* pSys = (WickedSick::Physics*) WickedSick::Engine::GetCore()->GetSystem(WickedSick::ST_Physics);
+  pSys->GetScene()->LoadScene();
 
   while (engine->IsActive())
   {
