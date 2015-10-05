@@ -4,6 +4,12 @@
 
 namespace WickedSick
 {
+  struct WireFrameBuffer
+  {
+    Matrix4 worldToClip;
+    Vector4 color;
+  };
+
   struct ObjectBuffer
   {
     Matrix4 model;
@@ -22,6 +28,5 @@ namespace WickedSick
     Vector3 dir;
     Vector4 colors[3]; //ambient, diffuse, specular
     float intensities[3] //ambient, diffuse, specular
-    
   };
 }

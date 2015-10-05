@@ -38,6 +38,13 @@ namespace WickedSick
       modelFile.read((char*)&faces[0], counts[0] * sizeof(WickedSick::Face));
       modelFile.read((char*)&vertices[0], counts[1] * sizeof(WickedSick::Vertex));
     }
+    //for(auto& it : faces)
+    //{
+    //  vertices[it.indices[0]].barycentric = Vector3(1.0f, 0.0f, 0.0f);
+    //  vertices[it.indices[1]].barycentric = Vector3(0.0f, 1.0f, 0.0f);
+    //  vertices[it.indices[2]].barycentric = Vector3(0.0f, 0.0f, 1.0f);
+    //}
+
     newModel->Set(vertices, faces);
     return  newModel;
   }

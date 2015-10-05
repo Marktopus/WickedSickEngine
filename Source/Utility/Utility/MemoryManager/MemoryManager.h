@@ -187,6 +187,8 @@ namespace WickedSick
         if (newObject)
         {
           new (newObject) Type(std::forward<Types>(args)...);
+          ++currently_allocated_;
+          ++total_allocations_;
           return newObject;
         }
       }
@@ -196,6 +198,8 @@ namespace WickedSick
       ++pages_active_;
       newObject = page_pool_.back()->Allocate();
       new (newObject) Type(std::forward<Types>(args)...);
+      ++currently_allocated_;
+      ++total_allocations_;
       return newObject;
     }
 

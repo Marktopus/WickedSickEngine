@@ -109,7 +109,8 @@ namespace WickedSick
                                                 mesh, 
                                                 mesh->GetBoundingBox().max_, 
                                                 0,
-                                                orientation_matrix, 
+                                                orientation_matrix,
+                                                true,
                                                 volume));
     //again, elsewhere
     //GET_SYSTEM(Physics)->GetScene()->AddCollider(body_.GetColliders().back());

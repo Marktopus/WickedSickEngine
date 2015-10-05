@@ -43,7 +43,14 @@ namespace WickedSick
     GRAPHICSDLL_API Model* GetModel(const std::string& name);
     GRAPHICSDLL_API Model* LoadModel(const std::string& model);
 
+    GRAPHICSDLL_API void AddShader(const std::string& name, Shader::ShaderCallback callback);
+
     GRAPHICSDLL_API void RecompileShaders();
+
+    GRAPHICSDLL_API void BeginScene();
+    GRAPHICSDLL_API void EndScene();
+
+    GRAPHICSDLL_API Matrix4 GetProjection();
 
 
     GRAPHICSDLL_API Buffer* GetUIVertexBuffer();

@@ -29,9 +29,18 @@ namespace WickedSick
 
   struct ParamPasser
   {
-    std::string buffer;
-    std::string name;
-    void* data;
+    ParamPasser(const std::string& buffer,
+                const std::string& name,
+                void* data,
+                int size);
+    ParamPasser(const ParamPasser& toCopy);
+    ParamPasser(ParamPasser&& moveFrom);
+    void Release();
+    ~ParamPasser();
+    std::string Buffer;
+    std::string Name;
+    void* Data;
+    int Size;
   };
 
   struct ParamTypeInfo

@@ -42,6 +42,11 @@ namespace WickedSick
     active_ = false;
   }
 
+  COREDLL_API void Component::SetDebug(bool newDebug)
+  {
+    render_debug_ = newDebug;
+  }
+
   COREDLL_API Component * Component::GetSibling(ComponentType type)
   {
     return owner_->GetComponent(type);
@@ -56,4 +61,10 @@ namespace WickedSick
   {
     owner_ = newOwner;
   }
+
+  COREDLL_API void Component::render_debug()
+  {
+
+  }
+
 }

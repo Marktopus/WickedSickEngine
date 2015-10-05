@@ -17,8 +17,8 @@ struct VertexInput
 struct PixelInputType
 {
   float4 position : SV_POSITION;
-  float4 color : COLOR;
   float4 normal : NORMAL;
+  float4 color : COLOR;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ PixelInputType main(VertexInput input)
 
 
   output.color = input.color * (nDotL + specular * input.color);//input.color;//float4(input.normal, 1);
-  //output.position.z = 0.1;
+  output.position.z = 0;
     
   //output.color = float4(1,0,0,1);
   output.normal = normalWorldSpace;

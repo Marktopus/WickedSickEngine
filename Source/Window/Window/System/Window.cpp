@@ -243,7 +243,7 @@ namespace WickedSick
       case WM_MOUSEWHEEL:
       {
         
-        buf->wheelChange = GET_WHEEL_DELTA_WPARAM(wParam) > 0 ? +1.0f : -1.0f;
+        buf->wheelChange = (GET_WHEEL_DELTA_WPARAM(wParam) > 0) ? +1 : -1;
         //buf->wheelChange = (wParam / WHEEL_DELTA);
         break;
       }

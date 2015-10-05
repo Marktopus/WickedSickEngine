@@ -434,11 +434,12 @@ namespace WickedSick
     {
       size_ = 0;
       load_factor_ = 0.0f;
-      for (int i = 0; i < capacity_; ++i)
+      for (unsigned i = 0; i < capacity_; ++i)
       {
         if (map_[i])
         {
           manager_.Delete(map_[i]);
+          map_[i] = nullptr;
         }
       }
       first_ = last_ = invalid_index_;

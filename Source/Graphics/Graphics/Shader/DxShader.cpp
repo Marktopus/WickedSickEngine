@@ -12,11 +12,13 @@
 namespace WickedSick
 {
 
-  DxShader::DxShader() :  vertex_shader_(nullptr),
-                          pixel_shader_(nullptr),
-                          compute_shader_(nullptr),
-                          geometry_shader_(nullptr),
-                          layout_(nullptr)
+  DxShader::DxShader(const std::string& name,
+                     ShaderCallback callback) : vertex_shader_(nullptr),
+                                                pixel_shader_(nullptr),
+                                                compute_shader_(nullptr),
+                                                geometry_shader_(nullptr),
+                                                layout_(nullptr),
+                                                Shader(name, callback)
   {
 
   }
@@ -43,6 +45,10 @@ namespace WickedSick
 
   void DxShader::SetParameters(const std::vector<ParamPasser>& params)
   {
+    if(!pixel_shader_ || !vertex_shader_)
+    {
+      return;
+    }
     DirectX* dx = reinterpret_cast<DirectX*>(Graphics::graphicsAPI);
     SwapChain* swapChain = dx->GetSwapChain();
     ID3D11DeviceContext* context = swapChain->device->D3DContext;
@@ -50,11 +56,11 @@ namespace WickedSick
 
     for(auto& it : params)
     {
-      auto& bufIt = constant_buffers_.find(it.buffer);
+      auto& bufIt = constant_buffers_.find(it.Buffer);
       if(bufIt != constant_buffers_.end())
       {
         DxBuffer* buf = (DxBuffer*)(*bufIt).val;
-        buf->SetParameter(it.name, it.data);
+        buf->SetParameter(it.Name, it.Data);
       }
     }
 
@@ -290,47 +296,13 @@ namespace WickedSick
     SwapChain* swapChain = dx->GetSwapChain();
     ID3D11Device* device = swapChain->device->D3DDevice;
 
-    //for now. later we might have to change this.
-    if (layout_)
-    {
-      layout_->Release();
-    }
-
-
-    D3D11_INPUT_ELEMENT_DESC polygonLayout[3];
 
     //for now. later we might have to change this.
     if(layout_)
     {
       layout_->Release();
+      layout_ = nullptr;
     }
-    polygonLayout[0].SemanticName = "POSITION";
-    polygonLayout[0].SemanticIndex = 0;
-    polygonLayout[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-    polygonLayout[0].InputSlot = 0;
-    polygonLayout[0].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-    polygonLayout[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-    polygonLayout[0].InstanceDataStepRate = 0;
-
-    polygonLayout[1].SemanticName = "NORMAL";
-    polygonLayout[1].SemanticIndex = 0;
-    polygonLayout[1].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-    polygonLayout[1].InputSlot = 0;
-    polygonLayout[1].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-    polygonLayout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-    polygonLayout[1].InstanceDataStepRate = 0;
-
-    polygonLayout[2].SemanticName = "COLOR";
-    polygonLayout[2].SemanticIndex = 0;
-    polygonLayout[2].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-    polygonLayout[2].InputSlot = 0;
-    polygonLayout[2].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-    polygonLayout[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-    polygonLayout[2].InstanceDataStepRate = 0;
-
-
-
-    unsigned numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
 
 
     ID3D11ShaderReflection* vertShaderReflection = nullptr;
@@ -429,14 +401,12 @@ namespace WickedSick
     return true;
   }
 
-  void DxShader::Render(int indexCount,
-                        const std::vector<ParamPasser>& params)
+  void DxShader::Render(int indexCount)
   {
     if (!pixel_shader_ || !vertex_shader_)
     {
       return;
     }
-    SetParameters(params);
     RenderShader(indexCount);
   }
 

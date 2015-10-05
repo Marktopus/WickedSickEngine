@@ -8,8 +8,6 @@
 #include "System/Graphics.h"
 
 
-
-
 namespace WickedSick
 {
 
@@ -34,6 +32,7 @@ namespace WickedSick
                                     WickedSick::BufferType::Vertex,
                                     AccessType::None,
                                     UsageType::Default);
+
     buffers_.indexBuf = new DxBuffer("Index",
                                      sizeof(int),
                                      0,
@@ -49,7 +48,6 @@ namespace WickedSick
   
   void DxModel::Render()
   {
-
     DirectX* dx = (DirectX*)Graphics::graphicsAPI;
     ID3D11DeviceContext* context = dx->GetSwapChain()->device->D3DContext;
 
@@ -74,5 +72,10 @@ namespace WickedSick
 
     // Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
     context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+  }
+  
+  void DxModel::BuildDebugBuffers()
+  {
+
   }
 }

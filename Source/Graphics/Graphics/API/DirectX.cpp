@@ -13,6 +13,9 @@
 
 #include "General/GraphicsUtility.h"
 
+#include "Core/CoreInterface.h"
+#include "System/Graphics.h"
+
 
 namespace WickedSick
 {
@@ -32,9 +35,9 @@ namespace WickedSick
     return model_factory_.MakeBlank();
   }
 
-  Shader* DirectX::MakeShader()
+  Shader* DirectX::MakeShader(const std::string& name, Shader::ShaderCallback callback)
   {
-    return shader_factory_.MakeBlank();
+    return shader_factory_.Create(name, callback);
   }
 
   SwapChain* DirectX::GetSwapChain()

@@ -16,9 +16,12 @@
 #include "Model/Loaders/ObjLoader.h"
 #include "Model/Loaders/BinLoader.h"
 
+
 #include "Components/ModelComponent.h"
 
 #include "Utility/UtilityInterface.h"
+
+#include "Shader/ShaderCallbacks.h"
 
 #include "ImGuiImpl/imgui_impl.h"
 
@@ -119,31 +122,12 @@ namespace WickedSick
   GRAPHICSDLL_API bool Graphics::Load()
   {
     //temporary init
-    Model* cube = LoadModel("../Content/Models/box.bin");
-    Model* bunny = LoadModel("../Content/Models/bunny.bin");
-    Model* sphere = LoadModel("../Content/Models/sphere.bin");
-    cube->Initialize();
-    bunny->Initialize();
-    sphere->Initialize();
+    LoadModel("box.bin");
+    LoadModel("bunny.bin");
+    LoadModel("sphere.bin");
 
-    Shader* colorShader = graphicsAPI->MakeShader();
-
-    colorShader->SetShaders("../Content/Shaders/Color/color.vs",
-                            "../Content/Shaders/Color/color.ps");
-
-    //Layout& colorLayout = colorShader->GetLayout();
-    //colorLayout.pixelEntry = "ColorPixelShader";
-    //colorLayout.vertexEntry = "ColorVertexShader";
-    //colorLayout.AddParam({"POSITION", sizeof(float) * 3, DataType::Float});
-    //colorLayout.AddParam({"NORMAL", sizeof(float) * 3, DataType::Float});
-    //colorLayout.AddParam({"COLOR", sizeof(float) * 4, DataType::Float});
-
-    //colorShader->AddConstantBuffer("LightBuffer", sizeof(LightBuffer));
-
-    colorShader->Initialize();
-    shaders_.insert("Color", colorShader);
-
-    
+    AddShader("color", &ColorShaderCallback);
+    AddShader("wireframe", &WireframeShaderCallback);
 
     return true;
   }
@@ -173,33 +157,48 @@ namespace WickedSick
     std::string extension = modelName.substr(dotIndex, (modelName.size()) - dotIndex);
     auto& modelLoader = loaders_.find(extension);
 
-    int startOfName = modelName.find_last_of('/') + 1;
-    if (startOfName == std::string::npos)
-    {
-      startOfName = modelName.find_last_of('\\') + 1;
-      if (startOfName == std::string::npos)
-      {
-        startOfName = 0;
-      }
-    }
-                                                              /*  size of name + extension        size of the extension*/
-    std::string friendlyName = modelName.substr(startOfName, 
-                                                (modelName.size() - startOfName) - (modelName.size() - dotIndex));
+    std::string friendlyName = modelName.substr(0, dotIndex);
     
 
     if (modelLoader != loaders_.end())
     {
-      newModel = ((*modelLoader).val)->Load(modelName);
+      newModel = ((*modelLoader).val)->Load("Content/Models/" + modelName);
       if (newModel)
       {
-        models_.insert(friendlyName, newModel);
+        auto it = models_.find(friendlyName);
+        if(it == models_.end())
+        {
+          models_.insert(friendlyName, newModel);
+        }
+        else
+        {
+          auto sit = models_.find(friendlyName + extension);
+          if(sit == models_.end())
+          {
+            models_.insert(friendlyName + extension, newModel);
+          }
+          else
+          {
+            ConsolePrint("Two model files of same name and same type, cannot load model" + friendlyName + extension + "\n");
+          }
+          
+        }
+        
       }
     }
     else
     {
-      ConsolePrint("Can't load file extension " + extension + " as model.");
+      ConsolePrint("Can't load file extension " + extension + " as model.\n");
     }
+    newModel->Initialize();
     return newModel;
+  }
+
+  GRAPHICSDLL_API void Graphics::AddShader(const std::string& name, Shader::ShaderCallback callback)
+  {
+    Shader* shader = graphicsAPI->MakeShader(name, callback);
+    shader->Initialize();
+    shaders_.insert(shader->GetName(), shader);
   }
 
   GRAPHICSDLL_API void Graphics::RecompileShaders()
@@ -208,6 +207,39 @@ namespace WickedSick
     {
       it.val->Compile();
     }
+  }
+
+  GRAPHICSDLL_API void Graphics::BeginScene()
+  {
+    std::string shader;
+    for(auto it : models_)
+    {
+      auto& modelInstances = it.val->GetInstances();
+      for(auto& inst : modelInstances)
+      {
+        shader = inst->GetShader();
+        auto shaderIt = shaders_.find(shader);
+        if(shaderIt != shaders_.end())
+        {
+          (*shaderIt).val->AddInstance(inst);
+        }
+      }
+    }
+    graphicsAPI->BeginScene();
+  }
+
+  GRAPHICSDLL_API void Graphics::EndScene()
+  {
+    graphicsAPI->EndScene();
+    for(auto it : shaders_)
+    {
+      it.val->ClearInstances();
+    }
+  }
+
+  GRAPHICSDLL_API Matrix4 Graphics::GetProjection()
+  {
+    return projection_matrix_;
   }
 
   GRAPHICSDLL_API Shader * Graphics::GetShader(const std::string & name)
@@ -235,46 +267,25 @@ namespace WickedSick
     mat_stack_->Push(camera_->GetViewMatrix());
 
     Matrix4 modelToWorld;
-    graphicsAPI->BeginScene();
-    for (auto& shaderIt : shaders_)
+    BeginScene();
+
+    for(auto& shaderIt : shaders_)
     {
       Shader* shader = shaderIt.val;
-      for (auto& modelIt : models_)
+      Model* model = nullptr;
+      for(auto& modelIt : shader->GetInstances())
       {
-        Model* model = modelIt.val;
+        model = modelIt.key;
         model->Render();
-        for (auto& inst : model->GetInstances())
+        for(auto& inst : modelIt.val)
         {
-          Transform* tr = (Transform*)inst->GetSibling(CT_Transform);
-
-          modelToWorld.Identity();
-
-
-
-          Matrix4 rotate = modelToWorld.GetRotatedXYZ(tr->GetRotation());
-          Matrix4 scale = modelToWorld.GetScaled(tr->GetScale());
-          Matrix4 translate = modelToWorld.GetTranslated(tr->GetPosition());
-
-          modelToWorld = translate * rotate * scale;
-
-          Matrix4 worldToClip = projection_matrix_ * camera_->GetViewMatrix();
-          Vector3 cameraPos = camera_->GetPosition();
-          Vector3 lightDir = Vector3(-1.0f, -1.0f, -1.0f);
-          
-          std::vector<ParamPasser> params;
-          params.push_back({"LightBuffer", "modelToWorld", &modelToWorld});
-          params.push_back({"LightBuffer", "worldToClip", &worldToClip});
-          params.push_back({"LightBuffer", "lightDir", &lightDir});
-          params.push_back({"LightBuffer", "cameraPos", &cameraPos});
-          //mat_stack_->Push(world);
-          
-          shader->Render(model->GetNumIndices(),
-                         params);
-
-          //mat_stack_->Pop();
+          shader->PrepareBuffers(inst);
+          shader->Render(model->GetNumIndices());
         }
       }
     }
+
+
     
     
     
@@ -282,7 +293,7 @@ namespace WickedSick
 
     //ImGui::Render();
 
-    graphicsAPI->EndScene();
+    EndScene();
     mat_stack_->Pop();
     //ImGui::NewFrame();
   }

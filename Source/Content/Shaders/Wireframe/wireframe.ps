@@ -2,7 +2,6 @@
 struct PixelInputType
 {
   float4 position : SV_POSITION;
-  float4 normal : NORMAL;
   float4 color : COLOR;
 };
 
@@ -11,6 +10,6 @@ struct PixelInputType
 ////////////////////////////////////////////////////////////////////////////////
 float4 main(PixelInputType input) : SV_TARGET
 {
-  return input.color;
+  return input.color;//float4(input.color.xyz, (1 - drawScalar) * 0.95);
 
 }

@@ -16,10 +16,16 @@ namespace WickedSick
     GRAPHICSDLL_API void Destroy();
     GRAPHICSDLL_API void SetModel(const std::string& model);
     GRAPHICSDLL_API void Initialize();
+    GRAPHICSDLL_API void SetShader(const std::string& shader);
     GRAPHICSDLL_API void Update(float dt);
+    GRAPHICSDLL_API Model* GetBase();
+    GRAPHICSDLL_API std::string GetShader();
   private:
+
+    GRAPHICSDLL_API void render_debug();
     const std::string name_;
     std::string model_;
+    std::string shader_;
     Model* base_;
   };
 }

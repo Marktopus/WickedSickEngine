@@ -80,11 +80,11 @@ namespace WickedSick
         up.Normalize();
 
         Vector3 pos = tr->GetPosition();
-
-        pos += right * amountToMove.x;
+        amountToMove *= 5.0f;
+        pos += right * -amountToMove.x;
         pos += up * amountToMove.y;
 
-        lookAt += right * amountToMove.x;
+        lookAt += right * -amountToMove.x;
         lookAt += up * amountToMove.y;
         tr->SetPosition(pos);
         cameraComp->SetLookAt(lookAt);
@@ -124,8 +124,8 @@ namespace WickedSick
       Vector3 view = lookAt - tr->GetPosition();
       view.Normalize();
       view *= dt;
-      tr->SetPosition(tr->GetPosition() += view * handler->GetScrollPos());
-      cameraComp->SetLookAt(lookAt += view * handler->GetScrollPos());
+      tr->SetPosition(tr->GetPosition() + view * (float)handler->GetScrollPos());
+      cameraComp->SetLookAt(lookAt + view * (float)handler->GetScrollPos());
 
     }
     else

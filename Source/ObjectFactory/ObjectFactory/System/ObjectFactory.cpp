@@ -221,6 +221,8 @@ namespace WickedSick
     CameraComponent* cameraComp = (CameraComponent*)camera->GetComponent(CT_CameraComponent);
     cameraComp->SetLookAt(Vector3(0.0f, 0.0f, 0.0f));
 
+    
+
 
     Graphics* graphics = (Graphics*)Engine::GetCore()->GetSystem(ST_Graphics);
     graphics->GetCamera()->SetSource((CameraComponent*)cameraComp);
@@ -230,7 +232,10 @@ namespace WickedSick
     Transform* bunnyTr = (Transform*)bunny->GetComponent(CT_Transform);
     bunnyTr->SetRotation(0.0f, PI/4.0f, 0.0f);
     bunnyTr->SetPosition(0.0f, 0.0f, 0.0f);
-    bunnyTr->SetScale(10.0f);
+    bunnyTr->SetScale(3.0f);
+    ModelComponent* bunnyModel = (ModelComponent*) bunny->GetComponent(CT_ModelComponent);
+
+    bunnyModel->SetShader("color");
 
     PhysicsComponent* bunnyPhysics = (PhysicsComponent*)bunny->GetComponent(CT_PhysicsComponent);
     RigidBody* bunnyBody = bunnyPhysics->GetRigidBody();

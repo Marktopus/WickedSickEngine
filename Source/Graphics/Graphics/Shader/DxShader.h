@@ -22,7 +22,8 @@ namespace WickedSick
   class DxShader : public Shader
   {
   public:
-    DxShader();
+    DxShader(const std::string& name,
+             ShaderCallback callback);
     ~DxShader();
 
     void Initialize();
@@ -33,8 +34,8 @@ namespace WickedSick
     bool InitLayout(ID3D10Blob* vertexShaderBuffer);
 
 
-    void Render(int indexCount,
-                const std::vector<ParamPasser>& params);
+    void Render(int indexCount);
+
     void SetShaderDir(const std::string& dir);
     
     void RenderShader(int indexCount);

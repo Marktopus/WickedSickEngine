@@ -9,8 +9,9 @@ namespace WickedSick
   public:
     DxModel();
     ~DxModel();
-    void Initialize();
-    void Render();
+    void Initialize() override;
+    void Render() override;
+    void BuildDebugBuffers() override;
     
   private:
   };

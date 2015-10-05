@@ -14,12 +14,15 @@
     <ClInclude Include="BufferStructs.h" />
     <ClInclude Include="Graphics\Components\CameraController.h" />
     <ClInclude Include="Graphics\Components\CameraComponent.h" />
+    <ClInclude Include="Graphics\Model\DrawType.h" />
+    <ClInclude Include="Graphics\DebugDraw\DebugDraw.h" />
     <ClInclude Include="Graphics\ImGuiImpl\imgui_impl.h" />
     <ClInclude Include="Graphics\Model\Loaders\BinLoader.h" />
     <ClInclude Include="Graphics\Components\ModelComponent.h" />
     <ClInclude Include="Graphics\Shader\DxShader.h" />
     <ClInclude Include="Graphics\Model\DxModel.h" />
     <ClInclude Include="Graphics\Shader\ParamTypeInfo.h" />
+    <ClInclude Include="Graphics\Shader\ShaderCallbacks.h" />
     <ClInclude Include="Graphics\Texture\DxTexture.h" />
     <ClInclude Include="Graphics\API\APIType.h" />
     <ClInclude Include="Graphics\Buffer\Buffer.h" />
@@ -66,6 +69,7 @@
     <ClCompile Include="Graphics\Model\Model.cpp" />
     <ClCompile Include="Graphics\Shader\ParamTypeInfo.cpp" />
     <ClCompile Include="Graphics\Shader\Shader.cpp" />
+    <ClCompile Include="Graphics\Shader\ShaderCallbacks.cpp" />
     <ClCompile Include="Graphics\System\Graphics.cpp" />
     <ClCompile Include="Graphics\GraphicsPrecompiled.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

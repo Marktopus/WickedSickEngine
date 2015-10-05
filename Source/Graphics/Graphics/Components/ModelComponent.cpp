@@ -51,4 +51,23 @@ namespace WickedSick
   {
     model_ = model;
   }
+
+  GRAPHICSDLL_API void ModelComponent::render_debug()
+  {
+  }
+
+  GRAPHICSDLL_API Model* ModelComponent::GetBase()
+  {
+    return base_;
+  }
+
+  GRAPHICSDLL_API void ModelComponent::SetShader(const std::string& shader)
+  {
+    shader_ = shader;
+  }
+
+  GRAPHICSDLL_API std::string ModelComponent::GetShader()
+  {
+    return shader_;
+  }
 }

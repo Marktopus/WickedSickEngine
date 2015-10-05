@@ -361,7 +361,6 @@ namespace WickedSick
     Physics* pSys = (Physics*)Engine::GetCore()->GetSystem(ST_Physics);
     
     std::set<PhysicsComponent*>& comps = pSys->GetComponents();
-    RigidBody* body;
     for(auto& comp : comps)
     {
       AddPhysicsObject(comp);

@@ -26,7 +26,7 @@ namespace WickedSick
 
     
     Model* MakeModel();
-    Shader* MakeShader();
+    Shader* MakeShader(const std::string& name, Shader::ShaderCallback callback);
 
     void BeginScene();
     void EndScene();

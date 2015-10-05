@@ -28,7 +28,7 @@ namespace WickedSick
     virtual void EndScene() = 0;
 
     virtual Model* MakeModel() = 0;
-    virtual Shader* MakeShader() = 0;
+    virtual Shader* MakeShader(const std::string& name, Shader::ShaderCallback callback) = 0;
     
   protected:
     GraphicsOptions* options_;
